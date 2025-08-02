@@ -9,9 +9,9 @@
 
 #define GET_BASE_SPECIES_ID(speciesId) (GetFormSpeciesId(speciesId, 0))
 #define FORM_SPECIES_END (0xffff)
-
 // Property labels for Get(Box)MonData / Set(Box)MonData
-enum {
+enum
+{
     MON_DATA_PERSONALITY,
     MON_DATA_STATUS,
     MON_DATA_OT_ID,
@@ -117,10 +117,11 @@ enum {
     MON_DATA_TERA_TYPE,
     MON_DATA_EVOLUTION_TRACKER,
     MON_DATA_CANT_RANDOMIZE_ABILITY,
-    MON_DATA_IVS_WERE_PERFECTED,        // TODO iriv remove this
+    MON_DATA_IVS_WERE_PERFECTED, // TODO iriv remove this
 };
 
-enum {
+enum
+{
     MON_RANDOMIZER_NORMAL,
     MON_RANDOMIZER_RANDOM_FORM,
     MON_RANDOMIZER_SPECIAL_FORM,
@@ -129,41 +130,41 @@ enum {
 
 struct PokemonSubstruct0
 {
-    u16 species:11; // 2047 species.
-    u16 teraType:5; // 30 types.
-    u16 heldItem:10; // 1023 items.
-    u16 unused_02:6;
-    u32 experience:21;
-    u32 nickname11:8; // 11th character of nickname.
-    u32 unused_04:3;
+    u16 species : 11;  // 2047 species.
+    u16 teraType : 5;  // 30 types.
+    u16 heldItem : 10; // 1023 items.
+    u16 unused_02 : 6;
+    u32 experience : 21;
+    u32 nickname11 : 8; // 11th character of nickname.
+    u32 unused_04 : 3;
     u8 ppBonuses;
     u8 friendship;
-    u16 pokeball:6; // 63 balls.
-    u16 nickname12:8; // 12th character of nickname.
-    u8 ivsWerePerfected:1; // TODO iriv remove this
-    u16 unused_0A:1;
+    u16 pokeball : 6;        // 63 balls.
+    u16 nickname12 : 8;      // 12th character of nickname.
+    u8 ivsWerePerfected : 1; // TODO iriv remove this
+    u16 unused_0A : 1;
 };
 
 struct PokemonSubstruct1
 {
-    u16 move1:11; // 2047 moves.
-    u16 evolutionTracker1:5;
-    u16 move2:11; // 2047 moves.
-    u16 evolutionTracker2:5;
-    u16 move3:11; // 2047 moves.
-    u16 unused_04:5;
-    u16 move4:11; // 2047 moves.
-    u16 unused_06:3;
-    u16 hyperTrainedHP:1;
-    u16 hyperTrainedAttack:1;
-    u8 pp1:7; // 127 PP.
-    u8 hyperTrainedDefense:1;
-    u8 pp2:7; // 127 PP.
-    u8 hyperTrainedSpeed:1;
-    u8 pp3:7; // 127 PP.
-    u8 hyperTrainedSpAttack:1;
-    u8 pp4:7; // 127 PP.
-    u8 hyperTrainedSpDefense:1;
+    u16 move1 : 11; // 2047 moves.
+    u16 evolutionTracker1 : 5;
+    u16 move2 : 11; // 2047 moves.
+    u16 evolutionTracker2 : 5;
+    u16 move3 : 11; // 2047 moves.
+    u16 unused_04 : 5;
+    u16 move4 : 11; // 2047 moves.
+    u16 unused_06 : 3;
+    u16 hyperTrainedHP : 1;
+    u16 hyperTrainedAttack : 1;
+    u8 pp1 : 7; // 127 PP.
+    u8 hyperTrainedDefense : 1;
+    u8 pp2 : 7; // 127 PP.
+    u8 hyperTrainedSpeed : 1;
+    u8 pp3 : 7; // 127 PP.
+    u8 hyperTrainedSpAttack : 1;
+    u8 pp4 : 7; // 127 PP.
+    u8 hyperTrainedSpDefense : 1;
 };
 
 struct PokemonSubstruct2
@@ -186,38 +187,38 @@ struct PokemonSubstruct3
 {
     u8 pokerus;
     u8 metLocation;
-    u16 metLevel:7;
-    u16 metGame:4;
-    u16 dynamaxLevel:4;
-    u16 otGender:1;
-    u32 hpIV:5;
-    u32 attackIV:5;
-    u32 defenseIV:5;
-    u32 speedIV:5;
-    u32 spAttackIV:5;
-    u32 spDefenseIV:5;
-    u32 isEgg:1;
-    u32 gigantamaxFactor:1;
-    u32 coolRibbon:3;     // Stores the highest contest rank achieved in the Cool category.
-    u32 beautyRibbon:3;   // Stores the highest contest rank achieved in the Beauty category.
-    u32 cuteRibbon:3;     // Stores the highest contest rank achieved in the Cute category.
-    u32 smartRibbon:3;    // Stores the highest contest rank achieved in the Smart category.
-    u32 toughRibbon:3;    // Stores the highest contest rank achieved in the Tough category.
-    u32 championRibbon:1; // Given when defeating the Champion. Because both RSE and FRLG use it, later generations don't specify from which region it comes from.
-    u32 winningRibbon:1;  // Given at the Battle Tower's Level 50 challenge by winning a set of seven battles that extends the current streak to 56 or more.
-    u32 victoryRibbon:1;  // Given at the Battle Tower's Level 100 challenge by winning a set of seven battles that extends the current streak to 56 or more.
-    u32 artistRibbon:1;   // Given at the Contest Hall by winning a Master Rank contest with at least 800 points, and agreeing to have the Pokémon's portrait placed in the museum after being offered.
-    u32 effortRibbon:1;   // Given at Slateport's market to Pokémon with maximum EVs.
-    u32 marineRibbon:1;   // Never distributed.
-    u32 landRibbon:1;     // Never distributed.
-    u32 skyRibbon:1;      // Never distributed.
-    u32 countryRibbon:1;  // Distributed during Pokémon Festa '04 and '05 to tournament winners.
-    u32 nationalRibbon:1; // Given to purified Shadow Pokémon in Colosseum/XD.
-    u32 earthRibbon:1;    // Given to teams that have beaten Mt. Battle's 100-battle challenge in Colosseum/XD.
-    u32 worldRibbon:1;    // Distributed during Pokémon Festa '04 and '05 to tournament winners.
-    u32 isShadow:1;
-    u32 cantRandomizeAbility:1;
-    u32 abilityNum:2;
+    u16 metLevel : 7;
+    u16 metGame : 4;
+    u16 dynamaxLevel : 4;
+    u16 otGender : 1;
+    u32 hpIV : 5;
+    u32 attackIV : 5;
+    u32 defenseIV : 5;
+    u32 speedIV : 5;
+    u32 spAttackIV : 5;
+    u32 spDefenseIV : 5;
+    u32 isEgg : 1;
+    u32 gigantamaxFactor : 1;
+    u32 coolRibbon : 3;     // Stores the highest contest rank achieved in the Cool category.
+    u32 beautyRibbon : 3;   // Stores the highest contest rank achieved in the Beauty category.
+    u32 cuteRibbon : 3;     // Stores the highest contest rank achieved in the Cute category.
+    u32 smartRibbon : 3;    // Stores the highest contest rank achieved in the Smart category.
+    u32 toughRibbon : 3;    // Stores the highest contest rank achieved in the Tough category.
+    u32 championRibbon : 1; // Given when defeating the Champion. Because both RSE and FRLG use it, later generations don't specify from which region it comes from.
+    u32 winningRibbon : 1;  // Given at the Battle Tower's Level 50 challenge by winning a set of seven battles that extends the current streak to 56 or more.
+    u32 victoryRibbon : 1;  // Given at the Battle Tower's Level 100 challenge by winning a set of seven battles that extends the current streak to 56 or more.
+    u32 artistRibbon : 1;   // Given at the Contest Hall by winning a Master Rank contest with at least 800 points, and agreeing to have the Pokémon's portrait placed in the museum after being offered.
+    u32 effortRibbon : 1;   // Given at Slateport's market to Pokémon with maximum EVs.
+    u32 marineRibbon : 1;   // Never distributed.
+    u32 landRibbon : 1;     // Never distributed.
+    u32 skyRibbon : 1;      // Never distributed.
+    u32 countryRibbon : 1;  // Distributed during Pokémon Festa '04 and '05 to tournament winners.
+    u32 nationalRibbon : 1; // Given to purified Shadow Pokémon in Colosseum/XD.
+    u32 earthRibbon : 1;    // Given to teams that have beaten Mt. Battle's 100-battle challenge in Colosseum/XD.
+    u32 worldRibbon : 1;    // Distributed during Pokémon Festa '04 and '05 to tournament winners.
+    u32 isShadow : 1;
+    u32 cantRandomizeAbility : 1;
+    u32 abilityNum : 2;
 
     // The functionality of this bit changed in FRLG:
     // In RS, this bit does nothing, is never set, & is accidentally unset when hatching Eggs.
@@ -225,17 +226,17 @@ struct PokemonSubstruct3
     // If set, a Pokémon is a fateful encounter in FRLG's summary screen if hatched & for all Pokémon in Gen 4+ summary screens.
     // Set for in-game event island legendaries, events distributed after a certain date, & Pokémon from XD: Gale of Darkness.
     // Not to be confused with METLOC_FATEFUL_ENCOUNTER.
-    u32 modernFatefulEncounter:1;
+    u32 modernFatefulEncounter : 1;
 };
 
 // Number of bytes in the largest Pokémon substruct.
 // They are assumed to be the same size, and will be padded to
 // the largest size by the union.
 // By default they are all 12 bytes.
-#define NUM_SUBSTRUCT_BYTES (max(sizeof(struct PokemonSubstruct0),     \
-                             max(sizeof(struct PokemonSubstruct1),     \
-                             max(sizeof(struct PokemonSubstruct2),     \
-                                 sizeof(struct PokemonSubstruct3)))))
+#define NUM_SUBSTRUCT_BYTES (max(sizeof(struct PokemonSubstruct0),         \
+                                 max(sizeof(struct PokemonSubstruct1),     \
+                                     max(sizeof(struct PokemonSubstruct2), \
+                                         sizeof(struct PokemonSubstruct3)))))
 
 union PokemonSubstruct
 {
@@ -251,21 +252,21 @@ struct BoxPokemon
     u32 personality;
     u32 otId;
     u8 nickname[min(10, POKEMON_NAME_LENGTH)];
-    u8 language:3;
-    u8 hiddenNatureModifier:5; // 31 natures.
-    u8 isBadEgg:1;
-    u8 hasSpecies:1;
-    u8 isEgg:1;
-    u8 blockBoxRS:1; // Unused, but Pokémon Box Ruby & Sapphire will refuse to deposit a Pokémon with this flag set.
-    u8 daysSinceFormChange:3; // 7 days.
-    u8 unused_13:1;
+    u8 language : 3;
+    u8 hiddenNatureModifier : 5; // 31 natures.
+    u8 isBadEgg : 1;
+    u8 hasSpecies : 1;
+    u8 isEgg : 1;
+    u8 blockBoxRS : 1;          // Unused, but Pokémon Box Ruby & Sapphire will refuse to deposit a Pokémon with this flag set.
+    u8 daysSinceFormChange : 3; // 7 days.
+    u8 unused_13 : 1;
     u8 otName[PLAYER_NAME_LENGTH];
-    u8 markings:4;
-    u8 compressedStatus:4;
+    u8 markings : 4;
+    u8 compressedStatus : 4;
     u16 checksum;
-    u16 hpLost:14; // 16383 HP.
-    u16 shinyModifier:1;
-    u16 unused_1E:1;
+    u16 hpLost : 14; // 16383 HP.
+    u16 shinyModifier : 1;
+    u16 unused_1E : 1;
 
     union
     {
@@ -291,25 +292,27 @@ struct Pokemon
 
 struct MonSpritesGfxManager
 {
-    u32 numSprites:4;
-    u32 numSprites2:4; // Never read
-    u32 numFrames:8;
-    u32 active:8;
-    u32 dataSize:4;
-    u32 mode:4; // MON_SPR_GFX_MODE_*
+    u32 numSprites : 4;
+    u32 numSprites2 : 4; // Never read
+    u32 numFrames : 8;
+    u32 active : 8;
+    u32 dataSize : 4;
+    u32 mode : 4; // MON_SPR_GFX_MODE_*
     void *spriteBuffer;
     u8 **spritePointers;
     struct SpriteTemplate *templates;
     struct SpriteFrameImage *frameImages;
 };
 
-enum {
+enum
+{
     MON_SPR_GFX_MODE_NORMAL,
     MON_SPR_GFX_MODE_BATTLE,
     MON_SPR_GFX_MODE_FULL_PARTY,
 };
 
-enum {
+enum
+{
     MON_SPR_GFX_MANAGER_A,
     MON_SPR_GFX_MANAGER_B, // Nothing ever sets up this manager.
     MON_SPR_GFX_MANAGERS_COUNT
@@ -324,13 +327,13 @@ struct BattlePokemon
     /*0x08*/ u16 spAttack;
     /*0x0A*/ u16 spDefense;
     /*0x0C*/ u16 moves[MAX_MON_MOVES];
-    /*0x14*/ u32 hpIV:5;
-    /*0x14*/ u32 attackIV:5;
-    /*0x15*/ u32 defenseIV:5;
-    /*0x15*/ u32 speedIV:5;
-    /*0x16*/ u32 spAttackIV:5;
-    /*0x17*/ u32 spDefenseIV:5;
-    /*0x17*/ u32 abilityNum:2;
+    /*0x14*/ u32 hpIV : 5;
+    /*0x14*/ u32 attackIV : 5;
+    /*0x15*/ u32 defenseIV : 5;
+    /*0x15*/ u32 speedIV : 5;
+    /*0x16*/ u32 spAttackIV : 5;
+    /*0x17*/ u32 spDefenseIV : 5;
+    /*0x17*/ u32 abilityNum : 2;
     /*0x18*/ s8 statStages[NUM_BATTLE_STATS];
     /*0x20*/ u16 ability;
     /*0x22*/ u8 types[3];
@@ -351,6 +354,7 @@ struct BattlePokemon
     /*0x59*/ u8 metLevel;
     /*0x5A*/ bool8 isShiny;
     /*0x5B*/ u8 cantRandomizeAbility;
+    /*0x5C*/ u16 originalSpecies; // Store the pre-randomization species
 };
 
 struct Evolution
@@ -372,13 +376,13 @@ struct SpeciesInfo /*0xC4*/
     u8 catchRate;
     u8 forceTeraType;
     u16 expYield; // expYield was changed from u8 to u16 for the new Exp System.
-    u16 evYield_HP:2;
-    u16 evYield_Attack:2;
-    u16 evYield_Defense:2;
-    u16 evYield_Speed:2;
-    u16 evYield_SpAttack:2;
-    u16 evYield_SpDefense:2;
-    u16 padding2:4;
+    u16 evYield_HP : 2;
+    u16 evYield_Attack : 2;
+    u16 evYield_Defense : 2;
+    u16 evYield_Speed : 2;
+    u16 evYield_SpAttack : 2;
+    u16 evYield_SpDefense : 2;
+    u16 padding2 : 4;
     u16 itemCommon;
     u16 itemRare;
     u8 genderRatio;
@@ -394,16 +398,16 @@ struct SpeciesInfo /*0xC4*/
     u8 speciesName[POKEMON_NAME_LENGTH + 1];
     u16 cryId;
     u16 natDexNum;
-    u16 height; //in decimeters
-    u16 weight; //in hectograms
+    u16 height; // in decimeters
+    u16 weight; // in hectograms
     u16 pokemonScale;
     u16 pokemonOffset;
     u16 trainerScale;
     u16 trainerOffset;
     const u8 *description;
-    u8 bodyColor:7;
+    u8 bodyColor : 7;
     // Graphical Data
-    u8 noFlip:1;
+    u8 noFlip : 1;
     u8 frontAnimDelay;
     u8 frontAnimId;
     u8 backAnimId;
@@ -419,55 +423,55 @@ struct SpeciesInfo /*0xC4*/
     const u32 *paletteFemale;
     const u32 *shinyPaletteFemale;
     const u8 *iconSpriteFemale;
-#endif //P_GENDER_DIFFERENCES
+#endif // P_GENDER_DIFFERENCES
 #if P_FOOTPRINTS
     const u8 *footprint;
 #endif
     // All Pokémon pics are 64x64, but this data table defines where in this 64x64 frame the sprite's non-transparent pixels actually are.
-    u8 frontPicSize; // The dimensions of this drawn pixel area.
+    u8 frontPicSize;    // The dimensions of this drawn pixel area.
     u8 frontPicYOffset; // The number of pixels between the drawn pixel area and the bottom edge.
-    u8 backPicSize; // The dimensions of this drawn pixel area.
-    u8 backPicYOffset; // The number of pixels between the drawn pixel area and the bottom edge.
+    u8 backPicSize;     // The dimensions of this drawn pixel area.
+    u8 backPicYOffset;  // The number of pixels between the drawn pixel area and the bottom edge.
 #if P_GENDER_DIFFERENCES
     u8 frontPicSizeFemale; // The dimensions of this drawn pixel area.
-    u8 backPicSizeFemale; // The dimensions of this drawn pixel area.
-#endif //P_GENDER_DIFFERENCES
-    u8 iconPalIndex:3;
+    u8 backPicSizeFemale;  // The dimensions of this drawn pixel area.
+#endif                     // P_GENDER_DIFFERENCES
+    u8 iconPalIndex : 3;
 #if P_GENDER_DIFFERENCES
-    u8 iconPalIndexFemale:3;
+    u8 iconPalIndexFemale : 3;
 #else
-    u8 paddingF:3;
-#endif //P_GENDER_DIFFERENCES
-    u8 padding3:2;
+    u8 paddingF : 3;
+#endif // P_GENDER_DIFFERENCES
+    u8 padding3 : 2;
     u8 enemyMonElevation; // This determines how much higher above the usual position the enemy Pokémon is during battle. Species that float or fly have nonzero values.
     // Flags
-    u32 isLegendary:1;
-    u32 isMythical:1;
-    u32 isUltraBeast:1;
-    u32 isParadox:1;
-    u32 isTotem:1;
-    u32 isMegaEvolution:1;
-    u32 isPrimalReversion:1;
-    u32 isUltraBurst:1;
-    u32 isGigantamax:1;
-    u32 isTeraForm:1;
-    u32 isAlolanForm:1;
-    u32 isGalarianForm:1;
-    u32 isHisuianForm:1;
-    u32 isPaldeanForm:1;
-    u32 cannotBeTraded:1;
-    u32 perfectIVCount:3;   // This species will always generate with the specified amount of perfect IVs.
-    u32 dexForceRequired:1; // This species will be taken into account for Pokédex ratings even if they have the "isMythical" flag set.
-    u32 tmIlliterate:1;     // This species will be unable to learn the universal moves.
-    u32 isFrontierBanned:1; // This species is not allowed to participate in Battle Frontier facilities.
-    u32 randomizerMode:2; // The randomizer will not randomize to or from this species.
-    u32 padding4:9;
+    u32 isLegendary : 1;
+    u32 isMythical : 1;
+    u32 isUltraBeast : 1;
+    u32 isParadox : 1;
+    u32 isTotem : 1;
+    u32 isMegaEvolution : 1;
+    u32 isPrimalReversion : 1;
+    u32 isUltraBurst : 1;
+    u32 isGigantamax : 1;
+    u32 isTeraForm : 1;
+    u32 isAlolanForm : 1;
+    u32 isGalarianForm : 1;
+    u32 isHisuianForm : 1;
+    u32 isPaldeanForm : 1;
+    u32 cannotBeTraded : 1;
+    u32 perfectIVCount : 3;   // This species will always generate with the specified amount of perfect IVs.
+    u32 dexForceRequired : 1; // This species will be taken into account for Pokédex ratings even if they have the "isMythical" flag set.
+    u32 tmIlliterate : 1;     // This species will be unable to learn the universal moves.
+    u32 isFrontierBanned : 1; // This species is not allowed to participate in Battle Frontier facilities.
+    u32 randomizerMode : 2;   // The randomizer will not randomize to or from this species.
+    u32 padding4 : 9;
     // Shadow settings
-    s8 enemyShadowXOffset; // This determines the X-offset for an enemy Pokémon's shadow during battle; negative values point left, positive values point right.
-    s8 enemyShadowYOffset; // This determines the Y-offset for an enemy Pokémon's shadow during battle; negative values point up, positive values point down.
-    u16 enemyShadowSize:3; // This determines the size of the shadow sprite used for an enemy Pokémon's front sprite during battle.
-    u16 suppressEnemyShadow:1; // If set to true, then a shadow will not be drawn beneath an enemy Pokémon's front sprite during battle.
-    u16 padding5:12;
+    s8 enemyShadowXOffset;       // This determines the X-offset for an enemy Pokémon's shadow during battle; negative values point left, positive values point right.
+    s8 enemyShadowYOffset;       // This determines the Y-offset for an enemy Pokémon's shadow during battle; negative values point up, positive values point down.
+    u16 enemyShadowSize : 3;     // This determines the size of the shadow sprite used for an enemy Pokémon's front sprite during battle.
+    u16 suppressEnemyShadow : 1; // If set to true, then a shadow will not be drawn beneath an enemy Pokémon's front sprite during battle.
+    u16 padding5 : 12;
     // Move Data
     const struct LevelUpMove *levelUpLearnset;
     const u16 *teachableLearnset;
@@ -479,16 +483,16 @@ struct SpeciesInfo /*0xC4*/
     struct ObjectEventGraphicsInfo overworldData;
 #if P_GENDER_DIFFERENCES
     struct ObjectEventGraphicsInfo overworldDataFemale;
-#endif //P_GENDER_DIFFERENCES
+#endif // P_GENDER_DIFFERENCES
 #if OW_PKMN_OBJECTS_SHARE_PALETTES == FALSE
-    const void* overworldPalette;
-    const void* overworldShinyPalette;
+    const void *overworldPalette;
+    const void *overworldShinyPalette;
 #if P_GENDER_DIFFERENCES
-    const void* overworldPaletteFemale;
-    const void* overworldShinyPaletteFemale;
-#endif //P_GENDER_DIFFERENCES
-#endif //OW_PKMN_OBJECTS_SHARE_PALETTES
-#endif //OW_POKEMON_OBJECT_EVENTS
+    const void *overworldPaletteFemale;
+    const void *overworldShinyPaletteFemale;
+#endif // P_GENDER_DIFFERENCES
+#endif // OW_PKMN_OBJECTS_SHARE_PALETTES
+#endif // OW_POKEMON_OBJECT_EVENTS
 };
 
 struct MoveInfo
@@ -496,71 +500,72 @@ struct MoveInfo
     const u8 *name;
     const u8 *description;
     u16 effect;
-    u16 type:5;
-    u16 category:2;
-    u16 power:9; // up to 511
-    u16 accuracy:7;
-    u16 target:9;
+    u16 type : 5;
+    u16 category : 2;
+    u16 power : 9; // up to 511
+    u16 accuracy : 7;
+    u16 target : 9;
     u8 pp;
-    union {
+    union
+    {
         u8 effect;
         u8 powerOverride;
     } zMove;
 
-    s32 priority:4;
-    u32 recoil:7;
-    u32 strikeCount:4; // Max 15 hits. Defaults to 1 if not set. May apply its effect on each hit.
-    u32 criticalHitStage:2;
-    u32 alwaysCriticalHit:1;
-    u32 numAdditionalEffects:2; // limited to 3 - don't want to get too crazy
+    s32 priority : 4;
+    u32 recoil : 7;
+    u32 strikeCount : 4; // Max 15 hits. Defaults to 1 if not set. May apply its effect on each hit.
+    u32 criticalHitStage : 2;
+    u32 alwaysCriticalHit : 1;
+    u32 numAdditionalEffects : 2; // limited to 3 - don't want to get too crazy
     // 12 bits left to complete this word - continues into flags
 
     // Flags
-    u32 makesContact:1;
-    u32 ignoresProtect:1;
-    u32 magicCoatAffected:1;
-    u32 snatchAffected:1;
-    u32 ignoresKingsRock:1;
-    u32 punchingMove:1;
-    u32 bitingMove:1;
-    u32 pulseMove:1;
-    u32 soundMove:1;
-    u32 ballisticMove:1;
-    u32 powderMove:1;
-    u32 danceMove:1;
-    u32 windMove:1;
-    u32 slicingMove:1; // end of word
-    u32 healingMove:1;
-    u32 minimizeDoubleDamage:1;
-    u32 ignoresTargetAbility:1;
-    u32 ignoresTargetDefenseEvasionStages:1;
-    u32 damagesUnderground:1;
-    u32 damagesUnderwater:1;
-    u32 damagesAirborne:1;
-    u32 damagesAirborneDoubleDamage:1;
-    u32 ignoreTypeIfFlyingAndUngrounded:1;
-    u32 thawsUser:1;
-    u32 ignoresSubstitute:1;
-    u32 forcePressure:1;
-    u32 cantUseTwice:1;
+    u32 makesContact : 1;
+    u32 ignoresProtect : 1;
+    u32 magicCoatAffected : 1;
+    u32 snatchAffected : 1;
+    u32 ignoresKingsRock : 1;
+    u32 punchingMove : 1;
+    u32 bitingMove : 1;
+    u32 pulseMove : 1;
+    u32 soundMove : 1;
+    u32 ballisticMove : 1;
+    u32 powderMove : 1;
+    u32 danceMove : 1;
+    u32 windMove : 1;
+    u32 slicingMove : 1; // end of word
+    u32 healingMove : 1;
+    u32 minimizeDoubleDamage : 1;
+    u32 ignoresTargetAbility : 1;
+    u32 ignoresTargetDefenseEvasionStages : 1;
+    u32 damagesUnderground : 1;
+    u32 damagesUnderwater : 1;
+    u32 damagesAirborne : 1;
+    u32 damagesAirborneDoubleDamage : 1;
+    u32 ignoreTypeIfFlyingAndUngrounded : 1;
+    u32 thawsUser : 1;
+    u32 ignoresSubstitute : 1;
+    u32 forcePressure : 1;
+    u32 cantUseTwice : 1;
 
     // Ban flags
-    u32 gravityBanned:1;
-    u32 mirrorMoveBanned:1;
-    u32 meFirstBanned:1;
-    u32 mimicBanned:1;
-    u32 metronomeBanned:1;
-    u32 copycatBanned:1;
-    u32 assistBanned:1; // Matches same moves as copycatBanned + semi-invulnerable moves and Mirror Coat.
-    u32 sleepTalkBanned:1;
-    u32 instructBanned:1;
-    u32 encoreBanned:1;
-    u32 parentalBondBanned:1;
-    u32 skyBattleBanned:1;
-    u32 sketchBanned:1;
-    u32 kickingMove:1;
-    u32 boneMove:1;
-    u32 padding:3; // end of word
+    u32 gravityBanned : 1;
+    u32 mirrorMoveBanned : 1;
+    u32 meFirstBanned : 1;
+    u32 mimicBanned : 1;
+    u32 metronomeBanned : 1;
+    u32 copycatBanned : 1;
+    u32 assistBanned : 1; // Matches same moves as copycatBanned + semi-invulnerable moves and Mirror Coat.
+    u32 sleepTalkBanned : 1;
+    u32 instructBanned : 1;
+    u32 encoreBanned : 1;
+    u32 parentalBondBanned : 1;
+    u32 skyBattleBanned : 1;
+    u32 sketchBanned : 1;
+    u32 kickingMove : 1;
+    u32 boneMove : 1;
+    u32 padding : 3; // end of word
 
     u32 argument;
 
@@ -569,14 +574,15 @@ struct MoveInfo
 
     // contest parameters
     u8 contestEffect;
-    u8 contestCategory:3;
+    u8 contestCategory : 3;
     u8 contestComboStarterId;
     u8 contestComboMoves[MAX_COMBO_MOVES];
     const u8 *battleAnimScript;
 };
 
-#define EFFECTS_ARR(...) (const struct AdditionalEffect[]) {__VA_ARGS__}
-#define ADDITIONAL_EFFECTS(...) EFFECTS_ARR( __VA_ARGS__ ), .numAdditionalEffects = ARRAY_COUNT(EFFECTS_ARR( __VA_ARGS__ ))
+#define EFFECTS_ARR(...) \
+    (const struct AdditionalEffect[]) { __VA_ARGS__ }
+#define ADDITIONAL_EFFECTS(...) EFFECTS_ARR(__VA_ARGS__), .numAdditionalEffects = ARRAY_COUNT(EFFECTS_ARR(__VA_ARGS__))
 
 enum SheerForceBoost
 {
@@ -588,11 +594,11 @@ enum SheerForceBoost
 struct AdditionalEffect
 {
     u16 moveEffect;
-    u8 self:1;
-    u8 onlyIfTargetRaisedStats:1;
-    u8 onChargeTurnOnly:1;
-    u8 sheerForceBoost:2; // Handles edge cases for Sheer Force
-    u8 padding:3;
+    u8 self : 1;
+    u8 onlyIfTargetRaisedStats : 1;
+    u8 onChargeTurnOnly : 1;
+    u8 sheerForceBoost : 2; // Handles edge cases for Sheer Force
+    u8 padding : 3;
     u8 chance; // 0% = effect certain, primary effect
 };
 
@@ -601,16 +607,17 @@ struct Ability
     u8 name[ABILITY_NAME_LENGTH + 1];
     const u8 *description;
     s8 aiRating;
-    u8 cantBeCopied:1; // cannot be copied by Role Play or Doodle
-    u8 cantBeSwapped:1; // cannot be swapped with Skill Swap or Wandering Spirit
-    u8 cantBeTraced:1; // cannot be copied by Trace - same as cantBeCopied except for Wonder Guard
-    u8 cantBeSuppressed:1; // cannot be negated by Gastro Acid or Neutralizing Gas
-    u8 cantBeOverwritten:1; // cannot be overwritten by Entrainment, Worry Seed or Simple Beam (but can be by Mummy) - same as cantBeSuppressed except for Truant
-    u8 breakable:1; // can be bypassed by Mold Breaker and clones
-    u8 failsOnImposter:1; // doesn't work on an Imposter mon; when can we actually use this?
+    u8 cantBeCopied : 1;      // cannot be copied by Role Play or Doodle
+    u8 cantBeSwapped : 1;     // cannot be swapped with Skill Swap or Wandering Spirit
+    u8 cantBeTraced : 1;      // cannot be copied by Trace - same as cantBeCopied except for Wonder Guard
+    u8 cantBeSuppressed : 1;  // cannot be negated by Gastro Acid or Neutralizing Gas
+    u8 cantBeOverwritten : 1; // cannot be overwritten by Entrainment, Worry Seed or Simple Beam (but can be by Mummy) - same as cantBeSuppressed except for Truant
+    u8 breakable : 1;         // can be bypassed by Mold Breaker and clones
+    u8 failsOnImposter : 1;   // doesn't work on an Imposter mon; when can we actually use this?
 };
 
-enum {
+enum
+{
     AFFINE_NONE,
     AFFINE_TURN_UP,
     AFFINE_TURN_UP_AND_DOWN,
@@ -626,36 +633,36 @@ enum {
 
 // The animation the Pokémon does during the feeding scene depends on their nature.
 // The below values are offsets into sMonPokeblockAnims of the animation data for that nature.
-#define ANIM_HARDY   0
-#define ANIM_LONELY  (ANIM_HARDY + 3)
-#define ANIM_BRAVE   (ANIM_LONELY + 1)
+#define ANIM_HARDY 0
+#define ANIM_LONELY (ANIM_HARDY + 3)
+#define ANIM_BRAVE (ANIM_LONELY + 1)
 #define ANIM_ADAMANT (ANIM_BRAVE + 1)
 #define ANIM_NAUGHTY (ANIM_ADAMANT + 5)
-#define ANIM_BOLD    (ANIM_NAUGHTY + 3)
-#define ANIM_DOCILE  (ANIM_BOLD + 2)
+#define ANIM_BOLD (ANIM_NAUGHTY + 3)
+#define ANIM_DOCILE (ANIM_BOLD + 2)
 #define ANIM_RELAXED (ANIM_DOCILE + 1)
-#define ANIM_IMPISH  (ANIM_RELAXED + 2)
-#define ANIM_LAX     (ANIM_IMPISH + 1)
-#define ANIM_TIMID   (ANIM_LAX + 1)
-#define ANIM_HASTY   (ANIM_TIMID + 5)
+#define ANIM_IMPISH (ANIM_RELAXED + 2)
+#define ANIM_LAX (ANIM_IMPISH + 1)
+#define ANIM_TIMID (ANIM_LAX + 1)
+#define ANIM_HASTY (ANIM_TIMID + 5)
 #define ANIM_SERIOUS (ANIM_HASTY + 2)
-#define ANIM_JOLLY   (ANIM_SERIOUS + 1)
-#define ANIM_NAIVE   (ANIM_JOLLY + 1)
-#define ANIM_MODEST  (ANIM_NAIVE + 4)
-#define ANIM_MILD    (ANIM_MODEST + 3)
-#define ANIM_QUIET   (ANIM_MILD + 1)
+#define ANIM_JOLLY (ANIM_SERIOUS + 1)
+#define ANIM_NAIVE (ANIM_JOLLY + 1)
+#define ANIM_MODEST (ANIM_NAIVE + 4)
+#define ANIM_MILD (ANIM_MODEST + 3)
+#define ANIM_QUIET (ANIM_MILD + 1)
 #define ANIM_BASHFUL (ANIM_QUIET + 2)
-#define ANIM_RASH    (ANIM_BASHFUL + 3)
-#define ANIM_CALM    (ANIM_RASH + 3)
-#define ANIM_GENTLE  (ANIM_CALM + 1)
-#define ANIM_SASSY   (ANIM_GENTLE + 1)
+#define ANIM_RASH (ANIM_BASHFUL + 3)
+#define ANIM_CALM (ANIM_RASH + 3)
+#define ANIM_GENTLE (ANIM_CALM + 1)
+#define ANIM_SASSY (ANIM_GENTLE + 1)
 #define ANIM_CAREFUL (ANIM_SASSY + 1)
-#define ANIM_QUIRKY  (ANIM_CAREFUL + 5)
+#define ANIM_QUIRKY (ANIM_CAREFUL + 5)
 
 // In palace double battles, Pokémon have a target preference depending on nature
 #define PALACE_TARGET_STRONGER 0
-#define PALACE_TARGET_WEAKER   1
-#define PALACE_TARGET_RANDOM   2
+#define PALACE_TARGET_WEAKER 1
+#define PALACE_TARGET_RANDOM 2
 
 struct NatureInfo
 {
@@ -721,12 +728,9 @@ extern const struct Fusion *const gFusionTablePointers[NUM_SPECIES];
 
 #define NUM_UNOWN_FORMS 28
 
-#define GET_UNOWN_LETTER(personality) ((   \
-      (((personality) & 0x03000000) >> 18) \
-    | (((personality) & 0x00030000) >> 12) \
-    | (((personality) & 0x00000300) >> 6)  \
-    | (((personality) & 0x00000003) >> 0)  \
-) % NUM_UNOWN_FORMS)
+#define GET_UNOWN_LETTER(personality) ((                                                                                                                                                              \
+                                           (((personality) & 0x03000000) >> 18) | (((personality) & 0x00030000) >> 12) | (((personality) & 0x00000300) >> 6) | (((personality) & 0x00000003) >> 0)) % \
+                                       NUM_UNOWN_FORMS)
 
 #define GET_SHINY_VALUE(otId, personality) (HIHALF(otId) ^ LOHALF(otId) ^ HIHALF(personality) ^ LOHALF(personality))
 

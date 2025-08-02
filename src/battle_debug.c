@@ -37,6 +37,13 @@
 #include "constants/rgb.h"
 #include "constants/hold_effects.h"
 
+bool8 sShowOriginalNames = FALSE;
+
+static void ToggleOriginalNamesDisplay(void)
+{
+    sShowOriginalNames = !sShowOriginalNames;
+}
+
 #define MAX_MODIFY_DIGITS 4
 
 struct BattleDebugModifyArrows
@@ -45,8 +52,8 @@ struct BattleDebugModifyArrows
     u16 minValue;
     u16 maxValue;
     int currValue;
-    u8 currentDigit:4;
-    u8 maxDigits:4;
+    u8 currentDigit : 4;
+    u8 maxDigits : 4;
     u8 charDigits[MAX_MODIFY_DIGITS];
     void *modifiedValPtr;
     u8 typeOfVal;
@@ -54,8 +61,8 @@ struct BattleDebugModifyArrows
 
 struct BattleDebugMenu
 {
-    u8 battlerId:2;
-    u8 aiBattlerId:2;
+    u8 battlerId : 2;
+    u8 aiBattlerId : 2;
 
     u8 battlerWindowId;
 
@@ -113,6 +120,7 @@ enum
     LIST_ITEM_AI_INFO,
     LIST_ITEM_AI_PARTY,
     LIST_ITEM_VARIOUS,
+    LIST_ITEM_SHOW_ORIGINAL_NAMES,
     LIST_ITEM_COUNT
 };
 
@@ -292,6 +300,7 @@ static const u8 sText_AIMovePts[] = _("AI Pts/Dmg");
 static const u8 sText_AiKnowledge[] = _("AI Info");
 static const u8 sText_AiParty[] = _("AI Party");
 static const u8 sText_Various[] = _("Various");
+static const u8 sText_ShowOriginalNames[] = _("Orgnl Name");
 static const u8 sText_CurrHp[] = _("HP Current");
 static const u8 sText_MaxHp[] = _("HP Max");
 static const u8 sText_Attack[] = _("Attack");
@@ -409,398 +418,386 @@ static const u8 sText_Unknown[] = _("Unknown");
 static const u8 sText_EmptyString[] = _("");
 
 static const struct BitfieldInfo sStatus1Bitfield[] =
-{
-    {/*Sleep*/ 3, 0},
-    {/*Poison*/ 1, 3},
-    {/*Burn*/ 1, 4},
-    {/*Freeze*/ 1, 5},
-    {/*Paralysis*/1, 6},
-    {/*Toxic Poison*/ 1, 7},
-    {/*Toxic Counter*/ 4, 8},
-    {/*Frostbite*/ 1, 12},
+    {
+        {/*Sleep*/ 3, 0},
+        {/*Poison*/ 1, 3},
+        {/*Burn*/ 1, 4},
+        {/*Freeze*/ 1, 5},
+        {/*Paralysis*/ 1, 6},
+        {/*Toxic Poison*/ 1, 7},
+        {/*Toxic Counter*/ 4, 8},
+        {/*Frostbite*/ 1, 12},
 };
 
 static const struct BitfieldInfo sStatus2Bitfield[] =
-{
-    {/*Confusion*/ 3, 0},
-    {/*Flinched*/ 1, 3},
-    {/*Torment*/ 1, 7},
-    {/*Powder*/ 1, 14},
-    {/*Defense Curl*/ 1, 20},
-    {/*Recharge*/ 1, 22},
-    {/*Rage*/ 1, 23},
-    {/*Destiny Bond*/ 1, 25},
-    {/*Escape Prevention*/ 1, 26},
-    {/*Cursed*/ 1, 28},
-    {/*Foresight*/ 1, 29},
-    {/*Dragon Cheer*/ 1, 30},
-    {/*Focus Energy*/ 1, 31},
+    {
+        {/*Confusion*/ 3, 0},
+        {/*Flinched*/ 1, 3},
+        {/*Torment*/ 1, 7},
+        {/*Powder*/ 1, 14},
+        {/*Defense Curl*/ 1, 20},
+        {/*Recharge*/ 1, 22},
+        {/*Rage*/ 1, 23},
+        {/*Destiny Bond*/ 1, 25},
+        {/*Escape Prevention*/ 1, 26},
+        {/*Cursed*/ 1, 28},
+        {/*Foresight*/ 1, 29},
+        {/*Dragon Cheer*/ 1, 30},
+        {/*Focus Energy*/ 1, 31},
 };
 
 static const struct BitfieldInfo sStatus3Bitfield[] =
-{
-    {/*Leech Seed Battler*/ 2, 0},
-    {/*Leech Seed*/ 1, 2},
-    {/*Always Hits*/ 2, 3},
-    {/*Perish Song*/ 1, 5},
-    {/*On Air*/ 1, 6},
-    {/*Underground*/ 1, 7},
-    {/*Minimized*/ 1, 8},
-    {/*Charged Up*/ 1, 9},
-    {/*Rooted*/ 1, 10},
-    {/*Yawn*/ 2, 11},
-    {/*Imprisoned Others*/ 1, 13},
-    {/*Grudge*/ 1, 14},
-    {/*Gastro Acid*/ 1, 16},
-    {/*Embargo*/ 1, 17},
-    {/*Underwater*/ 1, 18},
-    {/*Smacked Down*/ 1, 21},
-    {/*Telekinesis*/ 1, 23},
-    {/*Miracle Eyed*/ 1, 25},
-    {/*Magnet Rise*/ 1, 26},
-    {/*Heal Blocked*/ 1, 27},
-    {/*Aqua Ring*/ 1, 28},
-    {/*Laser Focus*/ 1, 29},
-    {/*Power Trick*/ 1, 30},
+    {
+        {/*Leech Seed Battler*/ 2, 0},
+        {/*Leech Seed*/ 1, 2},
+        {/*Always Hits*/ 2, 3},
+        {/*Perish Song*/ 1, 5},
+        {/*On Air*/ 1, 6},
+        {/*Underground*/ 1, 7},
+        {/*Minimized*/ 1, 8},
+        {/*Charged Up*/ 1, 9},
+        {/*Rooted*/ 1, 10},
+        {/*Yawn*/ 2, 11},
+        {/*Imprisoned Others*/ 1, 13},
+        {/*Grudge*/ 1, 14},
+        {/*Gastro Acid*/ 1, 16},
+        {/*Embargo*/ 1, 17},
+        {/*Underwater*/ 1, 18},
+        {/*Smacked Down*/ 1, 21},
+        {/*Telekinesis*/ 1, 23},
+        {/*Miracle Eyed*/ 1, 25},
+        {/*Magnet Rise*/ 1, 26},
+        {/*Heal Blocked*/ 1, 27},
+        {/*Aqua Ring*/ 1, 28},
+        {/*Laser Focus*/ 1, 29},
+        {/*Power Trick*/ 1, 30},
 };
 
 static const struct BitfieldInfo sStatus4Bitfield[] =
-{
-    {/*Electrified*/ 1, 0},
-    {/*Mud Sport*/ 1, 1},
-    {/*Water Sport*/ 1, 2},
-    {/*Salt Cure*/ 1, 4},
-    {/*Syrup Bomb*/ 1, 5},
-    {/*Glaive Rush*/ 1, 6},
+    {
+        {/*Electrified*/ 1, 0},
+        {/*Mud Sport*/ 1, 1},
+        {/*Water Sport*/ 1, 2},
+        {/*Salt Cure*/ 1, 4},
+        {/*Syrup Bomb*/ 1, 5},
+        {/*Glaive Rush*/ 1, 6},
 };
 
 static const struct BitfieldInfo sAIBitfield[] =
-{
-    {/*Check Bad Move*/ 1, 0},
-    {/*Try to Faint*/ 1, 1},
-    {/*Check Viability*/ 1, 2},
-    {/*Setup First Turn*/ 1, 3},
-    {/*Risky*/ 1, 4},
-    {/*Prefer Strongest Move*/ 1, 5},
-    {/*Prefer Baton Pass*/ 1, 6},
-    {/*Double Battle*/ 1, 7},
-    {/*HP Aware*/ 1, 8},
-    {/*Powerful Status*/ 1, 9},
-    {/*Negate Unaware*/ 1, 10},
-    {/*Will Suicide*/ 1, 11},
-    {/*Help Partner*/ 1, 12},
-    {/*Prefer Status Moves*/ 1, 13},
-    {/*Stall*/ 1, 14},
-    {/*Smart Switching*/ 1, 15},
-    {/*Ace Pokemon*/ 1, 16},
-    {/*Omniscient*/ 1, 17},
-    {/*Smart Mon Choices*/ 1, 18},
-    {/*Ace Pokemon*/ 1, 16},
-    {/*Omniscient*/ 1, 17},
-    {/*Smart Mon Choices*/ 1, 18},
-    {/*Roaming*/ 1, 29},
-    {/*Safari*/ 1, 30},
-    {/*First Battle*/ 1, 31},
+    {
+        {/*Check Bad Move*/ 1, 0},
+        {/*Try to Faint*/ 1, 1},
+        {/*Check Viability*/ 1, 2},
+        {/*Setup First Turn*/ 1, 3},
+        {/*Risky*/ 1, 4},
+        {/*Prefer Strongest Move*/ 1, 5},
+        {/*Prefer Baton Pass*/ 1, 6},
+        {/*Double Battle*/ 1, 7},
+        {/*HP Aware*/ 1, 8},
+        {/*Powerful Status*/ 1, 9},
+        {/*Negate Unaware*/ 1, 10},
+        {/*Will Suicide*/ 1, 11},
+        {/*Help Partner*/ 1, 12},
+        {/*Prefer Status Moves*/ 1, 13},
+        {/*Stall*/ 1, 14},
+        {/*Smart Switching*/ 1, 15},
+        {/*Ace Pokemon*/ 1, 16},
+        {/*Omniscient*/ 1, 17},
+        {/*Smart Mon Choices*/ 1, 18},
+        {/*Ace Pokemon*/ 1, 16},
+        {/*Omniscient*/ 1, 17},
+        {/*Smart Mon Choices*/ 1, 18},
+        {/*Roaming*/ 1, 29},
+        {/*Safari*/ 1, 30},
+        {/*First Battle*/ 1, 31},
 };
 
 static const struct ListMenuItem sMainListItems[] =
-{
-    {sText_Moves, LIST_ITEM_MOVES},
-    {sText_Ability, LIST_ITEM_ABILITY},
-    {sText_HeldItem, LIST_ITEM_HELD_ITEM},
-    {sText_PP, LIST_ITEM_PP},
-    {sText_Types, LIST_ITEM_TYPES},
-    {sText_Stats, LIST_ITEM_STATS},
-    {sText_StatStages, LIST_ITEM_STAT_STAGES},
-    {sText_Status1, LIST_ITEM_STATUS1},
-    {sText_Status2, LIST_ITEM_STATUS2},
-    {sText_Status3, LIST_ITEM_STATUS3},
-    {sText_Status4, LIST_ITEM_STATUS4},
-    {sText_SideStatus, LIST_ITEM_SIDE_STATUS},
-    {sText_AI, LIST_ITEM_AI},
-    {sText_AIMovePts, LIST_ITEM_AI_MOVES_PTS},
-    {sText_AiKnowledge, LIST_ITEM_AI_INFO},
-    {sText_AiParty, LIST_ITEM_AI_PARTY},
-    {sText_Various, LIST_ITEM_VARIOUS},
+    {
+        {sText_Moves, LIST_ITEM_MOVES},
+        {sText_Ability, LIST_ITEM_ABILITY},
+        {sText_HeldItem, LIST_ITEM_HELD_ITEM},
+        {sText_PP, LIST_ITEM_PP},
+        {sText_Types, LIST_ITEM_TYPES},
+        {sText_Stats, LIST_ITEM_STATS},
+        {sText_StatStages, LIST_ITEM_STAT_STAGES},
+        {sText_Status1, LIST_ITEM_STATUS1},
+        {sText_Status2, LIST_ITEM_STATUS2},
+        {sText_Status3, LIST_ITEM_STATUS3},
+        {sText_Status4, LIST_ITEM_STATUS4},
+        {sText_SideStatus, LIST_ITEM_SIDE_STATUS},
+        {sText_AI, LIST_ITEM_AI},
+        {sText_AIMovePts, LIST_ITEM_AI_MOVES_PTS},
+        {sText_AiKnowledge, LIST_ITEM_AI_INFO},
+        {sText_AiParty, LIST_ITEM_AI_PARTY},
+        {sText_Various, LIST_ITEM_VARIOUS},
+        {sText_ShowOriginalNames, LIST_ITEM_SHOW_ORIGINAL_NAMES},
 };
 
 static const struct ListMenuItem sStatsListItems[] =
-{
-    {sText_CurrHp, LIST_STAT_HP_CURRENT},
-    {sText_MaxHp, LIST_STAT_HP_MAX},
-    {sText_Attack, LIST_STAT_ATTACK},
-    {sText_Defense, LIST_STAT_DEFENSE},
-    {sText_Speed, LIST_STAT_SPEED},
-    {sText_SpAtk, LIST_STAT_SP_ATK},
-    {sText_SpDef, LIST_STAT_SP_DEF},
+    {
+        {sText_CurrHp, LIST_STAT_HP_CURRENT},
+        {sText_MaxHp, LIST_STAT_HP_MAX},
+        {sText_Attack, LIST_STAT_ATTACK},
+        {sText_Defense, LIST_STAT_DEFENSE},
+        {sText_Speed, LIST_STAT_SPEED},
+        {sText_SpAtk, LIST_STAT_SP_ATK},
+        {sText_SpDef, LIST_STAT_SP_DEF},
 };
 
 static const struct ListMenuItem sStatus1ListItems[] =
-{
-    {sText_Sleep, LIST_STATUS1_SLEEP},
-    {sText_Poison, LIST_STATUS1_POISON},
-    {sText_Burn, LIST_STATUS1_BURN},
-    {sText_Freeze, LIST_STATUS1_FREEZE},
-    {sText_Paralysis, LIST_STATUS1_PARALYSIS},
-    {sText_ToxicPoison, LIST_STATUS1_TOXIC_POISON},
-    {sText_ToxicCounter, LIST_STATUS1_TOXIC_COUNTER},
-    {sText_Frostbite, LIST_STATUS1_FROSTBITE},
+    {
+        {sText_Sleep, LIST_STATUS1_SLEEP},
+        {sText_Poison, LIST_STATUS1_POISON},
+        {sText_Burn, LIST_STATUS1_BURN},
+        {sText_Freeze, LIST_STATUS1_FREEZE},
+        {sText_Paralysis, LIST_STATUS1_PARALYSIS},
+        {sText_ToxicPoison, LIST_STATUS1_TOXIC_POISON},
+        {sText_ToxicCounter, LIST_STATUS1_TOXIC_COUNTER},
+        {sText_Frostbite, LIST_STATUS1_FROSTBITE},
 };
 
 static const struct ListMenuItem sStatus2ListItems[] =
-{
-    {sText_Confusion, LIST_STATUS2_CONFUSION},
-    {sText_Flinched, LIST_STATUS2_FLINCHED},
-    {sText_Torment, LIST_STATUS2_TORMENT},
-    {sText_Powder, LIST_STATUS2_POWDER},
-    {sText_DefenseCurl, LIST_STATUS2_DEFENSE_CURL},
-    {sText_Recharge, LIST_STATUS2_RECHARGE},
-    {sText_Rage, LIST_STATUS2_RAGE},
-    {sText_DestinyBond, LIST_STATUS2_DESTINY_BOND},
-    {sText_EscapePrevention, LIST_STATUS2_ESCAPE_PREVENTION},
-    {sText_Cursed, LIST_STATUS2_CURSED},
-    {sText_Foresight, LIST_STATUS2_FORESIGHT},
-    {sText_DragonCheer, LIST_STATUS2_DRAGON_CHEER},
-    {sText_FocusEnergy, LIST_STATUS2_FOCUS_ENERGY},
+    {
+        {sText_Confusion, LIST_STATUS2_CONFUSION},
+        {sText_Flinched, LIST_STATUS2_FLINCHED},
+        {sText_Torment, LIST_STATUS2_TORMENT},
+        {sText_Powder, LIST_STATUS2_POWDER},
+        {sText_DefenseCurl, LIST_STATUS2_DEFENSE_CURL},
+        {sText_Recharge, LIST_STATUS2_RECHARGE},
+        {sText_Rage, LIST_STATUS2_RAGE},
+        {sText_DestinyBond, LIST_STATUS2_DESTINY_BOND},
+        {sText_EscapePrevention, LIST_STATUS2_ESCAPE_PREVENTION},
+        {sText_Cursed, LIST_STATUS2_CURSED},
+        {sText_Foresight, LIST_STATUS2_FORESIGHT},
+        {sText_DragonCheer, LIST_STATUS2_DRAGON_CHEER},
+        {sText_FocusEnergy, LIST_STATUS2_FOCUS_ENERGY},
 };
 
 static const struct ListMenuItem sStatus3ListItems[] =
-{
-    {sText_LeechSeedHealer, LIST_STATUS3_LEECH_SEED_HEALER},
-    {sText_LeechSeeded, LIST_STATUS3_LEECH_SEEDED},
-    {sText_AlwaysHits, LIST_STATUS3_ALWAYS_HITS},
-    {sText_PerishSong, LIST_STATUS3_PERISH_SONG},
-    {sText_OnAir, LIST_STATUS3_ON_AIR},
-    {sText_Underground, LIST_STATUS3_UNDERGROUND},
-    {sText_Minimized, LIST_STATUS3_MINIMIZED},
-    {sText_ChargedUp, LIST_STATUS3_CHARGED_UP},
-    {sText_Rooted, LIST_STATUS3_ROOTED},
-    {sText_Yawn, LIST_STATUS3_YAWN},
-    {sText_ImprisonedOthers, LIST_STATUS3_IMPRISONED_OTHERS},
-    {sText_Grudge, LIST_STATUS3_GRUDGE},
-    {sText_GastroAcid, LIST_STATUS3_GASTRO_ACID},
-    {sText_Embargo, LIST_STATUS3_EMBARGO},
-    {sText_Underwater, LIST_STATUS3_UNDERWATER},
-    {sText_SmackedDown, LIST_STATUS3_SMACKED_DOWN},
-    {sText_Telekinesis, LIST_STATUS3_TELEKINESIS},
-    {sText_MiracleEyed, LIST_STATUS3_MIRACLE_EYED},
-    {sText_MagnetRise, LIST_STATUS3_MAGNET_RISE},
-    {sText_HealBlock, LIST_STATUS3_HEAL_BLOCK},
-    {sText_AquaRing, LIST_STATUS3_AQUA_RING},
-    {sText_LaserFocus, LIST_STATUS3_LASER_FOCUS},
-    {sText_PowerTrick, LIST_STATUS3_POWER_TRICK},
+    {
+        {sText_LeechSeedHealer, LIST_STATUS3_LEECH_SEED_HEALER},
+        {sText_LeechSeeded, LIST_STATUS3_LEECH_SEEDED},
+        {sText_AlwaysHits, LIST_STATUS3_ALWAYS_HITS},
+        {sText_PerishSong, LIST_STATUS3_PERISH_SONG},
+        {sText_OnAir, LIST_STATUS3_ON_AIR},
+        {sText_Underground, LIST_STATUS3_UNDERGROUND},
+        {sText_Minimized, LIST_STATUS3_MINIMIZED},
+        {sText_ChargedUp, LIST_STATUS3_CHARGED_UP},
+        {sText_Rooted, LIST_STATUS3_ROOTED},
+        {sText_Yawn, LIST_STATUS3_YAWN},
+        {sText_ImprisonedOthers, LIST_STATUS3_IMPRISONED_OTHERS},
+        {sText_Grudge, LIST_STATUS3_GRUDGE},
+        {sText_GastroAcid, LIST_STATUS3_GASTRO_ACID},
+        {sText_Embargo, LIST_STATUS3_EMBARGO},
+        {sText_Underwater, LIST_STATUS3_UNDERWATER},
+        {sText_SmackedDown, LIST_STATUS3_SMACKED_DOWN},
+        {sText_Telekinesis, LIST_STATUS3_TELEKINESIS},
+        {sText_MiracleEyed, LIST_STATUS3_MIRACLE_EYED},
+        {sText_MagnetRise, LIST_STATUS3_MAGNET_RISE},
+        {sText_HealBlock, LIST_STATUS3_HEAL_BLOCK},
+        {sText_AquaRing, LIST_STATUS3_AQUA_RING},
+        {sText_LaserFocus, LIST_STATUS3_LASER_FOCUS},
+        {sText_PowerTrick, LIST_STATUS3_POWER_TRICK},
 };
 
 static const struct ListMenuItem sStatus4ListItems[] =
-{
-    {sText_Electrified, LIST_STATUS4_ELECTRIFIED},
-    {sText_MudSport, LIST_STATUS4_MUD_SPORT},
-    {sText_WaterSport, LIST_STATUS4_WATER_SPORT},
-    {sText_SaltCure, LIST_STATUS4_SALT_CURE},
-    {sText_SyrupBomb, LIST_STATUS4_SYRUP_BOMB},
-    {sText_GlaiveRush, LIST_STATUS4_GLAIVE_RUSH},
+    {
+        {sText_Electrified, LIST_STATUS4_ELECTRIFIED},
+        {sText_MudSport, LIST_STATUS4_MUD_SPORT},
+        {sText_WaterSport, LIST_STATUS4_WATER_SPORT},
+        {sText_SaltCure, LIST_STATUS4_SALT_CURE},
+        {sText_SyrupBomb, LIST_STATUS4_SYRUP_BOMB},
+        {sText_GlaiveRush, LIST_STATUS4_GLAIVE_RUSH},
 };
 
 static const struct ListMenuItem sSideStatusListItems[] =
-{
-    {sText_Reflect, LIST_SIDE_REFLECT},
-    {sText_LightScreen, LIST_SIDE_LIGHTSCREEN},
-    {sText_StickyWeb, LIST_SIDE_STICKY_WEB},
-    {sText_Spikes, LIST_SIDE_SPIKES},
-    {sText_Safeguard, LIST_SIDE_SAFEGUARD},
-    {sText_Mist, LIST_SIDE_MIST},
-    {sText_Tailwind, LIST_SIDE_TAILWIND},
-    {sText_AuroraVeil, LIST_SIDE_AURORA_VEIL},
-    {sText_LuckyChant, LIST_SIDE_LUCKY_CHANT},
-    {sText_ToxicSpikes, LIST_SIDE_TOXIC_SPIKES},
-    {sText_StealthRock, LIST_SIDE_STEALTH_ROCK},
-    {sText_Steelsurge, LIST_SIDE_STEELSURGE},
-    {sText_DamageNonTypes, LIST_SIDE_DAMAGE_NON_TYPES},
-    {sText_Rainbow, LIST_SIDE_RAINBOW},
-    {sText_SeaOfFire, LIST_SIDE_SEA_OF_FIRE},
-    {sText_Swamp, LIST_SIDE_SWAMP},
+    {
+        {sText_Reflect, LIST_SIDE_REFLECT},
+        {sText_LightScreen, LIST_SIDE_LIGHTSCREEN},
+        {sText_StickyWeb, LIST_SIDE_STICKY_WEB},
+        {sText_Spikes, LIST_SIDE_SPIKES},
+        {sText_Safeguard, LIST_SIDE_SAFEGUARD},
+        {sText_Mist, LIST_SIDE_MIST},
+        {sText_Tailwind, LIST_SIDE_TAILWIND},
+        {sText_AuroraVeil, LIST_SIDE_AURORA_VEIL},
+        {sText_LuckyChant, LIST_SIDE_LUCKY_CHANT},
+        {sText_ToxicSpikes, LIST_SIDE_TOXIC_SPIKES},
+        {sText_StealthRock, LIST_SIDE_STEALTH_ROCK},
+        {sText_Steelsurge, LIST_SIDE_STEELSURGE},
+        {sText_DamageNonTypes, LIST_SIDE_DAMAGE_NON_TYPES},
+        {sText_Rainbow, LIST_SIDE_RAINBOW},
+        {sText_SeaOfFire, LIST_SIDE_SEA_OF_FIRE},
+        {sText_Swamp, LIST_SIDE_SWAMP},
 };
 
 static const struct ListMenuItem sAIListItems[] =
-{
-    {sText_CheckBadMove, LIST_AI_CHECK_BAD_MOVE},
-    {sText_TryToFaint, LIST_AI_TRY_TO_FAINT},
-    {sText_CheckViability, LIST_AI_CHECK_VIABILITY},
-    {sText_SetUpFirstTurn, LIST_AI_SETUP_FIRST_TURN},
-    {sText_Risky, LIST_AI_RISKY},
-    {sText_PreferStrongestMove, LIST_AI_PREFER_STRONGEST_MOVE},
-    {sText_PreferBatonPass, LIST_AI_PREFER_BATON_PASS},
-    {sText_DoubleBattle, LIST_AI_DOUBLE_BATTLE},
-    {sText_HpAware, LIST_AI_HP_AWARE},
-    {sText_PowerfulStatus, LIST_AI_POWERFUL_STATUS},
-    {sText_NegateUnaware, LIST_AI_NEGATE_UNAWARE},
-    {sText_WillSuicide, LIST_AI_WILL_SUICIDE},
-    {sText_HelpPartner, LIST_AI_HELP_PARTNER},
-    {sText_PreferStatusMoves, LIST_AI_PREFER_STATUS_MOVES},
-    {sText_Stall, LIST_AI_STALL},
-    {sText_SmartSwitching, LIST_AI_SMART_SWITCHING},
-    {sText_AcePokemon, LIST_AI_ACE_POKEMON},
-    {sText_Omniscient, LIST_AI_OMNISCIENT},
-    {sText_SmartMonChoices, LIST_AI_SMART_MON_CHOICES},
-    {sText_Roaming, LIST_AI_ROAMING},
-    {sText_Safari, LIST_AI_SAFARI},
-    {sText_FirstBattle, LIST_AI_FIRST_BATTLE},
+    {
+        {sText_CheckBadMove, LIST_AI_CHECK_BAD_MOVE},
+        {sText_TryToFaint, LIST_AI_TRY_TO_FAINT},
+        {sText_CheckViability, LIST_AI_CHECK_VIABILITY},
+        {sText_SetUpFirstTurn, LIST_AI_SETUP_FIRST_TURN},
+        {sText_Risky, LIST_AI_RISKY},
+        {sText_PreferStrongestMove, LIST_AI_PREFER_STRONGEST_MOVE},
+        {sText_PreferBatonPass, LIST_AI_PREFER_BATON_PASS},
+        {sText_DoubleBattle, LIST_AI_DOUBLE_BATTLE},
+        {sText_HpAware, LIST_AI_HP_AWARE},
+        {sText_PowerfulStatus, LIST_AI_POWERFUL_STATUS},
+        {sText_NegateUnaware, LIST_AI_NEGATE_UNAWARE},
+        {sText_WillSuicide, LIST_AI_WILL_SUICIDE},
+        {sText_HelpPartner, LIST_AI_HELP_PARTNER},
+        {sText_PreferStatusMoves, LIST_AI_PREFER_STATUS_MOVES},
+        {sText_Stall, LIST_AI_STALL},
+        {sText_SmartSwitching, LIST_AI_SMART_SWITCHING},
+        {sText_AcePokemon, LIST_AI_ACE_POKEMON},
+        {sText_Omniscient, LIST_AI_OMNISCIENT},
+        {sText_SmartMonChoices, LIST_AI_SMART_MON_CHOICES},
+        {sText_Roaming, LIST_AI_ROAMING},
+        {sText_Safari, LIST_AI_SAFARI},
+        {sText_FirstBattle, LIST_AI_FIRST_BATTLE},
 };
 
 static const struct ListMenuItem sVariousListItems[] =
-{
-    {sText_ShowHP, VARIOUS_SHOW_HP},
-    {sText_SubstituteHp, VARIOUS_SUBSTITUTE_HP},
-    {sText_InLove, VARIOUS_IN_LOVE},
+    {
+        {sText_ShowHP, VARIOUS_SHOW_HP},
+        {sText_SubstituteHp, VARIOUS_SUBSTITUTE_HP},
+        {sText_InLove, VARIOUS_IN_LOVE},
 };
 
 static const struct ListMenuItem sSecondaryListItems[] =
-{
-    {sText_EmptyString, 0},
-    {sText_EmptyString, 1},
-    {sText_EmptyString, 2},
-    {sText_EmptyString, 3},
-    {sText_EmptyString, 4},
-    {sText_EmptyString, 5},
-    {sText_EmptyString, 6},
-    {sText_EmptyString, 7},
-    {sText_EmptyString, 8},
+    {
+        {sText_EmptyString, 0},
+        {sText_EmptyString, 1},
+        {sText_EmptyString, 2},
+        {sText_EmptyString, 3},
+        {sText_EmptyString, 4},
+        {sText_EmptyString, 5},
+        {sText_EmptyString, 6},
+        {sText_EmptyString, 7},
+        {sText_EmptyString, 8},
 };
-
 
 static const struct ListMenuTemplate sMainListTemplate =
-{
-    .items = sMainListItems,
-    .moveCursorFunc = NULL,
-    .itemPrintFunc = NULL,
-    .totalItems = ARRAY_COUNT(sMainListItems),
-    .maxShowed = 6,
-    .windowId = 0,
-    .header_X = 0,
-    .item_X = 8,
-    .cursor_X = 0,
-    .upText_Y = 1,
-    .cursorPal = 2,
-    .fillValue = 1,
-    .cursorShadowPal = 3,
-    .lettersSpacing = 1,
-    .itemVerticalPadding = 0,
-    .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
-    .fontId = 1,
-    .cursorKind = 0
-};
+    {
+        .items = sMainListItems,
+        .moveCursorFunc = NULL,
+        .itemPrintFunc = NULL,
+        .totalItems = ARRAY_COUNT(sMainListItems),
+        .maxShowed = 6,
+        .windowId = 0,
+        .header_X = 0,
+        .item_X = 8,
+        .cursor_X = 0,
+        .upText_Y = 1,
+        .cursorPal = 2,
+        .fillValue = 1,
+        .cursorShadowPal = 3,
+        .lettersSpacing = 1,
+        .itemVerticalPadding = 0,
+        .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
+        .fontId = 1,
+        .cursorKind = 0};
 
 static const struct ListMenuTemplate sSecondaryListTemplate =
-{
-    .items = sSecondaryListItems,
-    .moveCursorFunc = NULL,
-    .itemPrintFunc = NULL,
-    .totalItems = 0,
-    .maxShowed = 0,
-    .windowId = 0,
-    .header_X = 0,
-    .item_X = 8,
-    .cursor_X = 0,
-    .upText_Y = 1,
-    .cursorPal = 2,
-    .fillValue = 1,
-    .cursorShadowPal = 3,
-    .lettersSpacing = 1,
-    .itemVerticalPadding = 0,
-    .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
-    .fontId = 1,
-    .cursorKind = 0
-};
-
+    {
+        .items = sSecondaryListItems,
+        .moveCursorFunc = NULL,
+        .itemPrintFunc = NULL,
+        .totalItems = 0,
+        .maxShowed = 0,
+        .windowId = 0,
+        .header_X = 0,
+        .item_X = 8,
+        .cursor_X = 0,
+        .upText_Y = 1,
+        .cursorPal = 2,
+        .fillValue = 1,
+        .cursorShadowPal = 3,
+        .lettersSpacing = 1,
+        .itemVerticalPadding = 0,
+        .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
+        .fontId = 1,
+        .cursorKind = 0};
 
 static const struct WindowTemplate sMainListWindowTemplate =
-{
-    .bg = 0,
-    .tilemapLeft = 1,
-    .tilemapTop = 3,
-    .width = 9,
-    .height = 12,
-    .paletteNum = 0xF,
-    .baseBlock = 0x1
-};
+    {
+        .bg = 0,
+        .tilemapLeft = 1,
+        .tilemapTop = 3,
+        .width = 9,
+        .height = 12,
+        .paletteNum = 0xF,
+        .baseBlock = 0x1};
 
 static const struct WindowTemplate sSecondaryListWindowTemplate =
-{
-    .bg = 0,
-    .tilemapLeft = 12,
-    .tilemapTop = 3,
-    .width = 20,
-    .height = 16,
-    .paletteNum = 0xF,
-    .baseBlock = 0x6D
-};
+    {
+        .bg = 0,
+        .tilemapLeft = 12,
+        .tilemapTop = 3,
+        .width = 20,
+        .height = 16,
+        .paletteNum = 0xF,
+        .baseBlock = 0x6D};
 
 static const struct WindowTemplate sModifyWindowTemplate =
-{
-    .bg = 0,
-    .tilemapLeft = 25,
-    .tilemapTop = 2,
-    .width = 4,
-    .height = 2,
-    .paletteNum = 0xF,
-    .baseBlock = 0x1AD
-};
+    {
+        .bg = 0,
+        .tilemapLeft = 25,
+        .tilemapTop = 2,
+        .width = 4,
+        .height = 2,
+        .paletteNum = 0xF,
+        .baseBlock = 0x1AD};
 
 static const struct WindowTemplate sBattlerWindowTemplate =
-{
-    .bg = 0,
-    .tilemapLeft = 10,
-    .tilemapTop = 0,
-    .width = 14,
-    .height = 2,
-    .paletteNum = 0xF,
-    .baseBlock = 0x1B5
-};
+    {
+        .bg = 0,
+        .tilemapLeft = 10,
+        .tilemapTop = 0,
+        .width = 14,
+        .height = 2,
+        .paletteNum = 0xF,
+        .baseBlock = 0x1B5};
 
 static const struct BgTemplate sBgTemplates[] =
-{
-   {
-       .bg = 0,
-       .charBaseIndex = 0,
-       .mapBaseIndex = 31,
-       .screenSize = 0,
-       .paletteMode = 0,
-       .priority = 1,
-       .baseTile = 0
-   },
-   {
-       .bg = 1,
-       .charBaseIndex = 2,
-       .mapBaseIndex = 20,
-       .screenSize = 0,
-       .paletteMode = 0,
-       .priority = 0,
-       .baseTile = 0
-   }
-};
+    {
+        {.bg = 0,
+         .charBaseIndex = 0,
+         .mapBaseIndex = 31,
+         .screenSize = 0,
+         .paletteMode = 0,
+         .priority = 1,
+         .baseTile = 0},
+        {.bg = 1,
+         .charBaseIndex = 2,
+         .mapBaseIndex = 20,
+         .screenSize = 0,
+         .paletteMode = 0,
+         .priority = 0,
+         .baseTile = 0}};
 
 static const u8 sBitsToMaxDigit[] =
-{
-    [0] = 0,
-    [1] = 1, // max 1
-    [2] = 1, // max 3
-    [3] = 1, // max 7
-    [4] = 2, // max 15
-    [5] = 2, // max 31
-    [6] = 2, // max 63
-    [7] = 3, // max 127
-    [8] = 3, // max 255
+    {
+        [0] = 0,
+        [1] = 1, // max 1
+        [2] = 1, // max 3
+        [3] = 1, // max 7
+        [4] = 2, // max 15
+        [5] = 2, // max 31
+        [6] = 2, // max 63
+        [7] = 3, // max 127
+        [8] = 3, // max 255
 };
 
 static const bool8 sHasChangeableEntries[LIST_ITEM_COUNT] =
-{
-    [LIST_ITEM_MOVES] = TRUE,
-    [LIST_ITEM_AI_MOVES_PTS] = TRUE,
-    [LIST_ITEM_PP] = TRUE,
-    [LIST_ITEM_ABILITY] = TRUE,
-    [LIST_ITEM_TYPES] = TRUE,
-    [LIST_ITEM_HELD_ITEM] = TRUE,
-    [LIST_ITEM_STAT_STAGES] = TRUE,
+    {
+        [LIST_ITEM_MOVES] = TRUE,
+        [LIST_ITEM_AI_MOVES_PTS] = TRUE,
+        [LIST_ITEM_PP] = TRUE,
+        [LIST_ITEM_ABILITY] = TRUE,
+        [LIST_ITEM_TYPES] = TRUE,
+        [LIST_ITEM_HELD_ITEM] = TRUE,
+        [LIST_ITEM_STAT_STAGES] = TRUE,
 };
 
 static const u16 sBgColor[] = {RGB_WHITE};
@@ -828,7 +825,7 @@ static struct BattleDebugMenu *GetStructPtr(u8 taskId)
 {
     u8 *taskDataPtr = (u8 *)(&gTasks[taskId].data[0]);
 
-    return (struct BattleDebugMenu*)(T1_READ_PTR(taskDataPtr));
+    return (struct BattleDebugMenu *)(T1_READ_PTR(taskDataPtr));
 }
 
 static void SetStructPtr(u8 taskId, void *ptr)
@@ -1002,8 +999,8 @@ static void Task_ShowAiPoints(u8 taskId)
             if (i != data->aiBattlerId && IsBattlerAlive(i))
             {
                 data->spriteIds.aiIconSpriteIds[i] = CreateMonIcon(gBattleMons[i].species,
-                                                         SpriteCallbackDummy,
-                                                         95 + (count * 60), 17, 0, 0);
+                                                                   SpriteCallbackDummy,
+                                                                   95 + (count * 60), 17, 0, 0);
                 gSprites[data->spriteIds.aiIconSpriteIds[i]].data[0] = i; // battler id
                 count++;
             }
@@ -1036,7 +1033,8 @@ static void Task_ShowAiPoints(u8 taskId)
         if (JOY_NEW(R_BUTTON) && IsDoubleBattle())
         {
             CleanUpAiInfoWindow(taskId);
-            do {
+            do
+            {
                 data->battlerId++;
                 data->battlerId %= gBattlersCount;
             } while (!IsBattlerAlive(data->battlerId));
@@ -1045,7 +1043,8 @@ static void Task_ShowAiPoints(u8 taskId)
         else if (JOY_NEW(L_BUTTON) && IsDoubleBattle())
         {
             CleanUpAiInfoWindow(taskId);
-            do {
+            do
+            {
                 if (data->battlerId == 0)
                     data->battlerId = gBattlersCount - 1;
                 else
@@ -1071,10 +1070,10 @@ static void SwitchToAiPointsView(u8 taskId)
 }
 
 static const u8 *const sAiInfoItemNames[] =
-{
-    sText_Ability,
-    sText_HeldItem,
-    sText_HoldEffect,
+    {
+        sText_Ability,
+        sText_HeldItem,
+        sText_HoldEffect,
 };
 
 static void PutAiInfoText(struct BattleDebugMenu *data)
@@ -1098,7 +1097,7 @@ static void PutAiInfoText(struct BattleDebugMenu *data)
             u16 ability = AI_DATA->abilities[i];
             u16 holdEffect = AI_DATA->holdEffects[i];
             u16 item = AI_DATA->items[i];
-            u8 x = (i == B_POSITION_PLAYER_LEFT) ? 83 + (i) * 75 : 83 + (i-1) * 75;
+            u8 x = (i == B_POSITION_PLAYER_LEFT) ? 83 + (i) * 75 : 83 + (i - 1) * 75;
             AddTextPrinterParameterized(data->aiMovesWindowId, FONT_SMALL, gAbilitiesInfo[ability].name, x, 0, 0, NULL);
             AddTextPrinterParameterized(data->aiMovesWindowId, FONT_SMALL, ItemId_GetName(item), x, 15, 0, NULL);
             AddTextPrinterParameterized(data->aiMovesWindowId, FONT_SMALL, GetHoldEffectName(holdEffect), x, 30, 0, NULL);
@@ -1183,8 +1182,8 @@ static void Task_ShowAiKnowledge(u8 taskId)
             if (GetBattlerSide(i) == B_SIDE_PLAYER && IsBattlerAlive(i))
             {
                 data->spriteIds.aiIconSpriteIds[i] = CreateMonIcon(gBattleMons[i].species,
-                                                         SpriteCallbackDummy,
-                                                         95 + (count * 80), 17, 0, 0);
+                                                                   SpriteCallbackDummy,
+                                                                   95 + (count * 80), 17, 0, 0);
                 gSprites[data->spriteIds.aiIconSpriteIds[i]].data[0] = i; // battler id
                 count++;
             }
@@ -1382,6 +1381,11 @@ static void Task_DebugMenuProcessInput(u8 taskId)
                 SwitchToAiPartyView(taskId);
                 return;
             }
+            else if (listItemId == LIST_ITEM_SHOW_ORIGINAL_NAMES && JOY_NEW(A_BUTTON))
+            {
+                ToggleOriginalNamesDisplay();
+                return;
+            }
             data->currentMainListItemId = listItemId;
 
             // Create the secondary menu list.
@@ -1513,7 +1517,6 @@ static void UpdateWindowsOnChangedBattler(struct BattleDebugMenu *data)
         PrintDigitChars(data);
     }
 }
-
 
 static void CreateSecondaryListMenu(struct BattleDebugMenu *data)
 {
@@ -1779,7 +1782,7 @@ static void UpdateBattlerValue(struct BattleDebugMenu *data)
         *GetSideStatusValue(data, TRUE, data->modifyArrows.currValue != 0) = data->modifyArrows.currValue;
         break;
     case VAR_SHOW_HP:
-        (*(struct BattleSpriteInfo*)(data->modifyArrows.modifiedValPtr)).hpNumbersNoBars = data->modifyArrows.currValue;
+        (*(struct BattleSpriteInfo *)(data->modifyArrows.modifiedValPtr)).hpNumbersNoBars = data->modifyArrows.currValue;
         break;
     case VAR_SUBSTITUTE:
         *(u8 *)(data->modifyArrows.modifiedValPtr) = data->modifyArrows.currValue;
@@ -2256,7 +2259,7 @@ static bool32 TryMoveDigit(struct BattleDebugModifyArrows *modArrows, bool32 mov
     {
         modArrows->currValue = newValue;
         for (i = 0; i < MAX_MODIFY_DIGITS; i++)
-             modArrows->charDigits[i] = charDigits[i];
+            modArrows->charDigits[i] = charDigits[i];
         return TRUE;
     }
 }
@@ -2432,156 +2435,156 @@ static const u8 sText_HoldEffectBoosterEnergy[] = _("Booster Energy");
 static const u8 sText_HoldEffectBerserkGene[] = _("Berserk Gene");
 static const u8 sText_HoldEffectOgerponMask[] = _("Ogerpon Mask");
 static const u8 *const sHoldEffectNames[] =
-{
-    [HOLD_EFFECT_NONE] = sText_HoldEffectNone,
-    [HOLD_EFFECT_RESTORE_HP] = sText_HoldEffectRestoreHp,
-    [HOLD_EFFECT_CURE_PAR] = sText_HoldEffectCurePar,
-    [HOLD_EFFECT_CURE_SLP] = sText_HoldEffectCureSlp,
-    [HOLD_EFFECT_CURE_PSN] = sText_HoldEffectCurePsn,
-    [HOLD_EFFECT_CURE_BRN] = sText_HoldEffectCureBrn,
-    [HOLD_EFFECT_CURE_FRZ] = sText_HoldEffectCureFrz,
-    [HOLD_EFFECT_RESTORE_PP] = sText_HoldEffectRestorePp,
-    [HOLD_EFFECT_CURE_CONFUSION] = sText_HoldEffectCureConfusion,
-    [HOLD_EFFECT_CURE_STATUS] = sText_HoldEffectCureStatus,
-    [HOLD_EFFECT_CONFUSE_SPICY] = sText_HoldEffectConfuseSpicy,
-    [HOLD_EFFECT_CONFUSE_DRY] = sText_HoldEffectConfuseDry,
-    [HOLD_EFFECT_CONFUSE_SWEET] = sText_HoldEffectConfuseSweet,
-    [HOLD_EFFECT_CONFUSE_BITTER] = sText_HoldEffectConfuseBitter,
-    [HOLD_EFFECT_CONFUSE_SOUR] = sText_HoldEffectConfuseSour,
-    [HOLD_EFFECT_ATTACK_UP] = sText_HoldEffectAttackUp,
-    [HOLD_EFFECT_DEFENSE_UP] = sText_HoldEffectDefenseUp,
-    [HOLD_EFFECT_SPEED_UP] = sText_HoldEffectSpeedUp,
-    [HOLD_EFFECT_SP_ATTACK_UP] = sText_HoldEffectSpAttackUp,
-    [HOLD_EFFECT_SP_DEFENSE_UP] = sText_HoldEffectSpDefenseUp,
-    [HOLD_EFFECT_CRITICAL_UP] = sText_HoldEffectCriticalUp,
-    [HOLD_EFFECT_RANDOM_STAT_UP] = sText_HoldEffectRandomStatUp,
-    [HOLD_EFFECT_EVASION_UP] = sText_HoldEffectEvasionUp,
-    [HOLD_EFFECT_RESTORE_STATS] = sText_HoldEffectRestoreStats,
-    [HOLD_EFFECT_MACHO_BRACE] = sText_HoldEffectMachoBrace,
-    [HOLD_EFFECT_EXP_SHARE] = sText_HoldEffectExpShare,
-    [HOLD_EFFECT_QUICK_CLAW] = sText_HoldEffectQuickClaw,
-    [HOLD_EFFECT_FRIENDSHIP_UP] = sText_HoldEffectFriendshipUp,
-    [HOLD_EFFECT_MENTAL_HERB] = sText_HoldEffectMentalHerb,
-    [HOLD_EFFECT_CHOICE_BAND] = sText_HoldEffectChoiceBand,
-    [HOLD_EFFECT_FLINCH] = sText_HoldEffectFlinch,
-    [HOLD_EFFECT_BUG_POWER] = sText_HoldEffectBugPower,
-    [HOLD_EFFECT_DOUBLE_PRIZE] = sText_HoldEffectDoublePrize,
-    [HOLD_EFFECT_REPEL] = sText_HoldEffectRepel,
-    [HOLD_EFFECT_SOUL_DEW] = sText_HoldEffectSoulDew,
-    [HOLD_EFFECT_DEEP_SEA_TOOTH] = sText_HoldEffectDeepSeaTooth,
-    [HOLD_EFFECT_DEEP_SEA_SCALE] = sText_HoldEffectDeepSeaScale,
-    [HOLD_EFFECT_CAN_ALWAYS_RUN] = sText_HoldEffectCanAlwaysRun,
-    [HOLD_EFFECT_PREVENT_EVOLVE] = sText_HoldEffectPreventEvolve,
-    [HOLD_EFFECT_FOCUS_BAND] = sText_HoldEffectFocusBand,
-    [HOLD_EFFECT_LUCKY_EGG] = sText_HoldEffectLuckyEgg,
-    [HOLD_EFFECT_SCOPE_LENS] = sText_HoldEffectScopeLens,
-    [HOLD_EFFECT_STEEL_POWER] = sText_HoldEffectSteelPower,
-    [HOLD_EFFECT_LEFTOVERS] = sText_HoldEffectLeftovers,
-    [HOLD_EFFECT_DRAGON_SCALE] = sText_HoldEffectDragonScale,
-    [HOLD_EFFECT_LIGHT_BALL] = sText_HoldEffectLightBall,
-    [HOLD_EFFECT_GROUND_POWER] = sText_HoldEffectGroundPower,
-    [HOLD_EFFECT_ROCK_POWER] = sText_HoldEffectRockPower,
-    [HOLD_EFFECT_GRASS_POWER] = sText_HoldEffectGrassPower,
-    [HOLD_EFFECT_DARK_POWER] = sText_HoldEffectDarkPower,
-    [HOLD_EFFECT_FIGHTING_POWER] = sText_HoldEffectFightingPower,
-    [HOLD_EFFECT_ELECTRIC_POWER] = sText_HoldEffectElectricPower,
-    [HOLD_EFFECT_WATER_POWER] = sText_HoldEffectWaterPower,
-    [HOLD_EFFECT_FLYING_POWER] = sText_HoldEffectFlyingPower,
-    [HOLD_EFFECT_POISON_POWER] = sText_HoldEffectPoisonPower,
-    [HOLD_EFFECT_ICE_POWER] = sText_HoldEffectIcePower,
-    [HOLD_EFFECT_GHOST_POWER] = sText_HoldEffectGhostPower,
-    [HOLD_EFFECT_PSYCHIC_POWER] = sText_HoldEffectPsychicPower,
-    [HOLD_EFFECT_FIRE_POWER] = sText_HoldEffectFirePower,
-    [HOLD_EFFECT_DRAGON_POWER] = sText_HoldEffectDragonPower,
-    [HOLD_EFFECT_NORMAL_POWER] = sText_HoldEffectNormalPower,
-    [HOLD_EFFECT_UPGRADE] = sText_HoldEffectUpgrade,
-    [HOLD_EFFECT_SHELL_BELL] = sText_HoldEffectShellBell,
-    [HOLD_EFFECT_LUCKY_PUNCH] = sText_HoldEffectLuckyPunch,
-    [HOLD_EFFECT_METAL_POWDER] = sText_HoldEffectMetalPowder,
-    [HOLD_EFFECT_THICK_CLUB] = sText_HoldEffectThickClub,
-    [HOLD_EFFECT_LEEK] = sText_HoldEffectLeek,
-    [HOLD_EFFECT_CHOICE_SCARF] = sText_HoldEffectChoiceScarf,
-    [HOLD_EFFECT_CHOICE_SPECS] = sText_HoldEffectChoiceSpecs,
-    [HOLD_EFFECT_DAMP_ROCK] = sText_HoldEffectDampRock,
-    [HOLD_EFFECT_GRIP_CLAW] = sText_HoldEffectGripClaw,
-    [HOLD_EFFECT_HEAT_ROCK] = sText_HoldEffectHeatRock,
-    [HOLD_EFFECT_ICY_ROCK] = sText_HoldEffectIcyRock,
-    [HOLD_EFFECT_LIGHT_CLAY] = sText_HoldEffectLightClay,
-    [HOLD_EFFECT_SMOOTH_ROCK] = sText_HoldEffectSmoothRock,
-    [HOLD_EFFECT_POWER_HERB] = sText_HoldEffectPowerHerb,
-    [HOLD_EFFECT_BIG_ROOT] = sText_HoldEffectBigRoot,
-    [HOLD_EFFECT_EXPERT_BELT] = sText_HoldEffectExpertBelt,
-    [HOLD_EFFECT_LIFE_ORB] = sText_HoldEffectLifeOrb,
-    [HOLD_EFFECT_METRONOME] = sText_HoldEffectMetronome,
-    [HOLD_EFFECT_MUSCLE_BAND] = sText_HoldEffectMuscleBand,
-    [HOLD_EFFECT_WIDE_LENS] = sText_HoldEffectWideLens,
-    [HOLD_EFFECT_WISE_GLASSES] = sText_HoldEffectWiseGlasses,
-    [HOLD_EFFECT_ZOOM_LENS] = sText_HoldEffectZoomLens,
-    [HOLD_EFFECT_LAGGING_TAIL] = sText_HoldEffectLaggingTail,
-    [HOLD_EFFECT_FOCUS_SASH] = sText_HoldEffectFocusSash,
-    [HOLD_EFFECT_FLAME_ORB] = sText_HoldEffectFlameOrb,
-    [HOLD_EFFECT_TOXIC_ORB] = sText_HoldEffectToxicOrb,
-    [HOLD_EFFECT_STICKY_BARB] = sText_HoldEffectStickyBarb,
-    [HOLD_EFFECT_IRON_BALL] = sText_HoldEffectIronBall,
-    [HOLD_EFFECT_BLACK_SLUDGE] = sText_HoldEffectBlackSludge,
-    [HOLD_EFFECT_DESTINY_KNOT] = sText_HoldEffectDestinyKnot,
-    [HOLD_EFFECT_SHED_SHELL] = sText_HoldEffectShedShell,
-    [HOLD_EFFECT_QUICK_POWDER] = sText_HoldEffectQuickPowder,
-    [HOLD_EFFECT_ADAMANT_ORB] = sText_HoldEffectAdamantOrb,
-    [HOLD_EFFECT_LUSTROUS_ORB] = sText_HoldEffectLustrousOrb,
-    [HOLD_EFFECT_GRISEOUS_ORB] = sText_HoldEffectGriseousOrb,
-    [HOLD_EFFECT_ENIGMA_BERRY] = sText_HoldEffectEnigmaBerry,
-    [HOLD_EFFECT_RESIST_BERRY] = sText_HoldEffectResistBerry,
-    [HOLD_EFFECT_POWER_ITEM] = sText_HoldEffectPowerItem,
-    [HOLD_EFFECT_RESTORE_PCT_HP] = sText_HoldEffectRestorePctHp,
-    [HOLD_EFFECT_MICLE_BERRY] = sText_HoldEffectMicleBerry,
-    [HOLD_EFFECT_CUSTAP_BERRY] = sText_HoldEffectCustapBerry,
-    [HOLD_EFFECT_JABOCA_BERRY] = sText_HoldEffectJabocaBerry,
-    [HOLD_EFFECT_ROWAP_BERRY] = sText_HoldEffectRowapBerry,
-    [HOLD_EFFECT_KEE_BERRY] = sText_HoldEffectKeeBerry,
-    [HOLD_EFFECT_MARANGA_BERRY] = sText_HoldEffectMarangaBerry,
-    [HOLD_EFFECT_PLATE] = sText_HoldEffectPlate,
-    [HOLD_EFFECT_FLOAT_STONE] = sText_HoldEffectFloatStone,
-    [HOLD_EFFECT_EVIOLITE] = sText_HoldEffectEviolite,
-    [HOLD_EFFECT_ASSAULT_VEST] = sText_HoldEffectAssaultVest,
-    [HOLD_EFFECT_DRIVE] = sText_HoldEffectDrive,
-    [HOLD_EFFECT_GEMS] = sText_HoldEffectGems,
-    [HOLD_EFFECT_ROCKY_HELMET] = sText_HoldEffectRockyHelmet,
-    [HOLD_EFFECT_AIR_BALLOON] = sText_HoldEffectAirBalloon,
-    [HOLD_EFFECT_RED_CARD] = sText_HoldEffectRedCard,
-    [HOLD_EFFECT_RING_TARGET] = sText_HoldEffectRingTarget,
-    [HOLD_EFFECT_BINDING_BAND] = sText_HoldEffectBindingBand,
-    [HOLD_EFFECT_EJECT_BUTTON] = sText_HoldEffectEjectButton,
-    [HOLD_EFFECT_ABSORB_BULB] = sText_HoldEffectAbsorbBulb,
-    [HOLD_EFFECT_CELL_BATTERY] = sText_HoldEffectCellBattery,
-    [HOLD_EFFECT_FAIRY_POWER] = sText_HoldEffectFairyPower,
-    [HOLD_EFFECT_MEGA_STONE] = sText_HoldEffectMegaStone,
-    [HOLD_EFFECT_SAFETY_GOGGLES] = sText_HoldEffectSafetyGoggles,
-    [HOLD_EFFECT_LUMINOUS_MOSS] = sText_HoldEffectLuminousMoss,
-    [HOLD_EFFECT_SNOWBALL] = sText_HoldEffectSnowball,
-    [HOLD_EFFECT_WEAKNESS_POLICY] = sText_HoldEffectWeaknessPolicy,
-    [HOLD_EFFECT_PRIMAL_ORB] = sText_HoldEffectPrimalOrb,
-    [HOLD_EFFECT_PROTECTIVE_PADS] = sText_HoldEffectProtectivePads,
-    [HOLD_EFFECT_TERRAIN_EXTENDER] = sText_HoldEffectTerrainExtender,
-    [HOLD_EFFECT_SEEDS] = sText_HoldEffectSeeds,
-    [HOLD_EFFECT_ADRENALINE_ORB] = sText_HoldEffectAdrenalineOrb,
-    [HOLD_EFFECT_MEMORY] = sText_HoldEffectMemory,
-    [HOLD_EFFECT_Z_CRYSTAL] = sText_HoldEffectZCrystal,
-    [HOLD_EFFECT_UTILITY_UMBRELLA] = sText_HoldEffectUtilityUmbrella,
-    [HOLD_EFFECT_EJECT_PACK] = sText_HoldEffectEjectPack,
-    [HOLD_EFFECT_ROOM_SERVICE] = sText_HoldEffectRoomService,
-    [HOLD_EFFECT_BLUNDER_POLICY] = sText_HoldEffectBlunderPolicy,
-    [HOLD_EFFECT_HEAVY_DUTY_BOOTS] = sText_HoldEffectHeavyDutyBoots,
-    [HOLD_EFFECT_THROAT_SPRAY] = sText_HoldEffectThroatSpray,
-    [HOLD_EFFECT_ABILITY_SHIELD] = sText_HoldEffectAbilityShield,
-    [HOLD_EFFECT_CLEAR_AMULET] = sText_HoldEffectClearAmulet,
-    [HOLD_EFFECT_MIRROR_HERB] = sText_HoldEffectMirrorHerb,
-    [HOLD_EFFECT_PUNCHING_GLOVE] = sText_HoldEffectPunchingGlove,
-    [HOLD_EFFECT_COVERT_CLOAK] = sText_HoldEffectCovertCloak,
-    [HOLD_EFFECT_LOADED_DICE] = sText_HoldEffectLoadedDice,
-    [HOLD_EFFECT_BOOSTER_ENERGY] = sText_HoldEffectBoosterEnergy,
-    [HOLD_EFFECT_BERSERK_GENE] = sText_HoldEffectBerserkGene,
-    [HOLD_EFFECT_OGERPON_MASK] = sText_HoldEffectOgerponMask,
+    {
+        [HOLD_EFFECT_NONE] = sText_HoldEffectNone,
+        [HOLD_EFFECT_RESTORE_HP] = sText_HoldEffectRestoreHp,
+        [HOLD_EFFECT_CURE_PAR] = sText_HoldEffectCurePar,
+        [HOLD_EFFECT_CURE_SLP] = sText_HoldEffectCureSlp,
+        [HOLD_EFFECT_CURE_PSN] = sText_HoldEffectCurePsn,
+        [HOLD_EFFECT_CURE_BRN] = sText_HoldEffectCureBrn,
+        [HOLD_EFFECT_CURE_FRZ] = sText_HoldEffectCureFrz,
+        [HOLD_EFFECT_RESTORE_PP] = sText_HoldEffectRestorePp,
+        [HOLD_EFFECT_CURE_CONFUSION] = sText_HoldEffectCureConfusion,
+        [HOLD_EFFECT_CURE_STATUS] = sText_HoldEffectCureStatus,
+        [HOLD_EFFECT_CONFUSE_SPICY] = sText_HoldEffectConfuseSpicy,
+        [HOLD_EFFECT_CONFUSE_DRY] = sText_HoldEffectConfuseDry,
+        [HOLD_EFFECT_CONFUSE_SWEET] = sText_HoldEffectConfuseSweet,
+        [HOLD_EFFECT_CONFUSE_BITTER] = sText_HoldEffectConfuseBitter,
+        [HOLD_EFFECT_CONFUSE_SOUR] = sText_HoldEffectConfuseSour,
+        [HOLD_EFFECT_ATTACK_UP] = sText_HoldEffectAttackUp,
+        [HOLD_EFFECT_DEFENSE_UP] = sText_HoldEffectDefenseUp,
+        [HOLD_EFFECT_SPEED_UP] = sText_HoldEffectSpeedUp,
+        [HOLD_EFFECT_SP_ATTACK_UP] = sText_HoldEffectSpAttackUp,
+        [HOLD_EFFECT_SP_DEFENSE_UP] = sText_HoldEffectSpDefenseUp,
+        [HOLD_EFFECT_CRITICAL_UP] = sText_HoldEffectCriticalUp,
+        [HOLD_EFFECT_RANDOM_STAT_UP] = sText_HoldEffectRandomStatUp,
+        [HOLD_EFFECT_EVASION_UP] = sText_HoldEffectEvasionUp,
+        [HOLD_EFFECT_RESTORE_STATS] = sText_HoldEffectRestoreStats,
+        [HOLD_EFFECT_MACHO_BRACE] = sText_HoldEffectMachoBrace,
+        [HOLD_EFFECT_EXP_SHARE] = sText_HoldEffectExpShare,
+        [HOLD_EFFECT_QUICK_CLAW] = sText_HoldEffectQuickClaw,
+        [HOLD_EFFECT_FRIENDSHIP_UP] = sText_HoldEffectFriendshipUp,
+        [HOLD_EFFECT_MENTAL_HERB] = sText_HoldEffectMentalHerb,
+        [HOLD_EFFECT_CHOICE_BAND] = sText_HoldEffectChoiceBand,
+        [HOLD_EFFECT_FLINCH] = sText_HoldEffectFlinch,
+        [HOLD_EFFECT_BUG_POWER] = sText_HoldEffectBugPower,
+        [HOLD_EFFECT_DOUBLE_PRIZE] = sText_HoldEffectDoublePrize,
+        [HOLD_EFFECT_REPEL] = sText_HoldEffectRepel,
+        [HOLD_EFFECT_SOUL_DEW] = sText_HoldEffectSoulDew,
+        [HOLD_EFFECT_DEEP_SEA_TOOTH] = sText_HoldEffectDeepSeaTooth,
+        [HOLD_EFFECT_DEEP_SEA_SCALE] = sText_HoldEffectDeepSeaScale,
+        [HOLD_EFFECT_CAN_ALWAYS_RUN] = sText_HoldEffectCanAlwaysRun,
+        [HOLD_EFFECT_PREVENT_EVOLVE] = sText_HoldEffectPreventEvolve,
+        [HOLD_EFFECT_FOCUS_BAND] = sText_HoldEffectFocusBand,
+        [HOLD_EFFECT_LUCKY_EGG] = sText_HoldEffectLuckyEgg,
+        [HOLD_EFFECT_SCOPE_LENS] = sText_HoldEffectScopeLens,
+        [HOLD_EFFECT_STEEL_POWER] = sText_HoldEffectSteelPower,
+        [HOLD_EFFECT_LEFTOVERS] = sText_HoldEffectLeftovers,
+        [HOLD_EFFECT_DRAGON_SCALE] = sText_HoldEffectDragonScale,
+        [HOLD_EFFECT_LIGHT_BALL] = sText_HoldEffectLightBall,
+        [HOLD_EFFECT_GROUND_POWER] = sText_HoldEffectGroundPower,
+        [HOLD_EFFECT_ROCK_POWER] = sText_HoldEffectRockPower,
+        [HOLD_EFFECT_GRASS_POWER] = sText_HoldEffectGrassPower,
+        [HOLD_EFFECT_DARK_POWER] = sText_HoldEffectDarkPower,
+        [HOLD_EFFECT_FIGHTING_POWER] = sText_HoldEffectFightingPower,
+        [HOLD_EFFECT_ELECTRIC_POWER] = sText_HoldEffectElectricPower,
+        [HOLD_EFFECT_WATER_POWER] = sText_HoldEffectWaterPower,
+        [HOLD_EFFECT_FLYING_POWER] = sText_HoldEffectFlyingPower,
+        [HOLD_EFFECT_POISON_POWER] = sText_HoldEffectPoisonPower,
+        [HOLD_EFFECT_ICE_POWER] = sText_HoldEffectIcePower,
+        [HOLD_EFFECT_GHOST_POWER] = sText_HoldEffectGhostPower,
+        [HOLD_EFFECT_PSYCHIC_POWER] = sText_HoldEffectPsychicPower,
+        [HOLD_EFFECT_FIRE_POWER] = sText_HoldEffectFirePower,
+        [HOLD_EFFECT_DRAGON_POWER] = sText_HoldEffectDragonPower,
+        [HOLD_EFFECT_NORMAL_POWER] = sText_HoldEffectNormalPower,
+        [HOLD_EFFECT_UPGRADE] = sText_HoldEffectUpgrade,
+        [HOLD_EFFECT_SHELL_BELL] = sText_HoldEffectShellBell,
+        [HOLD_EFFECT_LUCKY_PUNCH] = sText_HoldEffectLuckyPunch,
+        [HOLD_EFFECT_METAL_POWDER] = sText_HoldEffectMetalPowder,
+        [HOLD_EFFECT_THICK_CLUB] = sText_HoldEffectThickClub,
+        [HOLD_EFFECT_LEEK] = sText_HoldEffectLeek,
+        [HOLD_EFFECT_CHOICE_SCARF] = sText_HoldEffectChoiceScarf,
+        [HOLD_EFFECT_CHOICE_SPECS] = sText_HoldEffectChoiceSpecs,
+        [HOLD_EFFECT_DAMP_ROCK] = sText_HoldEffectDampRock,
+        [HOLD_EFFECT_GRIP_CLAW] = sText_HoldEffectGripClaw,
+        [HOLD_EFFECT_HEAT_ROCK] = sText_HoldEffectHeatRock,
+        [HOLD_EFFECT_ICY_ROCK] = sText_HoldEffectIcyRock,
+        [HOLD_EFFECT_LIGHT_CLAY] = sText_HoldEffectLightClay,
+        [HOLD_EFFECT_SMOOTH_ROCK] = sText_HoldEffectSmoothRock,
+        [HOLD_EFFECT_POWER_HERB] = sText_HoldEffectPowerHerb,
+        [HOLD_EFFECT_BIG_ROOT] = sText_HoldEffectBigRoot,
+        [HOLD_EFFECT_EXPERT_BELT] = sText_HoldEffectExpertBelt,
+        [HOLD_EFFECT_LIFE_ORB] = sText_HoldEffectLifeOrb,
+        [HOLD_EFFECT_METRONOME] = sText_HoldEffectMetronome,
+        [HOLD_EFFECT_MUSCLE_BAND] = sText_HoldEffectMuscleBand,
+        [HOLD_EFFECT_WIDE_LENS] = sText_HoldEffectWideLens,
+        [HOLD_EFFECT_WISE_GLASSES] = sText_HoldEffectWiseGlasses,
+        [HOLD_EFFECT_ZOOM_LENS] = sText_HoldEffectZoomLens,
+        [HOLD_EFFECT_LAGGING_TAIL] = sText_HoldEffectLaggingTail,
+        [HOLD_EFFECT_FOCUS_SASH] = sText_HoldEffectFocusSash,
+        [HOLD_EFFECT_FLAME_ORB] = sText_HoldEffectFlameOrb,
+        [HOLD_EFFECT_TOXIC_ORB] = sText_HoldEffectToxicOrb,
+        [HOLD_EFFECT_STICKY_BARB] = sText_HoldEffectStickyBarb,
+        [HOLD_EFFECT_IRON_BALL] = sText_HoldEffectIronBall,
+        [HOLD_EFFECT_BLACK_SLUDGE] = sText_HoldEffectBlackSludge,
+        [HOLD_EFFECT_DESTINY_KNOT] = sText_HoldEffectDestinyKnot,
+        [HOLD_EFFECT_SHED_SHELL] = sText_HoldEffectShedShell,
+        [HOLD_EFFECT_QUICK_POWDER] = sText_HoldEffectQuickPowder,
+        [HOLD_EFFECT_ADAMANT_ORB] = sText_HoldEffectAdamantOrb,
+        [HOLD_EFFECT_LUSTROUS_ORB] = sText_HoldEffectLustrousOrb,
+        [HOLD_EFFECT_GRISEOUS_ORB] = sText_HoldEffectGriseousOrb,
+        [HOLD_EFFECT_ENIGMA_BERRY] = sText_HoldEffectEnigmaBerry,
+        [HOLD_EFFECT_RESIST_BERRY] = sText_HoldEffectResistBerry,
+        [HOLD_EFFECT_POWER_ITEM] = sText_HoldEffectPowerItem,
+        [HOLD_EFFECT_RESTORE_PCT_HP] = sText_HoldEffectRestorePctHp,
+        [HOLD_EFFECT_MICLE_BERRY] = sText_HoldEffectMicleBerry,
+        [HOLD_EFFECT_CUSTAP_BERRY] = sText_HoldEffectCustapBerry,
+        [HOLD_EFFECT_JABOCA_BERRY] = sText_HoldEffectJabocaBerry,
+        [HOLD_EFFECT_ROWAP_BERRY] = sText_HoldEffectRowapBerry,
+        [HOLD_EFFECT_KEE_BERRY] = sText_HoldEffectKeeBerry,
+        [HOLD_EFFECT_MARANGA_BERRY] = sText_HoldEffectMarangaBerry,
+        [HOLD_EFFECT_PLATE] = sText_HoldEffectPlate,
+        [HOLD_EFFECT_FLOAT_STONE] = sText_HoldEffectFloatStone,
+        [HOLD_EFFECT_EVIOLITE] = sText_HoldEffectEviolite,
+        [HOLD_EFFECT_ASSAULT_VEST] = sText_HoldEffectAssaultVest,
+        [HOLD_EFFECT_DRIVE] = sText_HoldEffectDrive,
+        [HOLD_EFFECT_GEMS] = sText_HoldEffectGems,
+        [HOLD_EFFECT_ROCKY_HELMET] = sText_HoldEffectRockyHelmet,
+        [HOLD_EFFECT_AIR_BALLOON] = sText_HoldEffectAirBalloon,
+        [HOLD_EFFECT_RED_CARD] = sText_HoldEffectRedCard,
+        [HOLD_EFFECT_RING_TARGET] = sText_HoldEffectRingTarget,
+        [HOLD_EFFECT_BINDING_BAND] = sText_HoldEffectBindingBand,
+        [HOLD_EFFECT_EJECT_BUTTON] = sText_HoldEffectEjectButton,
+        [HOLD_EFFECT_ABSORB_BULB] = sText_HoldEffectAbsorbBulb,
+        [HOLD_EFFECT_CELL_BATTERY] = sText_HoldEffectCellBattery,
+        [HOLD_EFFECT_FAIRY_POWER] = sText_HoldEffectFairyPower,
+        [HOLD_EFFECT_MEGA_STONE] = sText_HoldEffectMegaStone,
+        [HOLD_EFFECT_SAFETY_GOGGLES] = sText_HoldEffectSafetyGoggles,
+        [HOLD_EFFECT_LUMINOUS_MOSS] = sText_HoldEffectLuminousMoss,
+        [HOLD_EFFECT_SNOWBALL] = sText_HoldEffectSnowball,
+        [HOLD_EFFECT_WEAKNESS_POLICY] = sText_HoldEffectWeaknessPolicy,
+        [HOLD_EFFECT_PRIMAL_ORB] = sText_HoldEffectPrimalOrb,
+        [HOLD_EFFECT_PROTECTIVE_PADS] = sText_HoldEffectProtectivePads,
+        [HOLD_EFFECT_TERRAIN_EXTENDER] = sText_HoldEffectTerrainExtender,
+        [HOLD_EFFECT_SEEDS] = sText_HoldEffectSeeds,
+        [HOLD_EFFECT_ADRENALINE_ORB] = sText_HoldEffectAdrenalineOrb,
+        [HOLD_EFFECT_MEMORY] = sText_HoldEffectMemory,
+        [HOLD_EFFECT_Z_CRYSTAL] = sText_HoldEffectZCrystal,
+        [HOLD_EFFECT_UTILITY_UMBRELLA] = sText_HoldEffectUtilityUmbrella,
+        [HOLD_EFFECT_EJECT_PACK] = sText_HoldEffectEjectPack,
+        [HOLD_EFFECT_ROOM_SERVICE] = sText_HoldEffectRoomService,
+        [HOLD_EFFECT_BLUNDER_POLICY] = sText_HoldEffectBlunderPolicy,
+        [HOLD_EFFECT_HEAVY_DUTY_BOOTS] = sText_HoldEffectHeavyDutyBoots,
+        [HOLD_EFFECT_THROAT_SPRAY] = sText_HoldEffectThroatSpray,
+        [HOLD_EFFECT_ABILITY_SHIELD] = sText_HoldEffectAbilityShield,
+        [HOLD_EFFECT_CLEAR_AMULET] = sText_HoldEffectClearAmulet,
+        [HOLD_EFFECT_MIRROR_HERB] = sText_HoldEffectMirrorHerb,
+        [HOLD_EFFECT_PUNCHING_GLOVE] = sText_HoldEffectPunchingGlove,
+        [HOLD_EFFECT_COVERT_CLOAK] = sText_HoldEffectCovertCloak,
+        [HOLD_EFFECT_LOADED_DICE] = sText_HoldEffectLoadedDice,
+        [HOLD_EFFECT_BOOSTER_ENERGY] = sText_HoldEffectBoosterEnergy,
+        [HOLD_EFFECT_BERSERK_GENE] = sText_HoldEffectBerserkGene,
+        [HOLD_EFFECT_OGERPON_MASK] = sText_HoldEffectOgerponMask,
 };
 static const u8 *GetHoldEffectName(u16 holdEffect)
 {
