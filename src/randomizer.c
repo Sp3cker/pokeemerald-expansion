@@ -13,78 +13,76 @@
 #include "data/randomizer/special_form_tables.h"
 #include "data/randomizer/ability_whitelist.h"
 
-
 const u16 gStarterAndGiftMonTable[MY_STARTER_AND_GIFT_MON_COUNT] =
-{
-    SPECIES_SQUIRTLE, //0
-    SPECIES_BULBASAUR,
-    SPECIES_CHARMANDER,
-    SPECIES_TOTODILE,
-    SPECIES_CHIKORITA,
-    SPECIES_CYNDAQUIL,
-    SPECIES_MUDKIP,
-    SPECIES_TREECKO,
-    SPECIES_TORCHIC, //8
-    SPECIES_PIPLUP,
-    SPECIES_TURTWIG,
-    SPECIES_CHIMCHAR,
-    SPECIES_OSHAWOTT,
-    SPECIES_SNIVY,
-    SPECIES_TEPIG,
-    SPECIES_FROAKIE,
-    SPECIES_CHESPIN, // 16
-    SPECIES_FENNEKIN,
-    SPECIES_POPPLIO,
-    SPECIES_ROWLET,
-    SPECIES_LITTEN,
-    SPECIES_SOBBLE,
-    SPECIES_GROOKEY,
-    SPECIES_SCORBUNNY,
-    SPECIES_QUAXLY,    // 24
-    SPECIES_SPRIGATITO,
-    SPECIES_FUECOCO,
-    SPECIES_KUBFU,
-    SPECIES_ZERAORA,  // gift mythical
-    SPECIES_CHARCADET,
-    SPECIES_TYROGUE,
-    SPECIES_LILEEP, 
-    SPECIES_ANORITH, //32
-    SPECIES_MELTAN, // gift from steven post game
-    SPECIES_CELEBI, // gift mythical
-    SPECIES_DARKRAI, //36, gift mythical
-    SPECIES_PIKACHU_COSPLAY,
-    SPECIES_PIKACHU_ROCK_STAR,
-    SPECIES_PIKACHU_BELLE,
-    SPECIES_PIKACHU_POP_STAR,
-    SPECIES_PIKACHU_PHD, //40
-    SPECIES_PIKACHU_LIBRE,
-    SPECIES_VICTINI, // gift mythical
-    SPECIES_HOOPA_CONFINED, // gift mythical
-    SPECIES_DITTO,
-    SPECIES_GENESECT, // gift mythical
-    SPECIES_MELOETTA_ARIA, // gift mythical
-    SPECIES_JIRACHI,       // gift mythical
-    SPECIES_ZARUDE, // 48, gift mythical
-    SPECIES_MARSHADOW, // gift mythical
-    SPECIES_TOGEPI,
-    SPECIES_RIOLU,
-    SPECIES_PIKACHU_SURFING,
-    SPECIES_PIKACHU_FLYING,
-    SPECIES_PANSAGE,
-    SPECIES_PANPOUR,
-    SPECIES_PANSEAR, //56
-    SPECIES_SCYTHER,
-    SPECIES_HERACROSS,
-    SPECIES_PINSIR,
-    SPECIES_MISDREAVUS,
-    SPECIES_ELEKID,
-    SPECIES_MAGBY,
-    SPECIES_SMOOCHUM,
-    SPECIES_EEVEE, // 64
-    SPECIES_TYPE_NULL,
-    SPECIES_VOLCANION,
-    SPECIES_AERODACTYL
-};
+    {
+        SPECIES_SQUIRTLE, // 0
+        SPECIES_BULBASAUR,
+        SPECIES_CHARMANDER,
+        SPECIES_TOTODILE,
+        SPECIES_CHIKORITA,
+        SPECIES_CYNDAQUIL,
+        SPECIES_MUDKIP,
+        SPECIES_TREECKO,
+        SPECIES_TORCHIC, // 8
+        SPECIES_PIPLUP,
+        SPECIES_TURTWIG,
+        SPECIES_CHIMCHAR,
+        SPECIES_OSHAWOTT,
+        SPECIES_SNIVY,
+        SPECIES_TEPIG,
+        SPECIES_FROAKIE,
+        SPECIES_CHESPIN, // 16
+        SPECIES_FENNEKIN,
+        SPECIES_POPPLIO,
+        SPECIES_ROWLET,
+        SPECIES_LITTEN,
+        SPECIES_SOBBLE,
+        SPECIES_GROOKEY,
+        SPECIES_SCORBUNNY,
+        SPECIES_QUAXLY, // 24
+        SPECIES_SPRIGATITO,
+        SPECIES_FUECOCO,
+        SPECIES_KUBFU,
+        SPECIES_ZERAORA, // gift mythical
+        SPECIES_CHARCADET,
+        SPECIES_TYROGUE,
+        SPECIES_LILEEP,
+        SPECIES_ANORITH, // 32
+        SPECIES_MELTAN,  // gift from steven post game
+        SPECIES_CELEBI,  // gift mythical
+        SPECIES_DARKRAI, // 36, gift mythical
+        SPECIES_PIKACHU_COSPLAY,
+        SPECIES_PIKACHU_ROCK_STAR,
+        SPECIES_PIKACHU_BELLE,
+        SPECIES_PIKACHU_POP_STAR,
+        SPECIES_PIKACHU_PHD, // 40
+        SPECIES_PIKACHU_LIBRE,
+        SPECIES_VICTINI,        // gift mythical
+        SPECIES_HOOPA_CONFINED, // gift mythical
+        SPECIES_DITTO,
+        SPECIES_GENESECT,      // gift mythical
+        SPECIES_MELOETTA_ARIA, // gift mythical
+        SPECIES_JIRACHI,       // gift mythical
+        SPECIES_ZARUDE,        // 48, gift mythical
+        SPECIES_MARSHADOW,     // gift mythical
+        SPECIES_TOGEPI,
+        SPECIES_RIOLU,
+        SPECIES_PIKACHU_SURFING,
+        SPECIES_PIKACHU_FLYING,
+        SPECIES_PANSAGE,
+        SPECIES_PANPOUR,
+        SPECIES_PANSEAR, // 56
+        SPECIES_SCYTHER,
+        SPECIES_HERACROSS,
+        SPECIES_PINSIR,
+        SPECIES_MISDREAVUS,
+        SPECIES_ELEKID,
+        SPECIES_MAGBY,
+        SPECIES_SMOOCHUM,
+        SPECIES_EEVEE, // 64
+        SPECIES_TYPE_NULL,
+        SPECIES_VOLCANION,
+        SPECIES_AERODACTYL};
 
 // mew post game
 // celebi gift
@@ -109,138 +107,138 @@ const u16 gStarterAndGiftMonTable[MY_STARTER_AND_GIFT_MON_COUNT] =
 // pecharunt wild: mt pyre
 
 const u16 gEggMonTable[MY_EGG_MON_COUNT] =
-{
-    SPECIES_SQUIRTLE, //0
-    SPECIES_BULBASAUR,
-    SPECIES_CHARMANDER,
-    SPECIES_TOTODILE,
-    SPECIES_CHIKORITA,
-    SPECIES_CYNDAQUIL,
-    SPECIES_MUDKIP,
-    SPECIES_TREECKO,
-    SPECIES_TORCHIC,
-    SPECIES_PIPLUP,
-    SPECIES_TURTWIG,
-    SPECIES_CHIMCHAR,
-    SPECIES_OSHAWOTT,
-    SPECIES_SNIVY,
-    SPECIES_TEPIG,
-    SPECIES_FROAKIE,
-    SPECIES_CHESPIN,
-    SPECIES_FENNEKIN,
-    SPECIES_POPPLIO,
-    SPECIES_ROWLET,
-    SPECIES_LITTEN,
-    SPECIES_SOBBLE,
-    SPECIES_GROOKEY,
-    SPECIES_SCORBUNNY,
-    SPECIES_QUAXLY,    
-    SPECIES_SPRIGATITO, //25
-    SPECIES_FUECOCO,
-    SPECIES_SENTRET,
-    SPECIES_JIGGLYPUFF,
-    SPECIES_KRICKETOT,
-    SPECIES_CUBONE, //30
-    SPECIES_PANCHAM,
-    SPECIES_YAMPER,
-    SPECIES_ROCKRUFF,
-    SPECIES_SNORUNT,
-    SPECIES_SPOINK,
-    SPECIES_VAROOM,
-    SPECIES_DRATINI,
-    SPECIES_LARVITAR,
-    SPECIES_BAGON,
-    SPECIES_BELDUM, //40
-    SPECIES_GIBLE,
-    SPECIES_DEINO,
-    SPECIES_GOOMY,
-    SPECIES_JANGMO_O,
-    SPECIES_DREEPY,
-    SPECIES_FRIGIBAX, //46
-    SPECIES_TAUROS,
-    SPECIES_DELIBIRD,
-    SPECIES_TROPIUS,
-    SPECIES_SPIRITOMB,
-    SPECIES_HEATMOR,
-    SPECIES_DEDENNE,
-    SPECIES_BRUXISH,
-    SPECIES_FALINKS,
-    SPECIES_KLAWF // 55
+    {
+        SPECIES_SQUIRTLE, // 0
+        SPECIES_BULBASAUR,
+        SPECIES_CHARMANDER,
+        SPECIES_TOTODILE,
+        SPECIES_CHIKORITA,
+        SPECIES_CYNDAQUIL,
+        SPECIES_MUDKIP,
+        SPECIES_TREECKO,
+        SPECIES_TORCHIC,
+        SPECIES_PIPLUP,
+        SPECIES_TURTWIG,
+        SPECIES_CHIMCHAR,
+        SPECIES_OSHAWOTT,
+        SPECIES_SNIVY,
+        SPECIES_TEPIG,
+        SPECIES_FROAKIE,
+        SPECIES_CHESPIN,
+        SPECIES_FENNEKIN,
+        SPECIES_POPPLIO,
+        SPECIES_ROWLET,
+        SPECIES_LITTEN,
+        SPECIES_SOBBLE,
+        SPECIES_GROOKEY,
+        SPECIES_SCORBUNNY,
+        SPECIES_QUAXLY,
+        SPECIES_SPRIGATITO, // 25
+        SPECIES_FUECOCO,
+        SPECIES_SENTRET,
+        SPECIES_JIGGLYPUFF,
+        SPECIES_KRICKETOT,
+        SPECIES_CUBONE, // 30
+        SPECIES_PANCHAM,
+        SPECIES_YAMPER,
+        SPECIES_ROCKRUFF,
+        SPECIES_SNORUNT,
+        SPECIES_SPOINK,
+        SPECIES_VAROOM,
+        SPECIES_DRATINI,
+        SPECIES_LARVITAR,
+        SPECIES_BAGON,
+        SPECIES_BELDUM, // 40
+        SPECIES_GIBLE,
+        SPECIES_DEINO,
+        SPECIES_GOOMY,
+        SPECIES_JANGMO_O,
+        SPECIES_DREEPY,
+        SPECIES_FRIGIBAX, // 46
+        SPECIES_TAUROS,
+        SPECIES_DELIBIRD,
+        SPECIES_TROPIUS,
+        SPECIES_SPIRITOMB,
+        SPECIES_HEATMOR,
+        SPECIES_DEDENNE,
+        SPECIES_BRUXISH,
+        SPECIES_FALINKS,
+        SPECIES_KLAWF // 55
 };
 
 bool32 RandomizerFeatureEnabled(enum RandomizerFeature feature)
 {
-    switch(feature)
+    switch (feature)
     {
-        case RANDOMIZE_WILD_MON:
-            #ifdef FORCE_RANDOMIZE_WILD_MON
-                return FORCE_RANDOMIZE_WILD_MON;
-            #else
-                return FlagGet(RANDOMIZER_FLAG_WILD_MON);
-            #endif
-        case RANDOMIZE_FIELD_ITEMS:
-            #ifdef FORCE_RANDOMIZE_FIELD_ITEMS
-                return FORCE_RANDOMIZE_FIELD_ITEMS;
-            #else
-                return FlagGet(RANDOMIZER_FLAG_FIELD_ITEMS);
-            #endif
-        case RANDOMIZE_TRAINER_MON:
-            #ifdef FORCE_RANDOMIZE_TRAINER_MON
-                return FORCE_RANDOMIZE_TRAINER_MON;
-            #else
-                return FlagGet(RANDOMIZER_FLAG_TRAINER_MON);
-            #endif
-        case RANDOMIZE_FIXED_MON:
-            #ifdef FORCE_RANDOMIZE_FIXED_MON
-                return FORCE_RANDOMIZE_FIXED_MON;
-            #else
-                return FlagGet(RANDOMIZER_FLAG_FIXED_MON);
-            #endif
-        case RANDOMIZE_STARTERS_AND_GIFTS:
-            #ifdef FORCE_RANDOMIZE_STARTER_AND_GIFT_MON
-                return FORCE_RANDOMIZE_STARTER_AND_GIFT_MON;
-            #else
-                return FlagGet(RANDOMIZER_FLAG_STARTER_AND_GIFT_MON);
-            #endif
-        case RANDOMIZE_EGG_MON:
-            #ifdef FORCE_RANDOMIZE_EGG_MON
-                return FORCE_RANDOMIZE_EGG_MON;
-            #else
-                return FlagGet(RANDOMIZER_FLAG_EGG_MON);
-            #endif
-        case RANDOMIZE_ABILITIES:
-            #ifdef FORCE_RANDOMIZE_ABILITIES
-                return FORCE_RANDOMIZE_ABILITIES;
-            #else
-                return FlagGet(RANDOMIZER_FLAG_ABILITIES);
-            #endif
-        default:
-            return FALSE;
+    case RANDOMIZE_WILD_MON:
+#ifdef FORCE_RANDOMIZE_WILD_MON
+        return FORCE_RANDOMIZE_WILD_MON;
+#else
+        return FlagGet(RANDOMIZER_FLAG_WILD_MON);
+#endif
+    case RANDOMIZE_FIELD_ITEMS:
+#ifdef FORCE_RANDOMIZE_FIELD_ITEMS
+        return FORCE_RANDOMIZE_FIELD_ITEMS;
+#else
+        return FlagGet(RANDOMIZER_FLAG_FIELD_ITEMS);
+#endif
+    case RANDOMIZE_TRAINER_MON:
+#ifdef FORCE_RANDOMIZE_TRAINER_MON
+        return FORCE_RANDOMIZE_TRAINER_MON;
+#else
+        return FlagGet(RANDOMIZER_FLAG_TRAINER_MON);
+#endif
+    case RANDOMIZE_FIXED_MON:
+#ifdef FORCE_RANDOMIZE_FIXED_MON
+        return FORCE_RANDOMIZE_FIXED_MON;
+#else
+        return FlagGet(RANDOMIZER_FLAG_FIXED_MON);
+#endif
+    case RANDOMIZE_STARTERS_AND_GIFTS:
+#ifdef FORCE_RANDOMIZE_STARTER_AND_GIFT_MON
+        return FORCE_RANDOMIZE_STARTER_AND_GIFT_MON;
+#else
+        return FlagGet(RANDOMIZER_FLAG_STARTER_AND_GIFT_MON);
+#endif
+    case RANDOMIZE_EGG_MON:
+#ifdef FORCE_RANDOMIZE_EGG_MON
+        return FORCE_RANDOMIZE_EGG_MON;
+#else
+        return FlagGet(RANDOMIZER_FLAG_EGG_MON);
+#endif
+    case RANDOMIZE_ABILITIES:
+#ifdef FORCE_RANDOMIZE_ABILITIES
+        return FORCE_RANDOMIZE_ABILITIES;
+#else
+        return FlagGet(RANDOMIZER_FLAG_ABILITIES);
+#endif
+    default:
+        return FALSE;
     }
 }
 
 u32 GetRandomizerSeed(void)
 {
-    #if RANDOMIZER_SEED_IS_TRAINER_ID == TRUE
-        return GetTrainerId(gSaveBlock2Ptr->playerTrainerId);
-    #else
-        u32 result;
-        result = ((u32)VarGet(RANDOMIZER_VAR_SEED_H) << 16) | VarGet(RANDOMIZER_VAR_SEED_L);
-        return result;
-    #endif
+#if RANDOMIZER_SEED_IS_TRAINER_ID == TRUE
+    return GetTrainerId(gSaveBlock2Ptr->playerTrainerId);
+#else
+    u32 result;
+    result = ((u32)VarGet(RANDOMIZER_VAR_SEED_H) << 16) | VarGet(RANDOMIZER_VAR_SEED_L);
+    return result;
+#endif
 }
 
 // Sets the seed that will be used for the randomizer if doing so is possible.
 bool32 SetRandomizerSeed(u32 newSeed)
 {
-    #if RANDOMIZER_SEED_IS_TRAINER_ID == TRUE
-        // It isn't possible to set the randomizer seed in this case.
-        return FALSE;
-    #else
-        VarSet(RANDOMIZER_VAR_SEED_L, (u16)newSeed);
-        VarSet(RANDOMIZER_VAR_SEED_H, (u16)(newSeed >> 16));
-        return TRUE;
-    #endif
+#if RANDOMIZER_SEED_IS_TRAINER_ID == TRUE
+    // It isn't possible to set the randomizer seed in this case.
+    return FALSE;
+#else
+    VarSet(RANDOMIZER_VAR_SEED_L, (u16)newSeed);
+    VarSet(RANDOMIZER_VAR_SEED_H, (u16)(newSeed >> 16));
+    return TRUE;
+#endif
 }
 
 static bool32 IsSpeciesPermitted(u16 species)
@@ -261,22 +259,23 @@ u32 GenerateSeedForRandomizer(void)
 {
     u32 data;
     const u32 vblankCounter = gMain.vblankCounter1;
-    #if HQ_RANDOM == TRUE
-        data = Random32();
-    #else
-        data = gRngValue;
-        Random();
-    #endif
+#if HQ_RANDOM == TRUE
+    data = Random32();
+#else
+    data = gRngValue;
+    Random();
+#endif
     return data ^ vblankCounter;
 }
 
 u16 GetRandomizerOption(enum RandomizerOption option)
 {
-    switch(option) {
-        case RANDOMIZER_OPTION_SPECIES_MODE:
-            return VarGet(RANDOMIZER_VAR_SPECIES_MODE);
-        default: // Unknown option.
-            return 0;
+    switch (option)
+    {
+    case RANDOMIZER_OPTION_SPECIES_MODE:
+        return VarGet(RANDOMIZER_VAR_SPECIES_MODE);
+    default: // Unknown option.
+        return 0;
     }
 }
 
@@ -307,9 +306,8 @@ struct Sfc32State RandomizerRandSeed(enum RandomizerReason reason, u32 data1, u3
     return state;
 }
 
-
 // This uses a slightly accelerated bitmasking method.
-u32 RandomizerNextRange(struct Sfc32State* state, u32 range)
+u32 RandomizerNextRange(struct Sfc32State *state, u32 range)
 {
     u32 next_power_of_two, mask, result;
     if (range < 2)
@@ -399,12 +397,12 @@ u16 RandomizeFoundItem(u16 itemId, u8 mapNum, u8 mapGroup, u8 localId)
         return RandomizerNextRange(&state, RANDOMIZER_MAX_TM - ITEM_TM01 + 1) + ITEM_TM01;
 
     // Randomize everything else to everything else.
-    do {
+    do
+    {
         result = sRandomizerItemWhitelist[RandomizerNextRange(&state, ITEM_WHITELIST_SIZE)];
-    } while(!ShouldRandomizeItem(result) || IsItemTMHM(result));
+    } while (!ShouldRandomizeItem(result) || IsItemTMHM(result));
 
     return result;
-
 }
 
 // Takes a SpecialVar as an argument to simplify handling separate scripts.
@@ -437,9 +435,7 @@ void FindHiddenItemRandomize_NativeCall(struct ScriptContext *ctx)
 // Both legendary and mythical Pokémon are included in this category.
 static inline bool32 IsRandomizerLegendary(u16 species)
 {
-    return gSpeciesInfo[species].isLegendary
-        || gSpeciesInfo[species].isMythical
-        || gSpeciesInfo[species].isUltraBeast;
+    return gSpeciesInfo[species].isLegendary || gSpeciesInfo[species].isMythical || gSpeciesInfo[species].isUltraBeast;
 }
 
 struct SpeciesTable
@@ -451,9 +447,9 @@ struct SpeciesTable
     u16 groupIndexToSpecies[RANDOMIZER_SPECIES_COUNT];
 };
 
-#define GROUP_INVALID   0xFFFF
+#define GROUP_INVALID 0xFFFF
 
-static inline u16 GetSpeciesGroup(const struct SpeciesTable* table, u16 species)
+static inline u16 GetSpeciesGroup(const struct SpeciesTable *table, u16 species)
 {
     u16 groupEntry;
 
@@ -465,7 +461,6 @@ static inline u16 GetSpeciesGroup(const struct SpeciesTable* table, u16 species)
     // #endif
 
     return groupEntry;
-
 }
 
 static void GetGroupRange(u16 group, enum RandomizerSpeciesMode mode, u16 *resultMin, u16 *resultMax)
@@ -487,9 +482,10 @@ static void GetGroupRange(u16 group, enum RandomizerSpeciesMode mode, u16 *resul
         minScaled = (base - group * 100) / 1024;
         maxScaled = (base + group * 100) / 1024;
         *resultMin = (u16)max(minScaled, 0);
-        *resultMax =(u16)min(maxScaled, GROUP_INVALID-1);
+        *resultMax = (u16)min(maxScaled, GROUP_INVALID - 1);
     }
     // Species in the same category can randomize to each other.
+    // Every group is the same group., ie There are no groups.
     else
     {
         *resultMax = *resultMin = group;
@@ -500,11 +496,11 @@ static void GetGroupRange(u16 group, enum RandomizerSpeciesMode mode, u16 *resul
 static void GetIndicesFromGroupRange(const struct SpeciesTable *table, u16 minGroup, u16 maxGroup, u16 *start, u16 *end)
 {
     u16 index, leftBound, rightBound, maxRightBound;
-    maxRightBound = RANDOMIZER_SPECIES_COUNT-1;
+    maxRightBound = RANDOMIZER_SPECIES_COUNT - 1;
     maxGroup = min(0xFFFEu, maxGroup);
     minGroup = min(0xFFFEu, minGroup);
     leftBound = 0;
-    rightBound = RANDOMIZER_SPECIES_COUNT-1;
+    rightBound = RANDOMIZER_SPECIES_COUNT - 1;
     // Do leftmost binary search to find the lower limit.
     while (leftBound < rightBound)
     {
@@ -547,7 +543,7 @@ struct RamSpeciesTable
 
 EWRAM_DATA static struct RamSpeciesTable sRamSpeciesTable = {0};
 
-static void FillSpeciesGroupsRandom(struct SpeciesTable* entries)
+static void FillSpeciesGroupsRandom(struct SpeciesTable *entries)
 {
     u16 i;
     for (i = 0; i < RANDOMIZER_SPECIES_COUNT; i++)
@@ -560,10 +556,10 @@ static void FillSpeciesGroupsRandom(struct SpeciesTable* entries)
     }
 }
 
-static void FillSpeciesGroupsBST(struct SpeciesTable* entries)
+static void FillSpeciesGroupsBST(struct SpeciesTable *entries)
 {
     u16 i;
-    for(i = 0; i < RANDOMIZER_SPECIES_COUNT; i++)
+    for (i = 0; i < RANDOMIZER_SPECIES_COUNT; i++)
     {
         const struct SpeciesInfo *curSpeciesInfo;
         u16 group;
@@ -587,10 +583,10 @@ static void FillSpeciesGroupsBST(struct SpeciesTable* entries)
     }
 }
 
-static void FillSpeciesGroupsLegendary(struct SpeciesTable* entries)
+static void FillSpeciesGroupsLegendary(struct SpeciesTable *entries)
 {
     u16 i;
-    for(i = 0; i <= RANDOMIZER_SPECIES_COUNT; i++)
+    for (i = 0; i <= RANDOMIZER_SPECIES_COUNT; i++)
     {
         entries->groupIndexToSpecies[i] = i;
         if (!IsSpeciesPermitted(i))
@@ -604,23 +600,23 @@ static void FillSpeciesGroupsLegendary(struct SpeciesTable* entries)
 // to count as an evolved pokemon.
 // XXX: put this somewhere else?
 static const u16 sPreevolutionBabyMons[] =
-{
-    SPECIES_PICHU,
-    SPECIES_CLEFFA,
-    SPECIES_IGGLYBUFF,
-    SPECIES_TYROGUE,
-    SPECIES_SMOOCHUM,
-    SPECIES_ELEKID,
-    SPECIES_MAGBY,
-    SPECIES_AZURILL,
-    SPECIES_WYNAUT,
-    SPECIES_BUDEW,
-    SPECIES_CHINGLING,
-    SPECIES_BONSLY,
-    SPECIES_MIME_JR,
-    SPECIES_HAPPINY,
-    SPECIES_MUNCHLAX,
-    SPECIES_MANTYKE,
+    {
+        SPECIES_PICHU,
+        SPECIES_CLEFFA,
+        SPECIES_IGGLYBUFF,
+        SPECIES_TYROGUE,
+        SPECIES_SMOOCHUM,
+        SPECIES_ELEKID,
+        SPECIES_MAGBY,
+        SPECIES_AZURILL,
+        SPECIES_WYNAUT,
+        SPECIES_BUDEW,
+        SPECIES_CHINGLING,
+        SPECIES_BONSLY,
+        SPECIES_MIME_JR,
+        SPECIES_HAPPINY,
+        SPECIES_MUNCHLAX,
+        SPECIES_MANTYKE,
 };
 
 static void MarkEvolutions(struct SpeciesTable *entries, u16 species, u16 stage)
@@ -634,19 +630,19 @@ static void MarkEvolutions(struct SpeciesTable *entries, u16 species, u16 stage)
         u32 i;
         for (i = 0; evos[i].method != 0xFFFF; i++)
         {
-            if(entries->groupData[species-1] <= stage)
-                MarkEvolutions(entries, evos[i].targetSpecies, stage+1);
+            if (entries->groupData[species - 1] <= stage)
+                MarkEvolutions(entries, evos[i].targetSpecies, stage + 1);
         }
     }
     entries->groupIndexToSpecies[species] = species;
     entries->groupData[species] = stage;
 }
 
-static void FillSpeciesGroupsEvolution(struct SpeciesTable* entries)
+static void FillSpeciesGroupsEvolution(struct SpeciesTable *entries)
 {
     u16 i;
     static const u8 EVO_GROUP_LEGENDARY = 0x81;
-    static const u8 EVO_GROUP_NO_EVO = RANDOMIZER_MAX_EVO_STAGES+1;
+    static const u8 EVO_GROUP_NO_EVO = RANDOMIZER_MAX_EVO_STAGES + 1;
     // Step 0: zero everything
     memset(entries, 0, sizeof(sRamSpeciesTable.speciesTable));
     // Step 1: pre-visit the special babies, and mark them as basic mons.
@@ -654,13 +650,13 @@ static void FillSpeciesGroupsEvolution(struct SpeciesTable* entries)
     {
         u16 babyMonIndex = sPreevolutionBabyMons[i];
         entries->groupIndexToSpecies[babyMonIndex] = babyMonIndex;
-        if(IsSpeciesPermitted(babyMonIndex))
+        if (IsSpeciesPermitted(babyMonIndex))
             entries->groupData[babyMonIndex] = 0;
         else
             entries->groupData[babyMonIndex] = GROUP_INVALID;
     }
 
-    for(i = 0; i < RANDOMIZER_SPECIES_COUNT; i++)
+    for (i = 0; i < RANDOMIZER_SPECIES_COUNT; i++)
     {
         if (entries->groupIndexToSpecies[i] == 0)
         {
@@ -681,10 +677,10 @@ static void FillSpeciesGroupsEvolution(struct SpeciesTable* entries)
 
 static inline u16 LeftChildIndex(u16 index)
 {
-    return 2*index + 1;
+    return 2 * index + 1;
 }
 
-static inline void SwapSpeciesAndGroup(struct SpeciesTable* table, u16 indexA, u16 indexB)
+static inline void SwapSpeciesAndGroup(struct SpeciesTable *table, u16 indexA, u16 indexB)
 {
     u16 temp;
     SWAP(table->groupData[indexA], table->groupData[indexB], temp);
@@ -694,31 +690,31 @@ static inline void SwapSpeciesAndGroup(struct SpeciesTable* table, u16 indexA, u
 static void BuildRandomizerSpeciesTable(enum RandomizerSpeciesMode mode)
 {
     u16 i, start, end;
-    struct SpeciesTable* speciesTable;
+    struct SpeciesTable *speciesTable;
 
     sRamSpeciesTable.tableInitialized = TRUE;
     sRamSpeciesTable.mode = mode;
     speciesTable = &sRamSpeciesTable.speciesTable;
 
-    switch(mode)
+    switch (mode)
     {
-        case MON_RANDOM_LEGEND_AWARE:
-            FillSpeciesGroupsLegendary(speciesTable);
-            break;
-        case MON_RANDOM_BST:
-            FillSpeciesGroupsBST(speciesTable);
-            break;
-        case MON_EVOLUTION:
-            FillSpeciesGroupsEvolution(speciesTable);
-            break;
-        case MON_RANDOM:
-        default:
-            FillSpeciesGroupsRandom(speciesTable);
+    case MON_RANDOM_LEGEND_AWARE:
+        FillSpeciesGroupsLegendary(speciesTable);
+        break;
+    case MON_RANDOM_BST:
+        FillSpeciesGroupsBST(speciesTable);
+        break;
+    case MON_EVOLUTION:
+        FillSpeciesGroupsEvolution(speciesTable);
+        break;
+    case MON_RANDOM:
+    default:
+        FillSpeciesGroupsRandom(speciesTable);
     }
 
     // Heap sort the table.
-    start = RANDOMIZER_SPECIES_COUNT/2;
-    end = RANDOMIZER_SPECIES_COUNT-1;
+    start = RANDOMIZER_SPECIES_COUNT / 2;
+    end = RANDOMIZER_SPECIES_COUNT - 1;
 
     while (end > 1)
     {
@@ -731,13 +727,12 @@ static void BuildRandomizerSpeciesTable(enum RandomizerSpeciesMode mode)
             SwapSpeciesAndGroup(speciesTable, end, 0);
         }
         root = start;
-        while(LeftChildIndex(root) < end)
+        while (LeftChildIndex(root) < end)
         {
             u16 child;
             child = LeftChildIndex(root);
 
-            if (child+1 < end
-                && speciesTable->groupData[child] < speciesTable->groupData[child+1])
+            if (child + 1 < end && speciesTable->groupData[child] < speciesTable->groupData[child + 1])
             {
                 child = child + 1;
             }
@@ -752,7 +747,6 @@ static void BuildRandomizerSpeciesTable(enum RandomizerSpeciesMode mode)
         }
     }
 
-
     // Build the species index. This is needed for getting a group from a species.
     for (i = 0; i < RANDOMIZER_SPECIES_COUNT; i++)
     {
@@ -761,9 +755,9 @@ static void BuildRandomizerSpeciesTable(enum RandomizerSpeciesMode mode)
     }
 }
 
-static const struct SpeciesTable* GetSpeciesTable(enum RandomizerSpeciesMode mode)
+static const struct SpeciesTable *GetSpeciesTable(enum RandomizerSpeciesMode mode)
 {
-    if (!sRamSpeciesTable.tableInitialized || mode != sRamSpeciesTable.mode )
+    if (!sRamSpeciesTable.tableInitialized || mode != sRamSpeciesTable.mode)
         BuildRandomizerSpeciesTable(mode);
 
     return &sRamSpeciesTable.speciesTable;
@@ -776,7 +770,7 @@ void PreloadRandomizationTables(void)
 
 #endif
 
-static u16 RandomizeMonTableLookup(struct Sfc32State* state, enum RandomizerSpeciesMode mode, u16 species)
+static u16 RandomizeMonTableLookup(struct Sfc32State *state, enum RandomizerSpeciesMode mode, u16 species)
 {
     u16 minGroup, maxGroup, originalGroup, resultIndex;
     u16 minIndex, maxIndex;
@@ -787,9 +781,11 @@ static u16 RandomizeMonTableLookup(struct Sfc32State* state, enum RandomizerSpec
 
     if (originalGroup == GROUP_INVALID)
         return species;
-
+    // Which groups are valid in this mode
     GetGroupRange(originalGroup, mode, &minGroup, &maxGroup);
+    // Which species are in these groups?
     GetIndicesFromGroupRange(table, minGroup, maxGroup, &minIndex, &maxIndex);
+    // Deterministic if not for the slot number changing `state`!!
     resultIndex = RandomizerNextRange(state, maxIndex - minIndex + 1) + minIndex;
     return table->groupIndexToSpecies[resultIndex];
 }
@@ -803,14 +799,13 @@ static u16 RandomizeMonFromSeed(struct Sfc32State *state, enum RandomizerSpecies
         mode = MON_RANDOM;
 
     return RandomizeMonTableLookup(state, mode, species);
-
 }
 
 // Fills an array with count Pokémon, with no repeats.
 void GetUniqueMonList(enum RandomizerReason reason, enum RandomizerSpeciesMode mode, u32 seed1, u16 seed2, u8 count, const u16 *originalSpecies, u16 *resultSpecies)
 {
     u32 i, curMon;
-    u32 seenMonBitVector[(RANDOMIZER_SPECIES_COUNT-1)/32+1] = {};
+    u32 seenMonBitVector[(RANDOMIZER_SPECIES_COUNT - 1) / 32 + 1] = {};
     struct Sfc32State state = RandomizerRandSeed(reason, seed1, seed2);
 
     for (i = 0; i < count; i++)
@@ -886,39 +881,39 @@ static u16 GetFormFromRareFormInfo(struct Sfc32State *state, const struct Random
         return info->rareForm;
 }
 
-#define RANDOM_FROM_ARRAY(arr)  (arr[RandomizerNextRange(state, ARRAY_COUNT(arr))])
-#define RARE_FORM(infoStruct)   (GetFormFromRareFormInfo(state, &infoStruct))
+#define RANDOM_FROM_ARRAY(arr) (arr[RandomizerNextRange(state, ARRAY_COUNT(arr))])
+#define RARE_FORM(infoStruct) (GetFormFromRareFormInfo(state, &infoStruct))
 static u16 ChooseFormSpecial(struct Sfc32State *state, const u16 baseSpecies)
 {
-    switch (baseSpecies) {
-        // These species do entirely ordinary random form selection processes.
-        // However, their form tables include forms that shouldn't normally be
-        // selected, so they need to have special hard-coded form tables.
-        case SPECIES_FLOETTE:
-            return RANDOM_FROM_ARRAY(sFloetteFormChoices);
-        case SPECIES_TAUROS_PALDEA_COMBAT:
-            return RANDOM_FROM_ARRAY(sPaldeanTaurosFormChoices);
-        case SPECIES_MINIOR:
-            return RANDOM_FROM_ARRAY(sMiniorFormChoices);
-        // These are species, first appearing in Gen 8, that have one common
-        // form and one rare form.
-        // Note that as Maushold can only appear in raid battles in Gen 9, it
-        // normally does not behave this way in the wild, but for a randomizer
-        // this seems like a reasonable choice.
-        case SPECIES_MAUSHOLD:
-            return RARE_FORM(sMausholdRareFormInfo);
-        case SPECIES_SINISTEA:
-            return RARE_FORM(sSinisteaRareFormInfo);
-        case SPECIES_SINISTCHA:
-            return RARE_FORM(sSinistchaRareFormInfo);
-        case SPECIES_POLTEAGEIST:
-            return RARE_FORM(sPolteageistRareFormInfo);
-        case SPECIES_DUDUNSPARCE:
-            return RARE_FORM(sDudunsparceRareFormInfo);
-        default:
-            return baseSpecies;
+    switch (baseSpecies)
+    {
+    // These species do entirely ordinary random form selection processes.
+    // However, their form tables include forms that shouldn't normally be
+    // selected, so they need to have special hard-coded form tables.
+    case SPECIES_FLOETTE:
+        return RANDOM_FROM_ARRAY(sFloetteFormChoices);
+    case SPECIES_TAUROS_PALDEA_COMBAT:
+        return RANDOM_FROM_ARRAY(sPaldeanTaurosFormChoices);
+    case SPECIES_MINIOR:
+        return RANDOM_FROM_ARRAY(sMiniorFormChoices);
+    // These are species, first appearing in Gen 8, that have one common
+    // form and one rare form.
+    // Note that as Maushold can only appear in raid battles in Gen 9, it
+    // normally does not behave this way in the wild, but for a randomizer
+    // this seems like a reasonable choice.
+    case SPECIES_MAUSHOLD:
+        return RARE_FORM(sMausholdRareFormInfo);
+    case SPECIES_SINISTEA:
+        return RARE_FORM(sSinisteaRareFormInfo);
+    case SPECIES_SINISTCHA:
+        return RARE_FORM(sSinistchaRareFormInfo);
+    case SPECIES_POLTEAGEIST:
+        return RARE_FORM(sPolteageistRareFormInfo);
+    case SPECIES_DUDUNSPARCE:
+        return RARE_FORM(sDudunsparceRareFormInfo);
+    default:
+        return baseSpecies;
     }
-
 }
 #undef RANDOM_FROM_ARRAY
 #undef RARE_FORM
@@ -939,13 +934,13 @@ u16 RandomizeMon(enum RandomizerReason reason, enum RandomizerSpeciesMode mode, 
 
     switch (speciesMode)
     {
-        case MON_RANDOMIZER_RANDOM_FORM:
-            return ChooseRandomForm(&state, resultSpecies);
-        case MON_RANDOMIZER_SPECIAL_FORM:
-            return ChooseFormSpecial(&state, resultSpecies);
-        case MON_RANDOMIZER_NORMAL:
-        default:
-            return resultSpecies;
+    case MON_RANDOMIZER_RANDOM_FORM:
+        return ChooseRandomForm(&state, resultSpecies);
+    case MON_RANDOMIZER_SPECIAL_FORM:
+        return ChooseFormSpecial(&state, resultSpecies);
+    case MON_RANDOMIZER_NORMAL:
+    default:
+        return resultSpecies;
     }
 }
 
@@ -967,7 +962,6 @@ u16 RandomizeWildEncounter(u16 species, u8 mapNum, u8 mapGroup, enum WildArea ar
     return species;
 }
 
-
 // This is used in the Pokédex area map code.
 bool32 IsRandomizationPossible(u16 originalSpecies, u16 targetSpecies)
 {
@@ -983,7 +977,7 @@ bool32 IsRandomizationPossible(u16 originalSpecies, u16 targetSpecies)
     {
         u16 minGroupOriginal, maxGroupOriginal, minGroupTarget, maxGroupTarget,
             originalGroup, targetGroup;
-        const struct SpeciesTable* table;
+        const struct SpeciesTable *table;
         table = GetSpeciesTable(mode);
         originalGroup = GetSpeciesGroup(table, originalSpecies);
         targetGroup = GetSpeciesGroup(table, targetSpecies);
@@ -1063,7 +1057,7 @@ u16 RandomizeFixedEncounterMon(u16 species, u8 mapNum, u8 mapGroup, u8 localId)
 EWRAM_DATA static u32 sLastGiftMonRandomizerSeed = 0;
 EWRAM_DATA static u16 sRandomizedGiftMons[MY_STARTER_AND_GIFT_MON_COUNT] = {0};
 
-u16 RandomizeStarterAndGiftMon(u16 originalSlot, const u16* originalGiftMonsAndStarters)
+u16 RandomizeStarterAndGiftMon(u16 originalSlot, const u16 *originalGiftMonsAndStarters)
 {
     if (RandomizerFeatureEnabled(RANDOMIZE_STARTERS_AND_GIFTS))
     {
@@ -1082,7 +1076,7 @@ u16 RandomizeStarterAndGiftMon(u16 originalSlot, const u16* originalGiftMonsAndS
             }
 
             GetUniqueMonList(RANDOMIZER_REASON_STARTER_AND_GIFT, GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE),
-                starterHash, 0, MY_STARTER_AND_GIFT_MON_COUNT, originalGiftMonsAndStarters, sRandomizedGiftMons);
+                             starterHash, 0, MY_STARTER_AND_GIFT_MON_COUNT, originalGiftMonsAndStarters, sRandomizedGiftMons);
         }
         return sRandomizedGiftMons[originalSlot];
     }
@@ -1093,7 +1087,7 @@ u16 RandomizeStarterAndGiftMon(u16 originalSlot, const u16* originalGiftMonsAndS
 EWRAM_DATA static u32 sLastEggMonRandomizerSeed = 0;
 EWRAM_DATA static u16 sRandomizedEggMons[MY_EGG_MON_COUNT] = {0};
 
-u16 RandomizeEggMon(u16 originalSlot, const u16* originalEggMons)
+u16 RandomizeEggMon(u16 originalSlot, const u16 *originalEggMons)
 {
     if (RandomizerFeatureEnabled(RANDOMIZE_EGG_MON))
     {
@@ -1112,7 +1106,7 @@ u16 RandomizeEggMon(u16 originalSlot, const u16* originalEggMons)
             }
 
             GetUniqueMonList(RANDOMIZER_REASON_EGG, GetRandomizerOption(RANDOMIZER_OPTION_SPECIES_MODE),
-                eggHash, 0, MY_EGG_MON_COUNT, originalEggMons, sRandomizedEggMons);
+                             eggHash, 0, MY_EGG_MON_COUNT, originalEggMons, sRandomizedEggMons);
         }
         return sRandomizedEggMons[originalSlot];
     }
@@ -1137,10 +1131,10 @@ u16 RandomizeAbility(u16 species, u8 abilityNum, u16 originalAbility)
         u16 result;
         u32 seed;
 
-        //if (!ShouldRandomizeItem(itemId))
-        //    return abilityNum;
+        // if (!ShouldRandomizeItem(itemId))
+        //     return abilityNum;
 
-        // Seed the generator using the species and the original abilityNum 
+        // Seed the generator using the species and the original abilityNum
         seed = ((u32)species) << 8;
         seed |= abilityNum;
 
