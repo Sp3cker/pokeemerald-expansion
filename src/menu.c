@@ -335,13 +335,19 @@ static inline void *GetWindowFunc_DialogueFrame(void)
     return (gMsgIsSignPost ? WindowFunc_DrawSignFrame : WindowFunc_DrawDialogueFrame);
 }
 
-void DrawDialogueFrame(u8 windowId, bool8 copyToVram)
+
+void DrawNonOverworldDialogueFrame(u8 windowId, bool8 copyToVram)
 {
     CallWindowFunction(windowId, GetWindowFunc_DialogueFrame());
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
     PutWindowTilemap(windowId);
     if (copyToVram == TRUE)
         CopyWindowToVram(windowId, COPYWIN_FULL);
+}
+
+void DrawDialogueFrame(u8 windowId, bool8 copyToVram)
+{
+    DrawNonOverworldDialogueFrame(windowId, copyToVram);
     gMain.activeOverworldDialog = TRUE;
 }
 

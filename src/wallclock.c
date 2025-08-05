@@ -691,6 +691,8 @@ void CB2_StartWallClock(void)
     LoadWallClockGraphics();
     LZ77UnCompVram(gWallClockStart_Tilemap, (u16 *)BG_SCREEN_ADDR(7));
 
+
+
     taskId = CreateTask(Task_SetClock_WaitFadeIn, 0);
     gTasks[taskId].tHours = 10;
     gTasks[taskId].tMinutes = 0;
@@ -719,6 +721,7 @@ void CB2_StartWallClock(void)
     gSprites[spriteId].data[1] = 90;
 
     WallClockInit();
+    gMain.activeOverworldDialog = FALSE;
 
     AddTextPrinterParameterized(WIN_BUTTON_LABEL, FONT_NORMAL, gText_Confirm3, 0, 1, 0, NULL);
     PutWindowTilemap(WIN_BUTTON_LABEL);
