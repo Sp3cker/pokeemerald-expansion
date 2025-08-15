@@ -3191,7 +3191,7 @@ static void AI_CompareDamagingMoves(u32 battlerAtk, u32 battlerDef)
     u32 tempMoveScores[MAX_MON_MOVES];
     u32 moveComparisonScores[MAX_MON_MOVES];
     u32 bestScore = AI_SCORE_DEFAULT;
-    u32 shouldCompareDamageRolls = SHOULDNT_COMPARE_DAMAGE_ROLLS;
+    u32 shouldCompareDamageRolls = SHOULD_COMPARE_DAMAGE_ROLLS;
 
     bool32 multipleBestMoves = FALSE;
     s32 noOfHits[MAX_MON_MOVES];
@@ -3294,9 +3294,11 @@ static void AI_CompareDamagingMoves(u32 battlerAtk, u32 battlerDef)
                         switch (CompareGuaranteeFaintTarget(battlerAtk, battlerDef, currId, i, moves))
                         {
                         case MOVE_WON_COMPARISON:
+                            shouldCompareDamageRolls = SHOULDNT_COMPARE_DAMAGE_ROLLS;
                             tempMoveScores[currId] += MathUtil_Exponent(MAX_MON_MOVES, PRIORITY_GUARANTEE);
                             break;
                         case MOVE_LOST_COMPARISON:
+                            shouldCompareDamageRolls = SHOULDNT_COMPARE_DAMAGE_ROLLS;
                             tempMoveScores[i] += MathUtil_Exponent(MAX_MON_MOVES, PRIORITY_GUARANTEE);
                             break;
                         case MOVE_NEUTRAL_COMPARISON:

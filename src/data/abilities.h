@@ -786,7 +786,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_MOLD_BREAKER] =
     {
         .name = _("Mold Breaker"),
-        .description = COMPOUND_STRING("Moves hit through abilities."),
+        .description = COMPOUND_STRING("Moves ignore most\nabilities."),
         .aiRating = 7,
     },
 
@@ -1628,7 +1628,7 @@ const struct Ability gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_COMATOSE] =
     {
         .name = _("Comatose"),
-        .description = COMPOUND_STRING("Acts as if asleep."),
+        .description = COMPOUND_STRING("This Pokémon cannot be statused,\nand is considered to be asleep."),
         .aiRating = 6,
         .cantBeCopied = TRUE,
         .cantBeSwapped = TRUE,

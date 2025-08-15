@@ -1514,6 +1514,7 @@ static const u16 sSandslashAlolaTeachableLearnset[] = {
     MOVE_FOCUS_PUNCH,
     MOVE_SPIKES,
     MOVE_STEEL_BEAM,
+    MOVE_ICE_SPINNER,
     MOVE_UNAVAILABLE,
 };
 #endif //P_ALOLAN_FORMS

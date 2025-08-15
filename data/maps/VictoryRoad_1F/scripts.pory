@@ -61,6 +61,7 @@ VictoryRoad_1F_EventScript_WallyEntranceBattle::
 	clearflag FLAG_HIDE_VICTORY_ROAD_ENTRANCE_WALLY
 	copyobjectxytoperm LOCALID_WALLY_ENTRANCE
 	setflag FLAG_DEFEATED_WALLY_VICTORY_ROAD
+	clearflag FLAG_HIDE_LILYCOVE_HARBOR_SSTIDAL
 	copyvar VAR_VICTORY_ROAD_1F_STATE, VAR_0x8008
 	delay 30
 	playfanfare MUS_LEVEL_UP
@@ -408,6 +409,7 @@ script VictoryRoad_1F_EventScript_StairsRoom {
 	dynmultipush("Poipole",     SPECIES_POIPOLE)
 	dynmultipush("Pheromosa",   SPECIES_PHEROMOSA)
 	dynmultipush("Celesteela",  SPECIES_CELESTEELA)
+	dynmultipush("Kartana",     SPECIES_KARTANA)
     dynmultipush("Back", MULTI_B_PRESSED)
 
 	//.macro dynmultistack left:req, top:req, ignoreBPress:req, maxBeforeScroll:req, shouldSort:req, initialSelected:req, callbacks:req

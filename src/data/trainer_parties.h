@@ -1356,7 +1356,7 @@ static const struct TrainerMon sParty_Brian6Badges[] = {
     {
     .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
     .lvl = 200,
-    .species = SPECIES_SILVALLY,
+    .species = SPECIES_SILVALLY_DARK,
     .heldItem = ITEM_DARK_MEMORY,
     .nature = NATURE_JOLLY,
     .ev = TRAINER_PARTY_EVS_JOLLY(),
@@ -1367,7 +1367,7 @@ static const struct TrainerMon sParty_Brian6Badges[] = {
         //hp, atk, def, speed, spatk, spdef
     .iv = TRAINER_PARTY_IVS(31, 31, 30, 30, 30, 30),
     .lvl = 200,
-    .species = SPECIES_SILVALLY,
+    .species = SPECIES_SILVALLY_FLYING,
     .heldItem = ITEM_FLYING_MEMORY,
     .nature = NATURE_TIMID,
     .ev = TRAINER_PARTY_EVS_TIMID(),
@@ -1377,7 +1377,7 @@ static const struct TrainerMon sParty_Brian6Badges[] = {
     {
     .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
     .lvl = 200,
-    .species = SPECIES_SILVALLY,
+    .species = SPECIES_SILVALLY_GROUND,
     .heldItem = ITEM_GROUND_MEMORY,
     .nature = NATURE_JOLLY,
     .ev = TRAINER_PARTY_EVS_JOLLY(),
@@ -1387,7 +1387,7 @@ static const struct TrainerMon sParty_Brian6Badges[] = {
     {
     .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
     .lvl = 200,
-    .species = SPECIES_SILVALLY,
+    .species = SPECIES_SILVALLY_GRASS,
     .heldItem = ITEM_GRASS_MEMORY,
     .nature = NATURE_JOLLY,
     .ev = TRAINER_PARTY_EVS_JOLLY(),
@@ -1397,7 +1397,7 @@ static const struct TrainerMon sParty_Brian6Badges[] = {
     {
     .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
     .lvl = 200,
-    .species = SPECIES_SILVALLY,
+    .species = SPECIES_SILVALLY_ICE,
     .heldItem = ITEM_ICE_MEMORY,
     .nature = NATURE_TIMID,
     .ev = TRAINER_PARTY_EVS_TIMID(),
@@ -1407,7 +1407,7 @@ static const struct TrainerMon sParty_Brian6Badges[] = {
     {
     .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
     .lvl = 200,
-    .species = SPECIES_SILVALLY,
+    .species = SPECIES_SILVALLY_NORMAL,
     .heldItem = ITEM_LIFE_ORB,
     .nature = NATURE_JOLLY,
     .ev = TRAINER_PARTY_EVS_JOLLY(),
@@ -1639,7 +1639,7 @@ static const struct TrainerMon sParty_Johanna6Badges[] = {
     {
     .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
     .lvl = 200,
-    .species = SPECIES_SILVALLY,
+    .species = SPECIES_SILVALLY_GHOST,
     .heldItem = ITEM_GHOST_MEMORY,
     .nature = NATURE_TIMID,
     .ev = TRAINER_PARTY_EVS_TIMID(),
@@ -1649,7 +1649,7 @@ static const struct TrainerMon sParty_Johanna6Badges[] = {
     {
     .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
     .lvl = 200,
-    .species = SPECIES_SILVALLY,
+    .species = SPECIES_SILVALLY_ELECTRIC,
     .heldItem = ITEM_ELECTRIC_MEMORY,
     .nature = NATURE_TIMID,
     .ev = TRAINER_PARTY_EVS_TIMID(),
@@ -1659,7 +1659,7 @@ static const struct TrainerMon sParty_Johanna6Badges[] = {
     {
     .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
     .lvl = 200,
-    .species = SPECIES_SILVALLY,
+    .species = SPECIES_SILVALLY_WATER,
     .heldItem = ITEM_WATER_MEMORY,
     .nature = NATURE_JOLLY,
     .ev = TRAINER_PARTY_EVS_JOLLY(),
@@ -1669,7 +1669,7 @@ static const struct TrainerMon sParty_Johanna6Badges[] = {
     {
     .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
     .lvl = 200,
-    .species = SPECIES_SILVALLY,
+    .species = SPECIES_SILVALLY_BUG,
     .heldItem = ITEM_BUG_MEMORY,
     .nature = NATURE_JOLLY,
     .ev = TRAINER_PARTY_EVS_JOLLY(),
@@ -1679,7 +1679,7 @@ static const struct TrainerMon sParty_Johanna6Badges[] = {
     {
     .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
     .lvl = 200,
-    .species = SPECIES_SILVALLY,
+    .species = SPECIES_SILVALLY_FAIRY,
     .heldItem = ITEM_FAIRY_MEMORY,
     .nature = NATURE_JOLLY,
     .ev = TRAINER_PARTY_EVS_JOLLY(),
@@ -1689,7 +1689,7 @@ static const struct TrainerMon sParty_Johanna6Badges[] = {
     {
     .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
     .lvl = 200,
-    .species = SPECIES_SILVALLY,
+    .species = SPECIES_SILVALLY_STEEL,
     .heldItem = ITEM_STEEL_MEMORY,
     .nature = NATURE_HASTY,
     .ev = TRAINER_PARTY_EVS_HASTY_OR_NAIVE_SP_ATK(),
@@ -1919,7 +1919,7 @@ static const struct TrainerMon sParty_Dwayne6Badges[] = {
     {
     .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
     .lvl = 200,
-    .species = SPECIES_SILVALLY,
+    .species = SPECIES_SILVALLY_FIRE,
     .heldItem = ITEM_FIRE_MEMORY,
     .nature = NATURE_NAIVE,
     .ev = TRAINER_PARTY_EVS_HASTY_OR_NAIVE_SP_ATK(),
@@ -1929,7 +1929,7 @@ static const struct TrainerMon sParty_Dwayne6Badges[] = {
     {
     .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
     .lvl = 200,
-    .species = SPECIES_SILVALLY,
+    .species = SPECIES_SILVALLY_DRAGON,
     .heldItem = ITEM_DRAGON_MEMORY,
     .nature = NATURE_JOLLY,
     .ev = TRAINER_PARTY_EVS_JOLLY(),
@@ -1939,7 +1939,7 @@ static const struct TrainerMon sParty_Dwayne6Badges[] = {
     {
     .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
     .lvl = 200,
-    .species = SPECIES_SILVALLY,
+    .species = SPECIES_SILVALLY_FIGHTING,
     .heldItem = ITEM_FIGHTING_MEMORY,
     .nature = NATURE_JOLLY,
     .ev = TRAINER_PARTY_EVS_JOLLY(),
@@ -1949,7 +1949,7 @@ static const struct TrainerMon sParty_Dwayne6Badges[] = {
     {
     .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
     .lvl = 200,
-    .species = SPECIES_SILVALLY,
+    .species = SPECIES_SILVALLY_POISON,
     .heldItem = ITEM_POISON_MEMORY,
     .nature = NATURE_HASTY,
     .ev = TRAINER_PARTY_EVS_HASTY_OR_NAIVE_ATK(),
@@ -1959,7 +1959,7 @@ static const struct TrainerMon sParty_Dwayne6Badges[] = {
     {
     .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
     .lvl = 200,
-    .species = SPECIES_SILVALLY,
+    .species = SPECIES_SILVALLY_PSYCHIC,
     .heldItem = ITEM_PSYCHIC_MEMORY,
     .nature = NATURE_HASTY,
     .ev = TRAINER_PARTY_EVS_HASTY_OR_NAIVE_ATK(),
@@ -1969,7 +1969,7 @@ static const struct TrainerMon sParty_Dwayne6Badges[] = {
     {
     .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),
     .lvl = 200,
-    .species = SPECIES_SILVALLY,
+    .species = SPECIES_SILVALLY_ROCK,
     .heldItem = ITEM_ROCK_MEMORY,
     .nature = NATURE_NAIVE,
     .ev = TRAINER_PARTY_EVS_HASTY_OR_NAIVE_SP_ATK(),
@@ -16130,7 +16130,7 @@ static const struct TrainerMon sParty_Roark[] = {
     .ability = ABILITY_SAND_STREAM,
             //hp,atk,def,spatk,spdef,speed
     .ev = TRAINER_PARTY_EVS( 6, 252, 252, 0, 0, 0 ),
-    .moves = {MOVE_ROCK_TOMB, MOVE_METAL_BURST, MOVE_METAL_CLAW, MOVE_NONE}
+    .moves = {MOVE_EARTHQUAKE, MOVE_ROCK_SLIDE, MOVE_ROAR, MOVE_STEALTH_ROCK}
     },
     {
     .iv = TRAINER_PARTY_IVS(31, 31, 31, 31, 31, 31),

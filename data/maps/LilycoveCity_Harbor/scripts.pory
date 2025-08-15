@@ -15,7 +15,7 @@ LilycoveCity_Harbor_OnTransition:
 LilycoveCity_Harbor_EventScript_FerryAttendant::
 	lock
 	faceplayer
-	goto_if_unset FLAG_SYS_GAME_CLEAR, LilycoveCity_Harbor_EventScript_FerryUnavailable
+	goto_if_unset FLAG_DEFEATED_WALLY_VICTORY_ROAD, LilycoveCity_Harbor_EventScript_FerryUnavailable
 	call LilycoveCity_Harbor_EventScript_GetEonTicketState
 	call LilycoveCity_Harbor_EventScript_GetAuroraTicketState
 	call LilycoveCity_Harbor_EventScript_GetOldSeaMapState
@@ -28,12 +28,12 @@ LilycoveCity_Harbor_EventScript_FerryAttendant::
 	goto_if_eq VAR_TEMP_B, 4, LilycoveCity_Harbor_EventScript_OldSeaMapFirstTime
 	goto_if_eq VAR_TEMP_B, 8, LilycoveCity_Harbor_EventScript_MysticTicketFirstTime
 	goto_if_ne VAR_TEMP_B, 0, LilycoveCity_Harbor_EventScript_MultipleEventTicketsFirstTime
-	goto LilycoveCity_Harbor_EventScript_NoFirstTimeEventTickets
+	goto_if_set FLAG_SYS_GAME_CLEAR, LilycoveCity_Harbor_EventScript_NoFirstTimeEventTickets
+	goto LilycoveCity_Harbor_EventScript_MultipleEventTicketsSecondTime
 	end
 
 @ First goto_if_eq is unnecessary; identical scripts
 LilycoveCity_Harbor_EventScript_NoFirstTimeEventTickets::
-	goto_if_eq VAR_TEMP_A, 0, LilycoveCity_Harbor_EventScript_NoEventTickets
 	msgbox LilycoveCity_Harbor_Text_MayISeeYourTicket, MSGBOX_DEFAULT
 	message LilycoveCity_Harbor_Text_FlashTicketWhereTo
 	waitmessage
@@ -303,6 +303,26 @@ LilycoveCity_Harbor_EventScript_MultipleEventTicketsFirstTime::
 	release
 	end
 
+LilycoveCity_Harbor_EventScript_MultipleEventTicketsSecondTime::
+	msgbox EventTicket_Text_ThatPass, MSGBOX_DEFAULT
+	closemessage
+	call LilycoveCity_Harbor_EventScript_GetEventTicketSailor
+	message EventTicket_Text_OddTicketsWhereTo
+	waitmessage
+	setvar VAR_0x8004, 5
+	special ScriptMenu_CreateLilycoveSSTidalMultichoice
+	waitstate
+	special GetLilycoveSSTidalSelection
+	switch VAR_RESULT
+	case 2, LilycoveCity_Harbor_EventScript_GoToSouthernIslandFirstTime
+	case 3, LilycoveCity_Harbor_EventScript_GoToNavelRockFirstTime
+	case 4, LilycoveCity_Harbor_EventScript_GoToBirthIslandFirstTime
+	case 5, LilycoveCity_Harbor_EventScript_GoToFarawayIslandFirstTime
+	case 6, LilycoveCity_Harbor_EventScript_ExitFirstTimeTicketSailSelect
+	case MULTI_B_PRESSED, LilycoveCity_Harbor_EventScript_ExitFirstTimeTicketSailSelect
+	release
+	end
+
 LilycoveCity_Harbor_EventScript_ExitFirstTimeTicketSailSelect::
 	msgbox EventTicket_Text_AsYouLike, MSGBOX_DEFAULT
 	closemessage
@@ -346,40 +366,6 @@ LilycoveCity_Harbor_EventScript_BoardFerryWithSailor::
 
 LilycoveCity_Harbor_EventScript_FerryUnavailable::
 	msgbox LilycoveCity_Harbor_Text_FerryUnavailable, MSGBOX_DEFAULT
-	release
-	end
-
-LilycoveCity_Harbor_EventScript_NoEventTickets::
-	msgbox LilycoveCity_Harbor_Text_MayISeeYourTicket, MSGBOX_DEFAULT
-	message LilycoveCity_Harbor_Text_FlashTicketWhereTo
-	waitmessage
-	goto LilycoveCity_Harbor_EventScript_FerryRegularLocationSelect
-	end
-
-@ Unused
-LilycoveCity_Harbor_EventScript_NoTicket::
-	msgbox LilycoveCity_Harbor_Text_NoTicket, MSGBOX_DEFAULT
-	release
-	end
-
-@ Unused
-LilycoveCity_Harbor_EventScript_GoToSlateportUnused::
-	msgbox LilycoveCity_Harbor_Text_SlateportItIs, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, LilycoveCity_Harbor_EventScript_FerryDestinationChangeMind
-	setvar VAR_SS_TIDAL_STATE, SS_TIDAL_BOARD_LILYCOVE
-	call LilycoveCity_Harbor_EventScript_BoardFerry
-	warp MAP_SS_TIDAL_CORRIDOR, 1, 10
-	waitstate
-	release
-	end
-
-@ Unused
-LilycoveCity_Harbor_EventScript_GoToBattleFrontierUnused::
-	msgbox LilycoveCity_Harbor_Text_BattleFrontierItIs, MSGBOX_YESNO
-	goto_if_eq VAR_RESULT, NO, LilycoveCity_Harbor_EventScript_FerryDestinationChangeMind
-	call LilycoveCity_Harbor_EventScript_BoardFerry
-	warp MAP_BATTLE_FRONTIER_OUTSIDE_WEST, 19, 67
-	waitstate
 	release
 	end
 

@@ -31,6 +31,7 @@
 #include "task.h"
 #include "test_runner.h"
 #include "text.h"
+#include "type_icons.h"
 #include "util.h"
 #include "window.h"
 #include "constants/battle_anim.h"
@@ -2459,8 +2460,11 @@ static bool32 ShouldShowTypeEffectiveness(u32 targetId)
 
 static u32 CheckTypeEffectiveness(u32 targetId, u32 battler)
 {
-    u32 types[3];
-    GetBattlerTypes(targetId, FALSE, types);
+    u32 typeNum, types[2];
+
+    for (typeNum = 0; typeNum < 2; ++typeNum)
+        types[typeNum] = GetMonPublicType(targetId, typeNum);
+    
     uq4_12_t effectivenessMultiplier = UQ_4_12(1.0);
     uq4_12_t mod1 = UQ_4_12(1.0);
     uq4_12_t mod2 = UQ_4_12(1.0);

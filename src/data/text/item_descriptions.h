@@ -3532,9 +3532,9 @@ static const u8 sTM100Desc[] = _(
     "twice in a row.");
 
 static const u8 sTM101Desc[] = _( 
-    "Boosts strength\n"
-    "sharply, but lowers\n"
-    "abilities.");
+    "A strong attack but\n"
+    "lowers Attack and\n"
+    "Defense.");
 
 static const u8 sTM102Desc[] = _( 
     "Throws scorching \n"
@@ -3619,7 +3619,7 @@ static const u8 sTM117Desc[] = _(
 static const u8 sTM118Desc[] = _(
     "The user bites with\n"
     "poisonous fangs.\n"
-    "May badly poison.");
+    "May Toxic.");
     
 static const u8 sTM119Desc[] = _(
     "The user slams the\n"
@@ -4125,9 +4125,9 @@ static const u8 sHM04Desc[] = _(
     "the foe.");
 
 static const u8 sHM05Desc[] = _(
-    "Looses a powerful\n"
-    "blast of light that\n"
-    "reduces accuracy.");
+    "Looses a blast of\n"
+    "light that may\n"
+    "cut attack.");
 
 static const u8 sHM06Desc[] = _(
     "A rock-crushingly\n"

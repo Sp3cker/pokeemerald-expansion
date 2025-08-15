@@ -14,7 +14,6 @@ static void LoadTypeIconsPerBattler(u32, u32);
 
 static bool32 UseDoubleBattleCoords(u32);
 
-static u32 GetMonPublicType(u32, u32);
 static bool32 ShouldHideUncaughtType(u32);
 static u32 GetMonDefensiveTeraType(struct Pokemon *, struct Pokemon*, u32, u32, u32, u32);
 static u32 IsIllusionActiveAndTypeUnchanged(struct Pokemon*, u32, u32);
@@ -289,7 +288,7 @@ static bool32 UseDoubleBattleCoords(u32 position)
     return TRUE;
 }
 
-static u32 GetMonPublicType(u32 battlerId, u32 typeNum)
+u32 GetMonPublicType(u32 battlerId, u32 typeNum)
 {
     struct Pokemon* mon = GetPartyBattlerData(battlerId);
     u32 monSpecies = GetMonData(mon,MON_DATA_SPECIES,NULL);

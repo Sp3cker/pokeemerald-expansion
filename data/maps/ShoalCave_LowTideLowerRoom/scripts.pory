@@ -165,6 +165,7 @@ script ShoalCave_LowTideLowerRoom_EventScript_StairsRoom {
 	dynmultipush("Poipole",     SPECIES_POIPOLE)
 	dynmultipush("Pheromosa",   SPECIES_PHEROMOSA)
 	dynmultipush("Celesteela",  SPECIES_CELESTEELA)
+	dynmultipush("Kartana",     SPECIES_KARTANA)
     dynmultipush("Back", MULTI_B_PRESSED)
 
 	//.macro dynmultistack left:req, top:req, ignoreBPress:req, maxBeforeScroll:req, shouldSort:req, initialSelected:req, callbacks:req

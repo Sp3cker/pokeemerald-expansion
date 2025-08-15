@@ -258,66 +258,68 @@ ShoalCave_LowTideLowerRoom_EventScript_StairsRoom::
 # 167 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
 	dynmultipush ShoalCave_LowTideLowerRoom_EventScript_StairsRoom_Text_8, SPECIES_CELESTEELA
 # 168 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
+	dynmultipush ShoalCave_LowTideLowerRoom_EventScript_StairsRoom_Text_9, SPECIES_KARTANA
+# 169 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
 	dynmultipush ShoalCave_LowTideLowerRoom_EventScript_EntranceRoom_Text_10, MULTI_B_PRESSED
-# 172 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
+# 173 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
 	dynmultistack 0, 0, FALSE, 6, FALSE, SPECIES_NIHILEGO, DYN_MULTICHOICE_CB_NONE
-# 174 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
+# 175 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
 	compare VAR_RESULT, MULTI_B_PRESSED
 	goto_if_eq ShoalCave_LowTideLowerRoom_EventScript_StairsRoom_2
 ShoalCave_LowTideLowerRoom_EventScript_StairsRoom_1:
-# 179 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
+# 180 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
 	goto ShoalCave_LowTideLowerRoom_EventScript_ConfirmAndUseSummon
-# 181 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
+# 182 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
 	release
 	end
 
 ShoalCave_LowTideLowerRoom_EventScript_StairsRoom_2:
-# 176 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
+# 177 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
 	goto ShoalCave_LowTideLowerRoom_EventScript_ChooseRoom
 	goto ShoalCave_LowTideLowerRoom_EventScript_StairsRoom_1
 
 
 ShoalCave_LowTideLowerRoom_EventScript_ConfirmAndUseSummon::
-# 188 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
-	copyvar VAR_0x8005, VAR_RESULT
 # 189 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
-	bufferspeciesname STR_VAR_1, VAR_0x8005
+	copyvar VAR_0x8005, VAR_RESULT
 # 190 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
+	bufferspeciesname STR_VAR_1, VAR_0x8005
+# 191 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
 	msgbox ShoalCave_LowTideLowerRoom_Text_ConfirmSummon, MSGBOX_YESNO
-# 192 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
+# 193 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
 	compare VAR_RESULT, NO
 	goto_if_eq ShoalCave_LowTideLowerRoom_EventScript_ConfirmAndUseSummon_2
 ShoalCave_LowTideLowerRoom_EventScript_ConfirmAndUseSummon_1:
-# 197 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
-	msgbox ShoalCave_LowTideLowerRoom_Text_VeryWell, MSGBOX_DEFAULT
 # 198 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
+	msgbox ShoalCave_LowTideLowerRoom_Text_VeryWell, MSGBOX_DEFAULT
+# 199 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
 	delay 30
-# 200 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
-	setwildbattle VAR_0x8005, 50
 # 201 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
-	waitse
+	setwildbattle VAR_0x8005, 50
 # 202 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
-	playmoncry VAR_0x8005, CRY_MODE_ENCOUNTER
+	waitse
 # 203 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
-	delay 40
+	playmoncry VAR_0x8005, CRY_MODE_ENCOUNTER
 # 204 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
-	waitmoncry
+	delay 40
 # 205 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
-	dowildbattle
+	waitmoncry
 # 206 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
+	dowildbattle
+# 207 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
 	release
 	end
 
 ShoalCave_LowTideLowerRoom_EventScript_ConfirmAndUseSummon_2:
-# 194 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
+# 195 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
 	goto ShoalCave_LowTideLowerRoom_EventScript_SummonWomanManNo
 	goto ShoalCave_LowTideLowerRoom_EventScript_ConfirmAndUseSummon_1
 
 
 ShoalCave_LowTideLowerRoom_EventScript_SummonWomanManNo::
-# 212 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
-	msgbox ShoalCave_LowTideLowerRoom_SummonWomanDeclined, MSGBOX_DEFAULT
 # 213 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
+	msgbox ShoalCave_LowTideLowerRoom_SummonWomanDeclined, MSGBOX_DEFAULT
+# 214 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
 	release
 	end
 
@@ -458,8 +460,12 @@ ShoalCave_LowTideLowerRoom_EventScript_StairsRoom_Text_8:
 # 167 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
 	.string "Celesteela$"
 
+ShoalCave_LowTideLowerRoom_EventScript_StairsRoom_Text_9:
+# 168 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
+	.string "Kartana$"
+
 ShoalCave_LowTideLowerRoom_Text_SummonerIntro::
-# 218 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
+# 219 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
 	.string "Hello, young trainer.\p"
 	.string "I've come to this remote location\n"
 	.string "because I have learned a powerful\l"
@@ -470,30 +476,30 @@ ShoalCave_LowTideLowerRoom_Text_SummonerIntro::
 	.string "here so you can battle it?$"
 
 ShoalCave_LowTideLowerRoom_Text_SummonerIntroQuick::
-# 229 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
+# 230 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
 	.string "Would you like me to summon a Pokémon\n"
 	.string "here so you can battle it?$"
 
 ShoalCave_LowTideLowerRoom_Text_WhichRoom::
-# 234 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
+# 235 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
 	.string "Which room would you like me to summon a\n"
 	.string "Pokémon from?$"
 
 ShoalCave_LowTideLowerRoom_Text_WhichPokemon::
-# 239 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
+# 240 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
 	.string "Which Pokémon would you like me to\n"
 	.string "summon so you can battle?$"
 
 ShoalCave_LowTideLowerRoom_Text_ConfirmSummon::
-# 244 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
+# 245 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
 	.string "So you want me to summon a\n"
 	.string "{STR_VAR_1} for you to battle?$"
 
 ShoalCave_LowTideLowerRoom_Text_VeryWell::
-# 249 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
+# 250 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
 	.string "Very well, prepare yourself for battle.$"
 
 ShoalCave_LowTideLowerRoom_SummonWomanDeclined::
-# 253 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
+# 254 "data/maps/ShoalCave_LowTideLowerRoom/scripts.pory"
 	.string "I see. Let me know if you change\n"
 	.string "your mind.$"

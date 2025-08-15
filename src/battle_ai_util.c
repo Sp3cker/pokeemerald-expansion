@@ -655,7 +655,7 @@ static inline void CalcDynamicMoveDamage(struct DamageCalculationData *damageCal
         {
             median *= 3;
             minimum *= 2;
-            maximum *= 5;
+            maximum *= 3;
         }
         break;
     case EFFECT_ENDEAVOR:
