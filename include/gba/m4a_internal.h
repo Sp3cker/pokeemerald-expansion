@@ -170,7 +170,8 @@ struct SoundChannel
 
 struct MusicPlayerInfo;
 
-typedef void (*MPlayFunc)();
+// Accept heterogeneous function signatures in the MPlay jump table
+typedef void (*MPlayFunc)(...);
 typedef void (*PlyNoteFunc)(u32, struct MusicPlayerInfo *, struct MusicPlayerTrack *);
 typedef void (*CgbSoundFunc)(void);
 typedef void (*CgbOscOffFunc)(u8);

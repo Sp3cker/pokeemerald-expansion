@@ -53,6 +53,34 @@ OBJDUMP := $(PREFIX)objdump
 AS := $(PREFIX)as
 LD := $(PREFIX)ld
 
+# Optional: experiment with clang instead of gcc for C compilation
+# Enable via: make USE_CLANG=1
+USE_CLANG ?= 0
+ifeq ($(USE_CLANG),1)
+	# Try to locate clang; fallback to Homebrew prefix
+	CLANG ?= $(shell command -v clang || echo /opt/homebrew/opt/llvm/bin/clang)
+	# Reuse binutils / assembler / linker from existing arm-none-eabi toolchain.
+	# Determine gcc toolchain root for newlib & libgcc so clang can find headers/libs.
+	GCC_TOOLCHAIN_ROOT := $(dir $(shell command -v arm-none-eabi-gcc))/..
+	# C standard to use with clang. Use gnu2x for C2x/C23 support; override on make command line if desired.
+	# Examples: make USE_CLANG=1 CLANG_STD='-std=gnu2x'  or CLANG_STD='-std=c2x'
+	CLANG_STD ?= -std=gnu2x
+	# Extra flags only for clang builds (do not include -std here; use $(CLANG_STD))
+	CLANG_EXTRA_CFLAGS := --target=arm-none-eabi -mcpu=arm7tdmi -mthumb \
+		-ffreestanding -fno-builtin -fno-delete-null-pointer-checks -fno-common -fno-strict-aliasing
+	# Silence warnings clang may not recognize
+	CLANG_EXTRA_CFLAGS += -Wno-unknown-warning-option -Wno-unused-command-line-argument -Wno-gnu-alignof-expression -Wno-parentheses-equality
+	# Provide toolchain path if available
+	ifneq ($(GCC_TOOLCHAIN_ROOT),)
+		CLANG_TOOLCHAIN_FLAG := --gcc-toolchain=$(GCC_TOOLCHAIN_ROOT)
+	endif
+	# Downgrade a few noisy diagnostics to warnings for Clang (keeps visibility without breaking the build)
+	# - constant-conversion: intentional narrowing of compile-time constants (e.g., u32 -> u16 sizes)
+	# - tautological-constant-out-of-range-compare: u8 compared to -1 sentinel
+	# - null-dereference: deliberate null pointer indirection in macro tricks
+	override CFLAGS += -Wno-error=constant-conversion -Wno-error=tautological-constant-out-of-range-compare -Wno-error=null-dereference -Wno-error=gnu-designator
+endif
+
 EXE :=
 ifeq ($(OS),Windows_NT)
   EXE := .exe
@@ -72,6 +100,9 @@ HEADLESSELF = $(ROM_NAME:.gba=-test-headless.elf)
 
 # Pick our active variables
 ROM := $(ROM_NAME)
+ifeq ($(TESTELF),$(MAKECMDGOALS))
+  TEST := 1
+endif
 ifeq ($(TEST), 0)
   OBJ_DIR := $(OBJ_DIR_NAME)
 else
@@ -79,9 +110,6 @@ else
 endif
 ifeq ($(DEBUG),1)
   OBJ_DIR := $(OBJ_DIR_NAME_DEBUG)
-endif
-ifeq ($(TESTELF),$(MAKECMDGOALS))
-  TEST := 1
 endif
 ELF := $(ROM:.gba=.elf)
 MAP := $(ROM:.gba=.map)
@@ -121,7 +149,11 @@ CPPFLAGS := $(INCLUDE_CPP_ARGS) -Wno-trigraphs -DMODERN=1 -DTESTING=$(TEST)
 ARMCC := $(PREFIX)gcc
 PATH_ARMCC := PATH="$(PATH)" $(ARMCC)
 CC1 := $(shell $(PATH_ARMCC) --print-prog-name=cc1) -quiet
-override CFLAGS += -mthumb -mthumb-interwork -O$(O_LEVEL) -mabi=apcs-gnu -mtune=arm7tdmi -march=armv4t -fno-toplevel-reorder -Wno-pointer-to-int-cast -std=gnu17 -Werror -Wall -Wno-strict-aliasing -Wno-attribute-alias -Woverride-init
+override CFLAGS += -mthumb -mthumb-interwork -O$(O_LEVEL) -mabi=apcs-gnu -mtune=arm7tdmi -march=armv4t -Wno-pointer-to-int-cast -Werror -Wall -Wno-strict-aliasing -Wno-attribute-alias -Woverride-init
+ifeq ($(USE_CLANG),1)
+# Keep the base CFLAGS (for warning policy etc.) but clang will get arch flags via CLANG_EXTRA_CFLAGS
+override CFLAGS := $(filter-out -mabi=apcs-gnu -mtune=arm7tdmi -march=armv4t -mthumb-interwork,$(CFLAGS))
+endif
 ifeq ($(ANALYZE),1)
   override CFLAGS += -fanalyzer
 endif
@@ -160,11 +192,18 @@ RAMSCRGEN    := $(TOOLS_DIR)/ramscrgen/ramscrgen$(EXE)
 FIX          := $(TOOLS_DIR)/gbafix/gbafix$(EXE)
 MAPJSON      := $(TOOLS_DIR)/mapjson/mapjson$(EXE)
 JSONPROC     := $(TOOLS_DIR)/jsonproc/jsonproc$(EXE)
-SCRIPT       := $(TOOLS_DIR)/poryscript/poryscript$(EXE)
 TRAINERPROC  := $(TOOLS_DIR)/trainerproc/trainerproc$(EXE)
 PATCHELF     := $(TOOLS_DIR)/patchelf/patchelf$(EXE)
-ROMTEST      ?= $(shell { command -v mgba-rom-test || command -v $(TOOLS_DIR)/mgba/mgba-rom-test$(EXE); } 2>/dev/null)
-ROMTESTHYDRA := $(TOOLS_DIR)/mgba-rom-test-hydra/mgba-rom-test-hydra$(EXE)
+ifeq ($(shell uname),Darwin)
+    ROMTEST ?= $(shell command -v mgba-rom-test-mac 2>/dev/null || echo $(TOOLS_DIR)/mgba/mgba-rom-test-mac)
+    ROMTESTHYDRA := $(shell command -v mgba-rom-test-hydra 2>/dev/null || echo $(TOOLS_DIR)/mgba-rom-test-hydra/mgba-rom-test-hydra)
+else ifeq ($(shell uname),Linux)
+    ROMTEST ?= $(shell command -v mgba-rom-test 2>/dev/null || echo $(TOOLS_DIR)/mgba/mgba-rom-test)
+    ROMTESTHYDRA := $(shell command -v mgba-rom-test-hydra 2>/dev/null || echo $(TOOLS_DIR)/mgba-rom-test-hydra/mgba-rom-test-hydra)
+else
+    ROMTEST ?= $(TOOLS_DIR)/mgba/mgba-rom-test$(EXE)
+    ROMTESTHYDRA := $(TOOLS_DIR)/mgba-rom-test-hydra/mgba-rom-test-hydra$(EXE)
+endif
 
 PERL := perl
 SHA1 := $(shell { command -v sha1sum || command -v shasum; } 2>/dev/null) -c
@@ -178,7 +217,7 @@ MAKEFLAGS += --no-print-directory
 # Delete files that weren't built properly
 .DELETE_ON_ERROR:
 
-RULES_NO_SCAN += libagbsyscall clean clean-assets tidy tidymodern tidycheck generated clean-generated $(TESTELF)
+RULES_NO_SCAN += libagbsyscall clean clean-assets tidy tidymodern tidycheck generated clean-generated
 .PHONY: all rom agbcc modern compare check debug
 .PHONY: $(RULES_NO_SCAN)
 
@@ -318,7 +357,6 @@ include spritesheet_rules.mk
 include json_data_rules.mk
 include audio_rules.mk
 
-AUTO_GEN_TARGETS += $(patsubst %.pory,%.inc,$(shell find data/ -type f -name '*.pory'))
 # NOTE: Tools must have been built prior (FIXME)
 # so you can't really call this rule directly
 generated: $(AUTO_GEN_TARGETS)
@@ -329,7 +367,6 @@ generated: $(AUTO_GEN_TARGETS)
 %.png: ;
 %.pal: ;
 %.aif: ;
-%.pory: ;
 
 %.1bpp:   %.png  ; $(GFX) $< $@
 %.4bpp:   %.png  ; $(GFX) $< $@
@@ -338,7 +375,6 @@ generated: $(AUTO_GEN_TARGETS)
 %.gbapal: %.png  ; $(GFX) $< $@
 %.lz:     %      ; $(GFX) $< $@
 %.rl:     %      ; $(GFX) $< $@
-data/%.inc: data/%.pory; $(SCRIPT) -i $< -o $@ -fc tools/poryscript/font_config.json -cc tools/poryscript/command_config.json
 
 clean-generated:
 	-rm -f $(AUTO_GEN_TARGETS)
@@ -346,13 +382,35 @@ clean-generated:
 COMPETITIVE_PARTY_SYNTAX := $(shell PATH="$(PATH)"; echo 'COMPETITIVE_PARTY_SYNTAX' | $(CPP) $(CPPFLAGS) -imacros include/gba/defines.h -imacros include/config/general.h | tail -n1)
 ifeq ($(COMPETITIVE_PARTY_SYNTAX),1)
 %.h: %.party ; $(CPP) $(CPPFLAGS) -traditional-cpp - < $< | $(TRAINERPROC) -o $@ -i $< -
+
+AUTO_GEN_TARGETS += $(DATA_SRC_SUBDIR)/trainers.h
+AUTO_GEN_TARGETS += $(DATA_SRC_SUBDIR)/battle_partners.h
 endif
 
-$(C_BUILDDIR)/librfu_intr.o: CFLAGS := -mthumb-interwork -O2 -mabi=apcs-gnu -mtune=arm7tdmi -march=armv4t -fno-toplevel-reorder -Wno-pointer-to-int-cast
+ifeq ($(USE_CLANG),1)
+$(C_BUILDDIR)/librfu_intr.o: CFLAGS := -mthumb -O2 -mabi=apcs-gnu -mtune=arm7tdmi -march=armv4t -Wno-pointer-to-int-cast
+else
+$(C_BUILDDIR)/librfu_intr.o: CFLAGS := -mthumb-interwork -O2 -mabi=apcs-gnu -mtune=arm7tdmi -march=armv4t -fno-toplevel-reorder -Wno-pointer-to-int-cast -std=gnu17
+endif
 $(C_BUILDDIR)/berry_crush.o: override CFLAGS += -Wno-address-of-packed-member
-$(C_BUILDDIR)/pokedex_plus_hgss.o: CFLAGS := -mthumb -mthumb-interwork -O2 -mabi=apcs-gnu -mtune=arm7tdmi -march=armv4t -Wno-pointer-to-int-cast -std=gnu17 -Werror -Wall -Wno-strict-aliasing -Wno-attribute-alias -Woverride-init
+ifeq ($(USE_CLANG),1)
+$(C_BUILDDIR)/agb_flash.o: override CFLAGS +=
+else
+$(C_BUILDDIR)/agb_flash.o: override CFLAGS += -fno-toplevel-reorder
+endif
+$(C_BUILDDIR)/pokedex_plus_hgss.o: CFLAGS := -mthumb  -O2 -mabi=apcs-gnu -mtune=arm7tdmi -march=armv4t -Wno-pointer-to-int-cast -std=gnu17 -Werror -Wall -Wno-strict-aliasing -Wno-attribute-alias -Woverride-init
 # Annoyingly we can't turn this on just for src/data/trainers.h
+ifeq ($(USE_CLANG),1)
+$(C_BUILDDIR)/data.o: CFLAGS += -fno-show-column -fno-caret-diagnostics
+else
 $(C_BUILDDIR)/data.o: CFLAGS += -fno-show-column -fno-diagnostics-show-caret
+endif
+
+ifeq ($(USE_CLANG),1)
+$(TEST_BUILDDIR)/%.o: CFLAGS += -mthumb -O2 -Wno-pointer-to-int-cast -Werror -Wall -Wno-strict-aliasing -Wno-attribute-alias -Woverride-init
+else
+$(TEST_BUILDDIR)/%.o: CFLAGS += -mthumb -mthumb-interwork -O2 -mabi=apcs-gnu -mtune=arm7tdmi -march=armv4t -Wno-pointer-to-int-cast -Werror -Wall -Wno-strict-aliasing -Wno-attribute-alias -Woverride-init
+endif
 
 # Dependency rules (for the *.c & *.s sources to .o files)
 # Have to be explicit or else missing files won't be reported.
@@ -361,6 +419,10 @@ $(C_BUILDDIR)/data.o: CFLAGS += -fno-show-column -fno-diagnostics-show-caret
 # It doesn't look like $(shell) can be deferred so there might not be a better way (Icedude_907: there is soon).
 
 $(C_BUILDDIR)/%.o: $(C_SUBDIR)/%.c
+ifeq ($(USE_CLANG),1)
+	@echo "clang <flags> -o $@ $<"
+	@$(CPP) $(CPPFLAGS) $< | $(PREPROC) -i $< charmap.txt | $(CLANG) -x c - -c $(CLANG_EXTRA_CFLAGS) $(CLANG_TOOLCHAIN_FLAG) $(CFLAGS) -DMODERN=1 -DTESTING=$(TEST) $(CLANG_STD) -o $@
+else
 ifneq ($(KEEP_TEMPS),1)
 	@echo "$(CC1) <flags> -o $@ $<"
 	@$(CPP) $(CPPFLAGS) $< | $(PREPROC) -i $< charmap.txt | $(CC1) $(CFLAGS) -o - - | cat - <(echo -e ".text\n\t.align\t2, 0") | $(AS) $(ASFLAGS) -o $@ -
@@ -369,6 +431,7 @@ else
 	@$(PREPROC) $*.i charmap.txt | $(CC1) $(CFLAGS) -o $*.s
 	@echo -e ".text\n\t.align\t2, 0\n" >> $*.s
 	$(AS) $(ASFLAGS) -o $@ $*.s
+endif
 endif
 
 $(C_BUILDDIR)/%.d: $(C_SUBDIR)/%.c
@@ -379,8 +442,13 @@ ifneq ($(NODEP),1)
 endif
 
 $(TEST_BUILDDIR)/%.o: $(TEST_SUBDIR)/%.c
+ifeq ($(USE_CLANG),1)
+	@echo "clang <flags> -o $@ $<"
+	@$(CPP) $(CPPFLAGS) $< | $(PREPROC) -i $< charmap.txt | $(CLANG) -x c - -c $(CLANG_EXTRA_CFLAGS) $(CLANG_TOOLCHAIN_FLAG) $(CFLAGS) -DMODERN=1 -DTESTING=1 $(CLANG_STD) -o $@
+else
 	@echo "$(CC1) <flags> -o $@ $<"
 	@$(CPP) $(CPPFLAGS) $< | $(PREPROC) -i $< charmap.txt | $(CC1) $(CFLAGS) -o - - | cat - <(echo -e ".text\n\t.align\t2, 0") | $(AS) $(ASFLAGS) -o $@ -
+endif
 
 $(TEST_BUILDDIR)/%.d: $(TEST_SUBDIR)/%.c
 	$(SCANINC) -M $@ $(INCLUDE_SCANINC_ARGS) -I tools/agbcc/include $<
@@ -428,8 +496,10 @@ $(OBJ_DIR)/sym_common.ld: sym_common.txt $(C_OBJS) $(wildcard common_syms/*.txt)
 $(OBJ_DIR)/sym_ewram.ld: sym_ewram.txt
 	$(RAMSCRGEN) ewram_data $< ENGLISH > $@
 
-# NOTE: Depending on event_scripts.o is hacky, but we want to depend on everything event_scripts.s depends on without having to alter scaninc
-$(DATA_SRC_SUBDIR)/pokemon/teachable_learnsets.h: $(DATA_ASM_BUILDDIR)/event_scripts.o
+MOVES_JSON_DIR := $(TOOLS_DIR)/learnset_helpers/porymoves_files
+TEACHABLE_DEPS := $(shell find data/ -type f -name '*.inc') $(INCLUDE_DIRS)/constants/tms_hms.h $(C_SUBDIR)/pokemon.c $(wildcard $(MOVES_JSON_DIR)/*.json)
+
+$(DATA_SRC_SUBDIR)/pokemon/teachable_learnsets.h: $(TEACHABLE_DEPS)
 	python3 $(TOOLS_DIR)/learnset_helpers/teachable.py
 
 # Linker script

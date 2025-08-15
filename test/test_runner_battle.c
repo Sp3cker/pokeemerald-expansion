@@ -83,7 +83,7 @@ NAKED static void InvokeDoubleTestFunctionWithStack(void *results, u32 i, struct
          mov r6, sp\n\
          mov sp, r5\n\
          push {r6}\n\
-         add r6, #20\n\
+         adds r6, #20\n\
          ldmia r6, {r6, r7} @ playerRight, opponentRight\n\
          push {r6, r7}\n\
          ldr r6, =DoubleRestoreSP + 1\n\

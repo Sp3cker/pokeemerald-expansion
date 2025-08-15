@@ -2255,7 +2255,7 @@ u8 DoBattlerEndTurnEffects(void)
             else if (gBattleWeather & (B_WEATHER_HAIL | B_WEATHER_SNOW)
                   && ability == ABILITY_ICE_BODY
                   && !(gStatuses3[battler] & (STATUS3_UNDERGROUND | STATUS3_UNDERWATER))
-                  && !BATTLER_MAX_HP(battler)
+                  && !(BATTLER_MAX_HP(battler))
                   && !(gStatuses3[battler] & STATUS3_HEAL_BLOCK))
             {
                 gBattleScripting.battler = battler;
@@ -2282,7 +2282,7 @@ u8 DoBattlerEndTurnEffects(void)
             break;
         case ENDTURN_INGRAIN:  // ingrain
             if ((gStatuses3[battler] & STATUS3_ROOTED)
-             && !BATTLER_MAX_HP(battler)
+             && !(BATTLER_MAX_HP(battler))
              && !(gStatuses3[battler] & STATUS3_HEAL_BLOCK)
              && IsBattlerAlive(battler))
             {
@@ -2294,7 +2294,7 @@ u8 DoBattlerEndTurnEffects(void)
             break;
         case ENDTURN_AQUA_RING:  // aqua ring
             if ((gStatuses3[battler] & STATUS3_AQUA_RING)
-             && !BATTLER_MAX_HP(battler)
+             && !(BATTLER_MAX_HP(battler))
              && !(gStatuses3[battler] & STATUS3_HEAL_BLOCK)
              && IsBattlerAlive(battler))
             {
@@ -2370,7 +2370,7 @@ u8 DoBattlerEndTurnEffects(void)
             {
                 if (ability == ABILITY_POISON_HEAL)
                 {
-                    if (!BATTLER_MAX_HP(battler) && !(gStatuses3[battler] & STATUS3_HEAL_BLOCK))
+                    if (!(BATTLER_MAX_HP(battler)) && !(gStatuses3[battler] & STATUS3_HEAL_BLOCK))
                     {
                         gBattleMoveDamage = GetNonDynamaxMaxHP(battler) / 8;
                         if (gBattleMoveDamage == 0)
@@ -2398,7 +2398,7 @@ u8 DoBattlerEndTurnEffects(void)
             {
                 if (ability == ABILITY_POISON_HEAL)
                 {
-                    if (!BATTLER_MAX_HP(battler) && !(gStatuses3[battler] & STATUS3_HEAL_BLOCK))
+                    if (!(BATTLER_MAX_HP(battler)) && !(gStatuses3[battler] & STATUS3_HEAL_BLOCK))
                     {
                         gBattleMoveDamage = GetNonDynamaxMaxHP(battler) / 8;
                         if (gBattleMoveDamage == 0)
@@ -5075,7 +5075,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
             // Dry Skin works similarly to Rain Dish in Rain
             case ABILITY_RAIN_DISH:
                 if (IsBattlerWeatherAffected(battler, B_WEATHER_RAIN)
-                 && !BATTLER_MAX_HP(battler)
+                 && !(BATTLER_MAX_HP(battler))
                  && !(gStatuses3[battler] & STATUS3_HEAL_BLOCK))
                 {
                     BattleScriptPushCursorAndCallback(BattleScript_RainDishActivates);
@@ -5132,7 +5132,7 @@ u32 AbilityBattleEffects(u32 caseID, u32 battler, u32 ability, u32 special, u32 
                 }
                 break;
             case ABILITY_SELF_SUFFICIENT:
-                if (!BATTLER_MAX_HP(battler)
+                if (!(BATTLER_MAX_HP(battler))
                 && !(gStatuses3[battler] & STATUS3_HEAL_BLOCK))
                 {
                     BattleScriptPushCursorAndCallback(BattleScript_SelfSufficientActivates);

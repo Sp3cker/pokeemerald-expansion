@@ -586,7 +586,7 @@ static void FillSpeciesGroupsBST(struct SpeciesTable *entries)
 static void FillSpeciesGroupsLegendary(struct SpeciesTable *entries)
 {
     u16 i;
-    for (i = 0; i <= RANDOMIZER_SPECIES_COUNT; i++)
+    for(i = 0; i < RANDOMIZER_SPECIES_COUNT; i++)
     {
         entries->groupIndexToSpecies[i] = i;
         if (!IsSpeciesPermitted(i))

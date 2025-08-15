@@ -20,7 +20,7 @@ struct PulseBlendPalette
     u8 blendCoeff:4;
     u8 fadeDirection:1;
     s8 unk1_5:1;
-    s8 available:1;
+    u8 available:1;
     u32 inUse:1;
     u8 delayCounter;
     u8 fadeCycleCounter;

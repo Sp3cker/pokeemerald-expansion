@@ -1012,16 +1012,6 @@ static const struct WindowTemplate sDebugMenuWindowTemplateMain =
     .baseBlock = 1,
 };
 
-static const struct WindowTemplate sDebugMenuWindowTemplateLimited =
-{
-    .bg = 0,
-    .tilemapLeft = 1,
-    .tilemapTop = 1,
-    .width = DEBUG_MENU_WIDTH_MAIN,
-    .height = 7,
-    .paletteNum = 15,
-    .baseBlock = 1,
-};
 
 static const struct WindowTemplate sDebugMenuWindowTemplateExtra =
 {

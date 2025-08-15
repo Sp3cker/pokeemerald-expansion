@@ -231,7 +231,7 @@ bool32 IsWakeupTurn(u32 battler);
 bool32 AI_IsBattlerAsleepOrComatose(u32 battlerId);
 
 // partner logic
-#define IS_TARGETING_PARTNER(battlerAtk, battlerDef)((battlerAtk) == (battlerDef ^ BIT_FLANK))
+#define IS_TARGETING_PARTNER(battlerAtk, battlerDef) battlerAtk == (battlerDef ^ BIT_FLANK)
 u32 GetAllyChosenMove(u32 battlerId);
 bool32 IsValidDoubleBattle(u32 battlerAtk);
 bool32 DoesPartnerHaveSameMoveEffect(u32 battlerAtkPartner, u32 battlerDef, u32 move, u32 partnerMove);

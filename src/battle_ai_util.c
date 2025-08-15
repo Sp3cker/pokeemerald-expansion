@@ -1211,7 +1211,7 @@ s32 AI_WhoStrikesFirst(u32 battlerAI, u32 battler, u32 aiMoveConsidered, u32 pla
 
 bool32 CanEndureHit(u32 battler, u32 battlerTarget, u32 move)
 {
-    if (!BATTLER_MAX_HP(battlerTarget) || gMovesInfo[move].effect == EFFECT_MULTI_HIT)
+    if (!(BATTLER_MAX_HP(battlerTarget)) || gMovesInfo[move].effect == EFFECT_MULTI_HIT)
         return FALSE;
     if (gMovesInfo[move].strikeCount > 1 && !(gMovesInfo[move].effect == EFFECT_DRAGON_DARTS && IsValidDoubleBattle(battlerTarget)))
         return FALSE;
@@ -1234,7 +1234,7 @@ static bool32 CanForce2HKOForSetupMove(u32 battler, u32 battlerTarget)
     if (gBattleMons[battlerTarget].species == SPECIES_MIMIKYU_DISGUISED)
             return TRUE;
         
-    if (!BATTLER_MAX_HP(battlerTarget))
+    if (!(BATTLER_MAX_HP(battlerTarget)))
         return FALSE;
     
     if (AI_DATA->holdEffects[battlerTarget] == HOLD_EFFECT_FOCUS_SASH)

@@ -122,7 +122,7 @@ Invalid input causes a compiler error. Sample: https://cexplore.karathan.at/z/x1
     (n) == (1 << 29) ? 29 : \
     (n) == (1 << 30) ? 30 : \
     (n) == (1 << 31) ? 31 : \
-    *(u32 *)NULL
+    *(volatile u32 *)NULL
 
 #define COMPRESS_BITS_0 0, 1
 #define COMPRESS_BITS_1 1, 1

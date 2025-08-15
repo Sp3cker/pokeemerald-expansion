@@ -581,8 +581,11 @@
 #define WINOUT_WINOBJ_CLR   (1 << 13)
 #define WINOUT_WINOBJ_ALL   (WINOUT_WINOBJ_BG_ALL | WINOUT_WINOBJ_OBJ | WINOUT_WINOBJ_CLR)
 
-#define WIN_RANGE(a, b) (((a) << 8) | (b))
-#define WIN_RANGE2(a, b) ((b) | ((a) << 8))
+// Build a 16-bit window range value from two 8-bit positions without sign-extension.
+// Using u8 parts ensures the combined value is non-negative, preventing UB when
+// shifting this value (e.g., ((u32)WIN_RANGE(...) << 16) | WIN_RANGE(...)).
+#define WIN_RANGE(a, b)  ((u16)(((u16)(u8)(a) << 8) | (u16)(u8)(b)))
+#define WIN_RANGE2(a, b) ((u16)(((u16)(u8)(a) << 8) | (u16)(u8)(b)))
 
 // BLDCNT
 // Bits 0-5 select layers for the 1st target

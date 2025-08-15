@@ -7,7 +7,7 @@ static u16 handshake_wait(u16 slot);
 static void STWI_set_timer_in_RAM(u8 count);
 static void STWI_stop_timer_in_RAM(void);
 static void STWI_init_slave(void);
-static void Callback_Dummy_M(int reqCommandId, int error, void (*callbackM)());
+static void Callback_Dummy_M(int reqCommandId, int error, void (*callbackM)(u16, u16, struct STWIStatus *));
 static void Callback_Dummy_S(u16 reqCommandId, void (*callbackS)(u16));
 static void Callback_Dummy_ID(void (*callbackId)(void));
 
@@ -387,20 +387,20 @@ static void STWI_init_slave(void)
     REG_SIOCNT = SIO_INTR_ENABLE | SIO_32BIT_MODE | SIO_57600_BPS | SIO_ENABLE;
 }
 
-NAKED
-static void Callback_Dummy_M(int reqCommandId, int error, void (*callbackM)())
+static void Callback_Dummy_M(int reqCommandId, int error, void (*callbackM)(u16, u16, struct STWIStatus *))
 {
-    asm("bx r2");
+    if (callbackM != NULL)
+        callbackM((u16)reqCommandId, (u16)error, gSTWIStatus);
 }
 
-NAKED
 static void Callback_Dummy_S(u16 reqCommandId, void (*callbackS)(u16))
 {
-    asm("bx r1");
+    if (callbackS != NULL)
+        callbackS(reqCommandId);
 }
 
-NAKED
 static void Callback_Dummy_ID(void (*callbackId)(void))
 {
-    asm("bx r0");
+    if (callbackId != NULL)
+        callbackId();
 }

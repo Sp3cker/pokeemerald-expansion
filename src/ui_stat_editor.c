@@ -810,7 +810,7 @@ static void Task_StatEditorMain(u8 taskId) // input control when first loaded in
         gTasks[taskId].func = Task_MenuEditingStat;
         if(sStatEditorDataPtr->editingStat == 0)
             StartSpriteAnim(&gSprites[sStatEditorDataPtr->selectorSpriteId], 1);
-        if((sStatEditorDataPtr->editingStat == 255 || (sStatEditorDataPtr->evTotal == 510)) && (sStatEditorDataPtr->selector_x == 0))
+    if ((sStatEditorDataPtr->editingStat == 255 || sStatEditorDataPtr->evTotal == 510) && sStatEditorDataPtr->selector_x == 0)
             StartSpriteAnim(&gSprites[sStatEditorDataPtr->selectorSpriteId], 2);
         if((sStatEditorDataPtr->editingStat == 31) && (sStatEditorDataPtr->selector_x == 1))
             StartSpriteAnim(&gSprites[sStatEditorDataPtr->selectorSpriteId], 2);
@@ -950,7 +950,7 @@ static void HandleEditingStatInput(u32 input)
         return;
     }
 
-    if((input >= EDIT_INPUT_DECREASE_STATE) && ((sStatEditorDataPtr->editingStat == STAT_MINIMUM) || CheckIfStatCantDecrease()))
+    if ((input >= EDIT_INPUT_DECREASE_STATE) && (sStatEditorDataPtr->editingStat == STAT_MINIMUM || CheckIfStatCantDecrease()))
     {
         StartSpriteAnim(&gSprites[sStatEditorDataPtr->selectorSpriteId], 1);
         return;
@@ -958,12 +958,12 @@ static void HandleEditingStatInput(u32 input)
 
     #define INCREASE_DECREASE_AMOUNT 1
 
-    switch(input)
+    switch (input)
     {
         case EDIT_INPUT_DECREASE_STATE:
             for (iterator = 0; iterator < INCREASE_DECREASE_AMOUNT; iterator++)
             {
-                if(!(sStatEditorDataPtr->editingStat == STAT_MINIMUM) || !CheckIfStatCantDecrease())
+                if (!(sStatEditorDataPtr->editingStat == STAT_MINIMUM) || !CheckIfStatCantDecrease())
                     sStatEditorDataPtr->editingStat--;
                 else
                     break;
@@ -972,23 +972,23 @@ static void HandleEditingStatInput(u32 input)
        case EDIT_INPUT_MAX_DECREASE_STATE:
             sStatEditorDataPtr->editingStat = STAT_MINIMUM;
             break;
-        case EDIT_INPUT_INCREASE_STATE:
+    case EDIT_INPUT_INCREASE_STATE:
             for (iterator = 0; iterator < INCREASE_DECREASE_AMOUNT; iterator++)
             {
-                if(!CheckIfStatCantIncrease())
+        if (!CheckIfStatCantIncrease())
                     sStatEditorDataPtr->editingStat++;
                 else
                     break;
             }
             break;
         case EDIT_INPUT_MAX_INCREASE_STATE:
-            if((sStatEditorDataPtr->selector_x == EDITING_EVS))
+            if (sStatEditorDataPtr->selector_x == EDITING_EVS)
             {
                 if (EV_MAX_TOTAL - sStatEditorDataPtr->evTotal < EV_MAX_SINGLE_STAT)
                     sStatEditorDataPtr->editingStat += EV_MAX_TOTAL - sStatEditorDataPtr->evTotal;
                 else
                     sStatEditorDataPtr->editingStat = EV_MAX_SINGLE_STAT;
-                if(sStatEditorDataPtr->editingStat > EV_MAX_SINGLE_STAT)
+                if (sStatEditorDataPtr->editingStat > EV_MAX_SINGLE_STAT)
                     sStatEditorDataPtr->editingStat = EV_MAX_SINGLE_STAT;
             }
             else
@@ -999,9 +999,9 @@ static void HandleEditingStatInput(u32 input)
 
     ChangeAndUpdateStat();
 
-    if(CheckIfStatCantIncrease())
+    if (CheckIfStatCantIncrease())
         StartSpriteAnim(&gSprites[sStatEditorDataPtr->selectorSpriteId], 2);
-    else if(sStatEditorDataPtr->editingStat == STAT_MINIMUM)
+    else if (sStatEditorDataPtr->editingStat == STAT_MINIMUM)
         StartSpriteAnim(&gSprites[sStatEditorDataPtr->selectorSpriteId], 1); 
     else
         StartSpriteAnim(&gSprites[sStatEditorDataPtr->selectorSpriteId], 3);       

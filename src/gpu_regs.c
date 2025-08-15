@@ -1,14 +1,16 @@
 #include "global.h"
 #include "gpu_regs.h"
 
-#define GPU_REG_BUF_SIZE 0x60
+#define GPU_REG_BUF_SIZE 0x60  // bytes of GPU register address space we buffer (0x00..0x5E)
 
-#define GPU_REG_BUF(offset) (*(u16 *)(&sGpuRegBuffer[offset]))
+// Keep the register buffer 16-bit aligned and index by halfword offset to avoid
+// undefined behavior (strict aliasing) and alignment issues under Clang.
+#define GPU_REG_BUF(offset) (sGpuRegBuffer[(offset) >> 1])
 #define GPU_REG(offset) (*(vu16 *)(REG_BASE + offset))
 
 #define EMPTY_SLOT 0xFF
 
-static u8 sGpuRegBuffer[GPU_REG_BUF_SIZE];
+static u16 sGpuRegBuffer[GPU_REG_BUF_SIZE / 2];
 static u8 sGpuRegWaitingList[GPU_REG_BUF_SIZE];
 static volatile bool8 sGpuRegBufferLocked;
 static volatile bool8 sShouldSyncRegIE;
@@ -22,11 +24,11 @@ void InitGpuRegManager(void)
 {
     s32 i;
 
-    for (i = 0; i < GPU_REG_BUF_SIZE; i++)
-    {
+    for (i = 0; i < (GPU_REG_BUF_SIZE / 2); i++)
         sGpuRegBuffer[i] = 0;
+
+    for (i = 0; i < GPU_REG_BUF_SIZE; i++)
         sGpuRegWaitingList[i] = EMPTY_SLOT;
-    }
 
     sGpuRegBufferLocked = FALSE;
     sShouldSyncRegIE = FALSE;

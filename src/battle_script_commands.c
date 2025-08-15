@@ -3573,7 +3573,7 @@ void SetMoveEffect(bool32 primary, bool32 certain)
                 else
                     flags |= STAT_CHANGE_UPDATE_MOVE_EFFECT;
 
-                if (ChangeStatBuffs(SET_STAT_BUFF_VALUE(1) | STAT_BUFF_NEGATIVE,
+                if (ChangeStatBuffs((s8)(SET_STAT_BUFF_VALUE(1) | STAT_BUFF_NEGATIVE),
                                     gBattleScripting.moveEffect - MOVE_EFFECT_ATK_MINUS_1 + 1,
                                     flags, gBattlescriptCurrInstr + 1) == STAT_CHANGE_DIDNT_WORK)
                 {
@@ -3625,7 +3625,7 @@ void SetMoveEffect(bool32 primary, bool32 certain)
                     flags = 0;
                 if (mirrorArmorReflected && !affectsUser)
                     flags |= STAT_CHANGE_ALLOW_PTR;
-                if (ChangeStatBuffs(SET_STAT_BUFF_VALUE(2) | STAT_BUFF_NEGATIVE,
+                if (ChangeStatBuffs((s8)(SET_STAT_BUFF_VALUE(2) | STAT_BUFF_NEGATIVE),
                                     gBattleScripting.moveEffect - MOVE_EFFECT_ATK_MINUS_2 + 1,
                                     flags | STAT_CHANGE_UPDATE_MOVE_EFFECT, gBattlescriptCurrInstr + 1) == STAT_CHANGE_DIDNT_WORK)
                 {
@@ -8447,7 +8447,7 @@ static bool32 TryCheekPouch(u32 battler, u32 itemId)
         && GetBattlerAbility(battler) == ABILITY_CHEEK_POUCH
         && !(gStatuses3[battler] & STATUS3_HEAL_BLOCK)
         && gBattleStruct->ateBerry[GetBattlerSide(battler)] & (1u << gBattlerPartyIndexes[battler])
-        && !BATTLER_MAX_HP(battler))
+        && !(BATTLER_MAX_HP(battler)))
     {
         gBattleMoveDamage = GetNonDynamaxMaxHP(battler) / 3;
         if (gBattleMoveDamage == 0)

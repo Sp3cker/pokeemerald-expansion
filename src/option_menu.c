@@ -596,13 +596,13 @@ static u8 BattleSpeed_ProcessInput(u8 selection)
     {
         if (++selection > 3)  // If the selection exceeds 3, wrap around to 0
             selection = 0;
-            sArrowPressed = TRUE;
+        sArrowPressed = TRUE;
     }
     if (JOY_NEW(DPAD_LEFT))
     {
         if (--selection > 3)  // If the selection is negative, wrap around to 3
             selection = 3;
-            sArrowPressed = TRUE;
+        sArrowPressed = TRUE;
     }
     // Update the battle speed variable based on the selection
     VarSet(VAR_BATTLE_SPEED, selection);  // Set the battle speed variable

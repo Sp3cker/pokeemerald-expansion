@@ -1038,7 +1038,7 @@ static void Task_DexNavSearch(u8 taskId)
         return;
     }
     
-    if (gTasks[taskId].tFrameCount > DEXNAV_TIMEOUT * 60)
+    if ((u16)gTasks[taskId].tFrameCount > (u16)(DEXNAV_TIMEOUT * 60))
     { // player took too long
         if (sDexNavSearchDataPtr->hiddenSearch && !task->tRevealed)
             EndDexNavSearch(taskId);

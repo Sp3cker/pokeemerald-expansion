@@ -79,10 +79,10 @@ static void UpdateDisintegrationEffect(u8 *, u16, u8, u8, u8);
 static const u8 ALIGNED(2) sBlankTile_Gfx[32] = {0};
 static const u8 sMirageTower_Gfx[] = INCBIN_U8("graphics/misc/mirage_tower.4bpp");
 static const u16 sMirageTowerTilemap[] = INCBIN_U16("graphics/misc/mirage_tower.bin");
-static const u16 sFossil_Pal[] = INCBIN_U16("graphics/object_events/pics/misc/fossil.gbapal"); // Unused
+// static const u16 sFossil_Pal[] = INCBIN_U16("graphics/object_events/pics/misc/fossil.gbapal"); // Unused
 static const u8 sFossil_Gfx[] = INCBIN_U8("graphics/object_events/pics/misc/fossil.4bpp"); // Duplicate of gObjectEventPic_Fossil
 static const u8 sMirageTowerCrumbles_Gfx[] = INCBIN_U8("graphics/misc/mirage_tower_crumbles.4bpp");
-static const u16 sMirageTowerCrumbles_Palette[] = INCBIN_U16("graphics/misc/mirage_tower_crumbles.gbapal");
+// static const u16 sMirageTowerCrumbles_Palette[] = INCBIN_U16("graphics/misc/mirage_tower_crumbles.gbapal");
 
 static const s16 sCeilingCrumblePositions[][3] =
 {
@@ -169,10 +169,10 @@ const struct PulseBlendSettings gMirageTowerPulseBlendSettings = {
     .numColors = 15,
     .delay = 5,
     .numFadeCycles = -1,
-    .maxBlendCoeff = 11,
+    .maxBlendCoeff = -5, // 11 modulo 16 for 4-bit signed field
     .fadeType = 1,
     .restorePaletteOnUnload = FALSE,
-    .unk7_7 = 1,
+    .unk7_7 = -1, // 1-bit signed field: use -1 to represent set bit without warning
 };
 
 static const union AnimCmd sAnim_CeilingCrumbleSmall[] =

@@ -44,17 +44,18 @@ static void CopyFromSaveBlock3(u32, struct SaveSector *);
  * See SECTOR_ID_* constants in save.h
  */
 
-#define SAVEBLOCK_CHUNK(structure, chunkNum)                                   \
-{                                                                              \
-    chunkNum * SECTOR_DATA_SIZE,                                               \
-    sizeof(structure) >= chunkNum * SECTOR_DATA_SIZE ?                         \
-    min(sizeof(structure) - chunkNum * SECTOR_DATA_SIZE, SECTOR_DATA_SIZE) : 0 \
+#define SAVEBLOCK_CHUNK(structure, chunkNum)                                      \
+{                                                                                 \
+    (u16)(chunkNum * SECTOR_DATA_SIZE),                                          \
+    (u16)(sizeof(structure) >= chunkNum * SECTOR_DATA_SIZE ?                     \
+        min(sizeof(structure) - (chunkNum * SECTOR_DATA_SIZE), SECTOR_DATA_SIZE) \
+        : 0)                                                                      \
 }
 
 struct
 {
-    u16 offset;
-    u16 size;
+    unsigned short offset;
+    unsigned short size;
 } static const sSaveSlotLayout[NUM_SECTORS_PER_SLOT] =
 {
     SAVEBLOCK_CHUNK(struct SaveBlock2, 0), // SECTOR_ID_SAVEBLOCK2

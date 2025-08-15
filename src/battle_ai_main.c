@@ -859,7 +859,7 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
                 break;
             case ABILITY_DEFIANT:
             case ABILITY_COMPETITIVE:
-                if (IsStatLoweringEffect(moveEffect) && !IS_TARGETING_PARTNER(battlerAtk, battlerDef))
+                if (IsStatLoweringEffect(moveEffect) && !(IS_TARGETING_PARTNER(battlerAtk, battlerDef)))
                     RETURN_SCORE_MINUS(8);
                 break;
             case ABILITY_COMATOSE:
@@ -2008,7 +2008,7 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
 
             // evasion check
             if (gBattleMons[battlerDef].statStages[STAT_EVASION] == MIN_STAT_STAGE
-              || ((aiData->abilities[battlerDef] == ABILITY_CONTRARY) && !IS_TARGETING_PARTNER(battlerAtk, battlerDef))) // don't want to raise target stats unless its your partner
+              || ((aiData->abilities[battlerDef] == (ABILITY_CONTRARY)) && !(IS_TARGETING_PARTNER(battlerAtk, battlerDef)))) // don't want to raise target stats unless its your partner
                 ADJUST_SCORE(-10);
             break;
         case EFFECT_PSYCH_UP:   // haze stats check
@@ -2389,7 +2389,7 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
             }
             break;
         case EFFECT_HEAL_PULSE: // and floral healing
-            if (!IS_TARGETING_PARTNER(battlerAtk, battlerDef)) // Don't heal enemies
+            if (!(IS_TARGETING_PARTNER(battlerAtk, battlerDef))) // Don't heal enemies
             {
                 ADJUST_SCORE(-10);
                 break;
@@ -2413,7 +2413,7 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
                 ADJUST_SCORE(-10);
             break;
         case EFFECT_TOPSY_TURVY:
-            if (!IS_TARGETING_PARTNER(battlerAtk, battlerDef))
+            if (!(IS_TARGETING_PARTNER(battlerAtk, battlerDef)))
             {
                 u32 targetPositiveStages = CountPositiveStatStages(battlerDef);
                 u32 targetNegativeStages = CountNegativeStatStages(battlerDef);
@@ -2455,7 +2455,7 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
                     ADJUST_SCORE(-10);
                 else if (isDoubleBattle)
                 {
-                    if (!IS_TARGETING_PARTNER(battlerAtk, battlerDef))
+                    if (!(IS_TARGETING_PARTNER(battlerAtk, battlerDef)))
                         ADJUST_SCORE(-10);
                 }
                 else
@@ -2480,7 +2480,7 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
                 ADJUST_SCORE(-10);
             break;
         case EFFECT_AFTER_YOU:
-            if (!IS_TARGETING_PARTNER(battlerAtk, battlerDef)
+            if (!(IS_TARGETING_PARTNER(battlerAtk, battlerDef))
               || !isDoubleBattle
               || AI_IsSlower(battlerAtk, battlerDef, move, predictedMove, CONSIDER_PRIORITY)
               || PartnerMoveIsSameAsAttacker(BATTLE_PARTNER(battlerAtk), battlerDef, move, aiData->partnerMove))

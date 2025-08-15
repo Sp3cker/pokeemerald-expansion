@@ -3004,7 +3004,7 @@ static void Swap_Task_ScreenInfoTransitionOut(u8 taskId)
         gTasks[taskId].tState++;
         break;
     case 2:
-        BeginNormalPaletteFade(1 << PALNUM_FADE_TEXT, 0, 0, 16, sPokeballGray_Pal[37]);
+        BeginNormalPaletteFade(1 << PALNUM_FADE_TEXT, 0, 0, 16, sPokeballGray_Pal[15]);
         gTasks[taskId].tState++;
         break;
     case 3:
@@ -3125,14 +3125,14 @@ static void Swap_Task_ScreenInfoTransitionIn(u8 taskId)
         if (gTasks[taskId].tSlideFinishedPkmn == TRUE
          && gTasks[taskId].tSlideFinishedCancel == TRUE)
         {
-            gPlttBufferFaded[BG_PLTT_ID(PALNUM_FADE_TEXT) + 2] = sPokeballGray_Pal[37];
+            gPlttBufferFaded[BG_PLTT_ID(PALNUM_FADE_TEXT) + 2] = sPokeballGray_Pal[15];
             Swap_PrintActionStrings();
             PutWindowTilemap(SWAP_WIN_ACTION_FADE);
             gTasks[taskId].tState++;
         }
         break;
     case 3:
-        BeginNormalPaletteFade(1 << PALNUM_FADE_TEXT, 0, 16, 0, sPokeballGray_Pal[37]);
+        BeginNormalPaletteFade(1 << PALNUM_FADE_TEXT, 0, 16, 0, sPokeballGray_Pal[15]);
         gTasks[taskId].tState++;
         break;
     case 4:

@@ -529,7 +529,8 @@ void ClearRematchMovementByTrainerId(void)
 
         TryGetObjectEventIdByLocalIdAndMap(objectEventTemplates[i].localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, &objEventId);
         objectEvent = &gObjectEvents[objEventId];
-        GetRandomFaceDirectionMovementType(&objectEventTemplates[i]);
+    // Randomize facing direction if needed; function takes no parameters
+    GetRandomFaceDirectionMovementType();
         TryOverrideTemplateCoordsForObjectEvent(objectEvent, sFaceDirectionMovementTypeByFacingDirection[objectEvent->facingDirection]);
 
         if (gSelectedObjectEvent == objEventId)

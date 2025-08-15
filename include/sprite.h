@@ -159,8 +159,8 @@ enum
 
 struct Subsprite
 {
-    s8 x; // was u16 in R/S
-    s8 y; // was u16 in R/S
+    u8 x; // was u16 in R/S
+    u8 y; // was u16 in R/S
     u16 shape:2;
     u16 size:2;
     u16 tileOffset:10;

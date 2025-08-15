@@ -2248,7 +2248,7 @@ static bool32 AllPlayersReadyToStart(void)
             sGame->readyToStart[i] = RecvPacket_ReadyToStart(i);
     }
 
-    numPlayers = numPlayers; // Needed to force compiler to keep loop below
+    (void)numPlayers; // keep variable referenced without altering value
 
 #ifdef BUGFIX
     i = 1; // i isn't reset, loop below never runs. As a result, game can begin before all players ready

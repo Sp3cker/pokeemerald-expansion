@@ -506,19 +506,21 @@ static void ShowTimeWindow(void)
     PutWindowTilemap(sStartClockWindowId);
     DrawStdWindowFrame(sStartClockWindowId, FALSE);
 
-    if (hours < 12)
+    // Determine 12-hour converted hour and AM/PM suffix
+    if (hours == 0)
     {
-        if (hours == 0)
-            convertedHours = 12;
-        else
-            convertedHours = hours;
+        convertedHours = 12;
+        suffix = gText_AM;
+    }
+    else if (hours < 12)
+    {
+        convertedHours = hours;
         suffix = gText_AM;
     }
     else if (hours == 12)
     {
         convertedHours = 12;
-        if (suffix == gText_AM);
-            suffix = gText_PM;
+        suffix = gText_PM;
     }
     else
     {

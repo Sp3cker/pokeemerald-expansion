@@ -11,7 +11,7 @@
 #include "constants/item_effects.h"
 #include "constants/songs.h"
 
-static const void Hexorb_BufferBlockedStatusMessage(u32 status)
+static void Hexorb_BufferBlockedStatusMessage(u32 status)
 {
     switch (status)
     {
@@ -38,7 +38,7 @@ static const void Hexorb_BufferBlockedStatusMessage(u32 status)
             break;
     }
 }
-static const void Hexorb_BufferStatusFailureText(u32 status)
+static  void Hexorb_BufferStatusFailureText(u32 status)
 {
     switch (status)
     {

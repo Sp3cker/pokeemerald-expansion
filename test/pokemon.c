@@ -65,7 +65,7 @@ TEST("Terastallization type is reset to the default types when setting Tera Type
 
 TEST("Shininess independent from PID and OTID")
 {
-    u32 pid, otId, data;
+    u32 pid = 0, otId = 0, data;
     bool32 isShiny;
     struct Pokemon mon;
     PARAMETRIZE { pid = 0; otId = 0; }

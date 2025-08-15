@@ -2206,7 +2206,7 @@ u32 FilterFlyDestination(struct RegionMap* regionMap)
 
 void SetFlyDestination(struct RegionMap* regionMap)
 {
-    u8 flyDestination = FilterFlyDestination(regionMap);
+    u32 flyDestination = FilterFlyDestination(regionMap);
     if (flyDestination != WARP_ID_NONE)
         SetWarpDestinationToHealLocation(flyDestination);
     else

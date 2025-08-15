@@ -24,16 +24,16 @@ static void AnimPunishment(struct Sprite *sprite);
 static void AnimTask_MetallicShine_Step(u8);
 
 // Unused
-static const struct SpriteTemplate sUnusedBagStealSpriteTemplate =
-{
-    .tileTag = ANIM_TAG_TIED_BAG,
-    .paletteTag = ANIM_TAG_TIED_BAG,
-    .oam = &gOamData_AffineOff_ObjNormal_16x16,
-    .anims = gDummySpriteAnimTable,
-    .images = NULL,
-    .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = AnimUnusedBagSteal,
-};
+// static const struct SpriteTemplate sUnusedBagStealSpriteTemplate =
+// {
+//     .tileTag = ANIM_TAG_TIED_BAG,
+//     .paletteTag = ANIM_TAG_TIED_BAG,
+//     .oam = &gOamData_AffineOff_ObjNormal_16x16,
+//     .anims = gDummySpriteAnimTable,
+//     .images = NULL,
+//     .affineAnims = gDummySpriteAffineAnimTable,
+//     .callback = AnimUnusedBagSteal,
+// };
 
 static const union AffineAnimCmd sAffineAnim_Bite_0[] =
 {
@@ -822,7 +822,7 @@ static void DoMementoShadowEffect(struct Task *task)
         }
 
         var4 = task->data[10] - (i - 159);
-        for (i = i; i < task->data[7]; i++)
+        for (i = 0; i < task->data[7]; i++)
         {
             if (i >= 0)
             {

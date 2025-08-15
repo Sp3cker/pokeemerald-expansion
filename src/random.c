@@ -32,25 +32,31 @@ static void SFC32_Seed(struct Sfc32State *state, u32 seed, u8 stream)
 * In addition, it's extremely non-portable. */
 u32 NAKED Random32(void)
 {
-    asm(".thumb\n\
+    asm(".syntax unified\n\
+    .thumb\n\
     push {r4, r5, r6}\n\
-    mov r6, #11\n\
+    movs r6, #11\n\
     ldr r5, =gRngValue\n\
     ldmia r5!, {r1, r2, r3, r4}\n\
     @ result = a + b + (d+=STREAM1)\n\
-    add r1, r1, r2\n\
-    add r0, r1, r4\n\
-    add r4, r4, #" STR(STREAM1) "\n\
+    adds r4, r4, #" STR(STREAM1) "\n\
+    adds r1, r1, r2\n\
+    movs r0, #0\n\
+    adds r0, r0, r1\n\
+    adds r0, r0, r4\n\
     @ a = b ^ (b >> 9)\n\
-    lsr r1, r2, #9\n\
-    eor r1, r1, r2\n\
+    lsrs r1, r2, #9\n\
+    eors r1, r1, r2\n\
     @ b = c + (c << 3) [c * 9]\n\
-    lsl r2, r3, #3\n\
-    add r2, r2, r3\n\
+    lsls r2, r3, #3\n\
+    adds r2, r2, r3\n\
     @ c = rol(c, 21) + result\n\
-    ror r3, r3, r6\n\
-    add r3, r3, r0\n\
-    sub r5, r5, #16\n\
+    @ Thumb-1 lacks ROR by register; emulate ror r3, #11 as (r3 >> 11) | (r3 << 21).\n\
+    lsrs r6, r3, #11\n\
+    lsls r3, r3, #21\n\
+    orrs r3, r3, r6\n\
+    adds r3, r3, r0\n\
+    subs r5, r5, #16\n\
     stmia r5!, {r1, r2, r3, r4}\n\
     pop {r4, r5, r6}\n\
     bx lr\n\

@@ -1033,7 +1033,7 @@ static bool8 LMenuDexNavCallback(void)
 
 static void ShowTimeWindow(void)
 {
-    const u8 *suffix;
+    const u8 *suffix = 0;
     u8* ptr;
     u8 convertedHours;
     RtcCalcLocalTime();

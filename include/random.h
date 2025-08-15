@@ -7,21 +7,22 @@
 #define ISO_RANDOMIZE2(val) (1103515245 * (val) + 12345)
 
 /* Some functions have been added to support Expansion's RNG implementation.
-*
-* LocalRandom(*val) provides a higher-quality replacement for uses of
-* ISO_RANDOMIZE in vanilla Emerald. You can use LocalRandomSeed(u32) to
-* create a local state.
-*
-* It is no longer possible to call Random() in interrupt handlers safely.
-* AdvanceRandom() is provided to handle burning numbers in VBlank handlers.
-* If you need to use random numbers in the VBlank handler, a local state
-* should be used instead.
-*
-* Random2_32() was added, even though it is not used directly, because the
-* underlying RNG always outputs 32 bits.
-*/
+ *
+ * LocalRandom(*val) provides a higher-quality replacement for uses of
+ * ISO_RANDOMIZE in vanilla Emerald. You can use LocalRandomSeed(u32) to
+ * create a local state.
+ *
+ * It is no longer possible to call Random() in interrupt handlers safely.
+ * AdvanceRandom() is provided to handle burning numbers in VBlank handlers.
+ * If you need to use random numbers in the VBlank handler, a local state
+ * should be used instead.
+ *
+ * Random2_32() was added, even though it is not used directly, because the
+ * underlying RNG always outputs 32 bits.
+ */
 
-struct Sfc32State {
+struct Sfc32State
+{
     u32 a;
     u32 b;
     u32 c;
@@ -42,7 +43,9 @@ static inline u32 _SFC32_Next_Stream(struct Sfc32State *state, const u8 stream)
 
 typedef struct Sfc32State rng_value_t;
 
-#define RNG_VALUE_EMPTY {}
+#define RNG_VALUE_EMPTY \
+    {                   \
+    }
 
 // Calling this function directly is discouraged.
 // Use LocalRandom() instead.
@@ -91,10 +94,18 @@ static inline void Shuffle(void *data, size_t n, size_t size)
 {
     switch (size)
     {
-    case 1: Shuffle8(data, n); break;
-    case 2: Shuffle16(data, n); break;
-    case 4: Shuffle32(data, n); break;
-    default: ShuffleN(data, n, size); break;
+    case 1:
+        Shuffle8(data, n);
+        break;
+    case 2:
+        Shuffle16(data, n);
+        break;
+    case 4:
+        Shuffle32(data, n);
+        break;
+    default:
+        ShuffleN(data, n, size);
+        break;
     }
 }
 
@@ -196,38 +207,40 @@ enum RandomTag
     RNG_AI_SWITCH_ABSORBING_STAY_IN,
 };
 
-#define RandomWeighted(tag, ...) \
-    ({ \
-        const u8 weights[] = { __VA_ARGS__ }; \
-        u32 sum, i; \
-        for (i = 0, sum = 0; i < ARRAY_COUNT(weights); i++) \
-            sum += weights[i]; \
+#define RandomWeighted(tag, ...)                                      \
+    ({                                                                \
+        const u8 weights[] = {__VA_ARGS__};                           \
+        u32 sum, i;                                                   \
+        for (i = 0, sum = 0; i < ARRAY_COUNT(weights); i++)         \
+        {                                                             \
+            sum += weights[i];                                        \
+        }                                                             \
         RandomWeightedArray(tag, sum, ARRAY_COUNT(weights), weights); \
     })
 
 #define RandomChance(tag, successes, total) (RandomWeighted(tag, total - successes, successes))
 
-#define RandomPercentage(tag, t) \
-    ({ \
-        u32 r; \
-        if (t <= 0) \
-        { \
-            r = FALSE; \
-        } \
-        else if (t >= 100) \
-        { \
-            r = TRUE; \
-        } \
-        else \
-        { \
-          const u8 weights[] = { 100 - t, t }; \
-          r = RandomWeightedArray(tag, 100, ARRAY_COUNT(weights), weights); \
-        } \
-        r; \
+#define RandomPercentage(tag, t)                                              \
+    ({                                                                        \
+        u32 r;                                                                \
+        if (t <= 0)                                                           \
+        {                                                                     \
+            r = FALSE;                                                        \
+        }                                                                     \
+        else if (t >= 100)                                                    \
+        {                                                                     \
+            r = TRUE;                                                         \
+        }                                                                     \
+        else                                                                  \
+        {                                                                     \
+            const u8 weights[] = {100 - t, t};                                \
+            r = RandomWeightedArray(tag, 100, ARRAY_COUNT(weights), weights); \
+        }                                                                     \
+        r;                                                                    \
     })
 
-#define RandomElement(tag, array) \
-    ({ \
+#define RandomElement(tag, array)                                                                      \
+    ({                                                                                                 \
         *(typeof((array)[0]) *)RandomElementArray(tag, array, sizeof((array)[0]), ARRAY_COUNT(array)); \
     })
 
