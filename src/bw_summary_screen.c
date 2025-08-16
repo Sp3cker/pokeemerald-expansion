@@ -2375,6 +2375,22 @@ static void ChangeSummaryPokemon(u8 taskId, s8 delta)
             {
                 SetSpriteInvisibility(SPRITE_ARR_ID_STATUS, TRUE);
             }
+            
+            // Handle dex prompt window based on the NEW Pokémon's egg status
+            if (!gMain.inBattle)
+            {
+                bool8 isNewMonEgg;
+                if (sMonSummaryScreen->isBoxMon)
+                    isNewMonEgg = GetBoxMonData(&sMonSummaryScreen->monList.boxMons[monId], MON_DATA_IS_EGG);
+                else
+                    isNewMonEgg = GetMonData(&sMonSummaryScreen->monList.mons[monId], MON_DATA_IS_EGG);
+                    
+                if (isNewMonEgg)
+                    ClearWindowTilemap(PSS_LABEL_WINDOW_PROMPT_DEX);
+                else
+                    PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_DEX);
+            }
+            
             sMonSummaryScreen->curMonIndex = monId;
             gTasks[taskId].data[0] = 0;
             gTasks[taskId].func = Task_ChangeSummaryMon;
@@ -2825,7 +2841,7 @@ static void CloseMoveSelectMode(u8 taskId)
     DestroyMoveSelectorSprites(SPRITE_ARR_ID_MOVE_SELECTOR1);
     ClearWindowTilemap(PSS_LABEL_WINDOW_PROMPT_SWITCH);
     PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_INFO);
-    if (!gMain.inBattle)
+    if (!gMain.inBattle && !sMonSummaryScreen->summary.isEgg)
     {
         PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_DEX);
     }
@@ -3709,7 +3725,7 @@ static void PutPageWindowTilemaps(u8 page)
     case PSS_PAGE_INFO:
         PutWindowTilemap(PSS_LABEL_WINDOW_POKEMON_INFO_TITLE);
         PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_CANCEL);
-        if(!gMain.inBattle)
+        if(!gMain.inBattle && !sMonSummaryScreen->summary.isEgg)
         {
             PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_DEX);
         }
@@ -3717,7 +3733,7 @@ static void PutPageWindowTilemaps(u8 page)
     case PSS_PAGE_SKILLS:
         PutWindowTilemap(PSS_LABEL_WINDOW_POKEMON_SKILLS_TITLE);
         PutWindowTilemap(PSS_LABEL_WINDOW_POKEMON_SKILLS_EXP);
-        if(!gMain.inBattle)
+        if(!gMain.inBattle && !sMonSummaryScreen->summary.isEgg)
         {
             PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_DEX);
         }
@@ -3728,7 +3744,7 @@ static void PutPageWindowTilemaps(u8 page)
         break;
     case PSS_PAGE_BATTLE_MOVES:
         PutWindowTilemap(PSS_LABEL_WINDOW_BATTLE_MOVES_TITLE);
-        if(!gMain.inBattle)
+        if(!gMain.inBattle && !sMonSummaryScreen->summary.isEgg)
         {
             PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_DEX);
         }
@@ -3744,7 +3760,7 @@ static void PutPageWindowTilemaps(u8 page)
         break;
     case PSS_PAGE_CONTEST_MOVES:
         PutWindowTilemap(PSS_LABEL_WINDOW_CONTEST_MOVES_TITLE);
-        if(!gMain.inBattle)
+        if(!gMain.inBattle && !sMonSummaryScreen->summary.isEgg)
         {
             PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_DEX);
         }
@@ -3767,6 +3783,7 @@ static void ClearPageWindowTilemaps(u8 page)
     {
     case PSS_PAGE_INFO:
         ClearWindowTilemap(PSS_LABEL_WINDOW_PROMPT_CANCEL);
+        ClearWindowTilemap(PSS_LABEL_WINDOW_PROMPT_DEX);
         break;
     case PSS_PAGE_SKILLS:
         ClearWindowTilemap(PSS_LABEL_WINDOW_POKEMON_SKILLS_EXP);
@@ -3775,6 +3792,7 @@ static void ClearPageWindowTilemaps(u8 page)
             ClearWindowTilemap(PSS_LABEL_WINDOW_PROMPT_STATS);
             ClearWindowTilemap(PSS_LABEL_WINDOW_PROMPT_EVS);
             ClearWindowTilemap(PSS_LABEL_WINDOW_PROMPT_IVS);
+            ClearWindowTilemap(PSS_LABEL_WINDOW_PROMPT_DEX);
         }
         break;
     case PSS_PAGE_BATTLE_MOVES:
@@ -3792,6 +3810,7 @@ static void ClearPageWindowTilemaps(u8 page)
     case PSS_PAGE_CONTEST_MOVES:
         if (sMonSummaryScreen->mode != BW_SUMMARY_MODE_SELECT_MOVE)
             ClearWindowTilemap(PSS_LABEL_WINDOW_PROMPT_INFO);
+            ClearWindowTilemap(PSS_LABEL_WINDOW_PROMPT_DEX);
         break;
     }
 
