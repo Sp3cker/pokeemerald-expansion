@@ -585,27 +585,27 @@ static const struct WindowTemplate sSummaryTemplate[] =
     },
     [PSS_LABEL_WINDOW_PROMPT_IVS] = {
         .bg = 0,
-        .tilemapLeft = 20,
+        .tilemapLeft = 22,
         .tilemapTop = 0,
-        .width = 10,
+        .width = 8,
         .height = 2,
         .paletteNum = 6,
         .baseBlock = 275,
     },
     [PSS_LABEL_WINDOW_PROMPT_EVS] = {
         .bg = 0,
-        .tilemapLeft = 20,
+        .tilemapLeft = 22,
         .tilemapTop = 0,
-        .width = 10,
+        .width = 8,
         .height = 2,
         .paletteNum = 6,
         .baseBlock = 295,
     },
     [PSS_LABEL_WINDOW_PROMPT_STATS] = {
         .bg = 0,
-        .tilemapLeft = 20,
+        .tilemapLeft = 22,
         .tilemapTop = 0,
-        .width = 10,
+        .width = 8,
         .height = 2,
         .paletteNum = 6,
         .baseBlock = 315,
@@ -3604,56 +3604,56 @@ static void PrintPageNamesAndStats(void)
     if (iconXPos < 0)
         iconXPos = 0;
     PrintAOrBButtonIcon(PSS_LABEL_WINDOW_PROMPT_INFO, FALSE, iconXPos);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_INFO, sText_Info, stringXPos, 1, 0, 1);
+    PrintTextOnWindowWithFont(PSS_LABEL_WINDOW_PROMPT_INFO, sText_Info, stringXPos, 1, 0, 1, FONT_SHORT_NARROW);
 
-    stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, sText_Switch, 62);
+    stringXPos = GetStringRightAlignXOffset(FONT_SHORT_NARROW, sText_Switch, 62);
     iconXPos = stringXPos - 16;
     if (iconXPos < 0)
         iconXPos = 0;
     PrintAOrBButtonIcon(PSS_LABEL_WINDOW_PROMPT_SWITCH, FALSE, iconXPos);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_SWITCH, sText_Switch, stringXPos, 1, 0, 1);
+    PrintTextOnWindowWithFont(PSS_LABEL_WINDOW_PROMPT_SWITCH, sText_Switch, stringXPos, 1, 0, 1, FONT_SHORT_NARROW);
 
     if (BW_SUMMARY_IV_EV_DISPLAY != BW_IV_EV_HIDDEN)
     {
         if (BW_SUMMARY_IV_EV_DISPLAY == BW_IV_EV_GRADED)
         {
-            stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, sText_ViewIVs_Graded, skillsLabelWidth);
+            stringXPos = GetStringRightAlignXOffset(FONT_SHORT_NARROW, sText_ViewIVs_Graded, skillsLabelWidth);
             iconXPos = stringXPos - 16;
             if (iconXPos < 0)
                 iconXPos = 0;
             PrintAOrBButtonIcon(PSS_LABEL_WINDOW_PROMPT_IVS, FALSE, iconXPos);
-            PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_IVS, sText_ViewIVs_Graded, stringXPos, 1, 0, 1);
+            PrintTextOnWindowWithFont(PSS_LABEL_WINDOW_PROMPT_IVS, sText_ViewIVs_Graded, stringXPos, 1, 0, 1, FONT_SHORT_NARROW);
 
-            stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, sText_ViewEVs_Graded, skillsLabelWidth);
+            stringXPos = GetStringRightAlignXOffset(FONT_SHORT_NARROW, sText_ViewEVs_Graded, skillsLabelWidth);
             iconXPos = stringXPos - 16;
             if (iconXPos < 0)
                 iconXPos = 0;
             PrintAOrBButtonIcon(PSS_LABEL_WINDOW_PROMPT_EVS, FALSE, iconXPos);
-            PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_EVS, sText_ViewEVs_Graded, stringXPos, 1, 0, 1);
+            PrintTextOnWindowWithFont(PSS_LABEL_WINDOW_PROMPT_EVS, sText_ViewEVs_Graded, stringXPos, 1, 0, 1, FONT_SHORT_NARROW);
         }
         else // precise display
         {
-            stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, sText_ViewIVs, skillsLabelWidth);
+            stringXPos = GetStringRightAlignXOffset(FONT_SHORT_NARROW, sText_ViewIVs, skillsLabelWidth);
             iconXPos = stringXPos - 16;
             if (iconXPos < 0)
                 iconXPos = 0;
             PrintAOrBButtonIcon(PSS_LABEL_WINDOW_PROMPT_IVS, FALSE, iconXPos);
-            PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_IVS, sText_ViewIVs, stringXPos, 1, 0, 1);
+            PrintTextOnWindowWithFont(PSS_LABEL_WINDOW_PROMPT_IVS, sText_ViewIVs, stringXPos, 1, 0, 1, FONT_SHORT_NARROW);
 
-            stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, sText_ViewEVs, skillsLabelWidth);
+            stringXPos = GetStringRightAlignXOffset(FONT_SHORT_NARROW, sText_ViewEVs, skillsLabelWidth);
             iconXPos = stringXPos - 16;
             if (iconXPos < 0)
                 iconXPos = 0;
             PrintAOrBButtonIcon(PSS_LABEL_WINDOW_PROMPT_EVS, FALSE, iconXPos);
-            PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_EVS, sText_ViewEVs, stringXPos, 1, 0, 1);
+            PrintTextOnWindowWithFont(PSS_LABEL_WINDOW_PROMPT_EVS, sText_ViewEVs, stringXPos, 1, 0, 1, FONT_SHORT_NARROW);
         }
 
-        stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, sText_ViewStats, skillsLabelWidth);
+        stringXPos = GetStringRightAlignXOffset(FONT_SHORT_NARROW, sText_ViewStats, skillsLabelWidth);
         iconXPos = stringXPos - 16;
         if (iconXPos < 0)
             iconXPos = 0;
         PrintAOrBButtonIcon(PSS_LABEL_WINDOW_PROMPT_STATS, FALSE, iconXPos);
-        PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_STATS, sText_ViewStats, stringXPos, 1, 0, 1);
+        PrintTextOnWindowWithFont(PSS_LABEL_WINDOW_PROMPT_STATS, sText_ViewStats, stringXPos, 1, 0, 1, FONT_SHORT_NARROW);
     }
 
     PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_EXP, sText_NextLv, 0, 4, 0, 0);
