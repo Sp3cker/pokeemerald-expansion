@@ -30,6 +30,8 @@
 // - extended move desc window
 
 void ShowPokemonSummaryScreen_BW(u8 mode, void *mons, u8 monIndex, u8 maxMonIndex, void (*callback)(void));
+void SaveSummaryScreenState(u8 mode, u8 monIndex, u8 maxIndex, struct Pokemon *mons, void (*callback)(void));
+void CB2_ReturnToSummaryFromPokedex(void);
 void ShowSelectMovePokemonSummaryScreen_BW(struct Pokemon *mons, u8 monIndex, u8 maxMonIndex, void (*callback)(void), u16 newMove);
 void ShowPokemonSummaryScreenHandleDeoxys_BW(u8 mode, struct BoxPokemon *mons, u8 monIndex, u8 maxMonIndex, void (*callback)(void));
 u8 GetMoveSlotToReplace_BW(void);

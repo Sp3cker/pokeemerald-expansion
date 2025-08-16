@@ -7,6 +7,7 @@
 #include "daycare.h"
 #include "decompress.h"
 #include "event_data.h"
+#include "bw_summary_screen.h"
 #include "gpu_regs.h"
 #include "graphics.h"
 #include "international_string_util.h"
@@ -326,6 +327,15 @@ static EWRAM_DATA struct PokedexListItem *sPokedexListItem = NULL;
 EWRAM_DATA static u16 sStatsMoves[MOVES_COUNT_TOTAL] = {0};
 EWRAM_DATA static u16 sStatsMovesTMHM_ID[NUM_TECHNICAL_MACHINES + NUM_HIDDEN_MACHINES] = {0};
 
+//For Direct access from Summary Screen
+EWRAM_DATA u16 gDirectToInfoScreenPokemon = 0;
+
+void SetPokedexDirectSpecies(u16 species)
+{
+    gDirectToInfoScreenPokemon = species;
+}
+
+
 struct SearchOptionText
 {
     const u8 *description;
@@ -481,6 +491,8 @@ static void Task_WaitForScroll(u8);
 static void Task_HandlePokedexStartMenuInput(u8);
 static void Task_OpenInfoScreenAfterMonMovement(u8);
 static void Task_WaitForExitInfoScreen(u8);
+static void Task_LoadInfoScreenDirectFromSummary(u8);
+static void Task_WaitForExitInfoScreenBackToSummary(u8);
 static void Task_WaitForExitSearch(u8);
 static void Task_ClosePokedex(u8);
 static void Task_OpenSearchResults(u8);
@@ -519,6 +531,7 @@ static void SpriteCB_SeenOwnInfo(struct Sprite *sprite);
 static void SpriteCB_DexListStartMenuCursor(struct Sprite *sprite);
 static void SpriteCB_PokedexListMonSprite(struct Sprite *sprite);
 static u8 LoadInfoScreen(struct PokedexListItem *, u8 monSpriteId);
+static u8 LoadStatsScreen(struct PokedexListItem *item);
 static bool8 IsInfoScreenScrolling(u8);
 static u8 StartInfoScreenScroll(struct PokedexListItem *, u8);
 static void Task_LoadInfoScreen(u8);
@@ -1915,6 +1928,7 @@ static const struct WindowTemplate sSearchMenu_WindowTemplate[] =
 //*        MAIN                      *
 //*                                  *
 //************************************
+
 void CB2_OpenPokedexPlusHGSS(void)
 {
     if (!POKEDEX_PLUS_HGSS)
@@ -1974,6 +1988,57 @@ void CB2_OpenPokedexPlusHGSS(void)
         break;
     }
 }
+
+void CB2_OpenPokedexPlusHGSSToInfo()
+{
+    if (!POKEDEX_PLUS_HGSS) return; // prevents the compiler from emitting static .rodata
+                                    // if the feature is disabled
+    switch (gMain.state)
+    {
+    case 0:
+    default:
+        SetVBlankCallback(NULL);
+        ResetOtherVideoRegisters(0);
+        DmaFillLarge16(3, 0, (u8 *)VRAM, VRAM_SIZE, 0x1000);
+        DmaClear32(3, OAM, OAM_SIZE);
+        DmaClear16(3, PLTT, PLTT_SIZE);
+        gMain.state = 1;
+        break;
+    case 1:
+        ScanlineEffect_Stop();
+        ResetTasks();
+        ResetSpriteData();
+        ResetPaletteFade();
+        FreeAllSpritePalettes();
+        gReservedSpritePaletteCount = 8;
+        ResetAllPicSprites();
+        gMain.state++;
+        break;
+    case 2:
+        u16 species = gDirectToInfoScreenPokemon;
+        sPokedexView = AllocZeroed(sizeof(struct PokedexView));
+        u16 dexNum = SpeciesToNationalPokedexNum(species);
+        sPokedexView->pokedexList[0].dexNum = dexNum;
+        sPokedexView->pokedexList[0].seen = GetSetPokedexFlag(dexNum, FLAG_GET_SEEN);
+        sPokedexView->pokedexList[0].owned = GetSetPokedexFlag(dexNum, FLAG_GET_CAUGHT);
+        sPokedexView->pokemonListCount = 1;
+        sPokedexView->selectedPokemon = 0;
+        sPokedexView->currentPage = PAGE_INFO;
+        sPokedexView->selectedScreen = STATS_SCREEN;
+
+        CreateTask(Task_LoadInfoScreenDirectFromSummary, 0);
+        gMain.state++;
+        break;
+        
+    case 3:
+        EnableInterrupts(1);
+        SetVBlankCallback(VBlankCB_Pokedex);
+        SetMainCallback2(CB2_Pokedex);
+        gMain.state = 0;
+        break;
+    }
+}
+
 
 static void ResetPokedexView(struct PokedexView *pokedexView)
 {
@@ -2051,7 +2116,37 @@ static void Task_OpenPokedexMainPage(u8 taskId)
         gTasks[taskId].func = Task_HandlePokedexInput;
 }
 
+
 #define tLoadScreenTaskId data[0]
+
+static void Task_LoadInfoScreenDirectFromSummary(u8 taskId)
+{
+    // Create Pokemon sprite
+    // u8 spriteId = CreateMonSpriteFromNationalDexNumberHGSS(
+    //     sPokedexView->pokedexList[0].dexNum, 
+    //     MON_PAGE_X, MON_PAGE_Y, 0
+    // );
+    
+    // Load info screen
+    u8 infoTaskId = LoadStatsScreen(&sPokedexView->pokedexList[0]);
+    
+    gTasks[taskId].tLoadScreenTaskId = infoTaskId;
+    gTasks[taskId].func = Task_WaitForExitInfoScreenBackToSummary;
+}
+
+static void Task_WaitForExitInfoScreenBackToSummary(u8 taskId)
+{
+    if (!gTasks[gTasks[taskId].tLoadScreenTaskId].isActive)
+    {
+        FreeWindowAndBgBuffers();
+        Free(sPokedexView);
+        sPokedexView = NULL;
+        DestroyTask(taskId);
+        
+    SetMainCallback2(CB2_ReturnToSummaryFromPokedex);
+    }
+}
+
 
 static void Task_HandlePokedexInput(u8 taskId)
 {
@@ -3614,6 +3709,29 @@ static u8 LoadInfoScreen(struct PokedexListItem *item, u8 monSpriteId)
     gTasks[taskId].tBgLoaded = FALSE;
     gTasks[taskId].tSkipCry = FALSE;
     gTasks[taskId].tMonSpriteId = monSpriteId;
+    gTasks[taskId].tTrainerSpriteId = SPRITE_NONE;
+    ResetBgsAndClearDma3BusyFlags(0);
+    InitBgsFromTemplates(0, sInfoScreen_BgTemplate, ARRAY_COUNT(sInfoScreen_BgTemplate));
+    SetBgTilemapBuffer(3, AllocZeroed(BG_SCREEN_SIZE));
+    SetBgTilemapBuffer(2, AllocZeroed(BG_SCREEN_SIZE));
+    SetBgTilemapBuffer(1, AllocZeroed(BG_SCREEN_SIZE));
+    SetBgTilemapBuffer(0, AllocZeroed(BG_SCREEN_SIZE));
+    InitWindows(sInfoScreen_WindowTemplates);
+    DeactivateAllTextPrinters();
+
+    return taskId;
+}
+
+static u8 LoadStatsScreen(struct PokedexListItem *item)
+{
+    u8 taskId;
+
+    sPokedexListItem = item;
+    taskId = CreateTask(Task_LoadStatsScreen, 0);
+    gTasks[taskId].tScrolling = FALSE;
+    gTasks[taskId].tMonSpriteDone = FALSE;
+    gTasks[taskId].tBgLoaded = FALSE;
+    gTasks[taskId].tSkipCry = FALSE;
     gTasks[taskId].tTrainerSpriteId = SPRITE_NONE;
     ResetBgsAndClearDma3BusyFlags(0);
     InitBgsFromTemplates(0, sInfoScreen_BgTemplate, ARRAY_COUNT(sInfoScreen_BgTemplate));

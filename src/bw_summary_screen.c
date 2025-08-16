@@ -32,6 +32,7 @@
 #include "pokemon_storage_system.h"
 #include "pokemon_summary_screen.h"
 #include "pokemon_sprite_visualizer.h"
+#include "pokedex_plus_hgss.h"
 #include "region_map.h"
 #include "scanline_effect.h"
 #include "sound.h"
@@ -71,6 +72,38 @@ enum BWSkillsPageState
     SKILL_STATE_EVS,
 };
 
+// For saving summary screen before showing Pokedex
+struct SummaryScreenState
+{
+    u8 mode;
+    u8 monIndex;
+    u8 maxIndex;
+    struct Pokemon *mons;
+    void (*callback)(void);
+};
+
+static struct SummaryScreenState sSummaryState;
+
+void SaveSummaryScreenState(u8 mode, u8 monIndex, u8 maxIndex, struct Pokemon *mons, void (*callback)(void))
+{
+    sSummaryState.mode = mode;
+    sSummaryState.monIndex = monIndex;
+    sSummaryState.maxIndex = maxIndex;
+    sSummaryState.mons = mons;
+    sSummaryState.callback = callback;
+}
+
+void CB2_ReturnToSummaryFromPokedex(void)
+{
+    ShowPokemonSummaryScreen_BW(
+        sSummaryState.mode,
+        sSummaryState.mons,
+        sSummaryState.monIndex,
+        sSummaryState.maxIndex,
+        sSummaryState.callback
+    );
+}
+
 // Screen titles (upper left)
 #define PSS_LABEL_WINDOW_POKEMON_INFO_TITLE 0
 #define PSS_LABEL_WINDOW_POKEMON_SKILLS_TITLE 1
@@ -81,6 +114,7 @@ enum BWSkillsPageState
 #define PSS_LABEL_WINDOW_PROMPT_CANCEL 4
 #define PSS_LABEL_WINDOW_PROMPT_INFO 5
 #define PSS_LABEL_WINDOW_PROMPT_SWITCH 6
+#define PSS_LABEL_WINDOW_PROMPT_DEX 14
 
 // Info screen
 #define PSS_LABEL_WINDOW_POKEMON_INFO_TYPE 7
