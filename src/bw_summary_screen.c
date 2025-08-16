@@ -374,6 +374,7 @@ static const u8 sMovesPPLayout[]                            = _("{PP}{CLEAR_TO 3
 
 #if BW_SUMMARY_DECAP == TRUE
 static const u8 sText_Cancel[]                              = _("Cancel");
+static const u8 sText_Dex[]                                 = _("Dex");
 static const u8 sText_Switch[]                              = _("Switch");
 static const u8 sText_PkmnInfo[]                            = _("Pokémon Info");
 static const u8 sText_PkmnSkills[]                          = _("Pokémon Skills");
@@ -390,6 +391,7 @@ static const u8 sText_RentalPkmn[]                          = _("Rental Pokémon
 static const u8 sText_None[]                                = _("None");
 #else
 static const u8 sText_Cancel[]                              = _("CANCEL");
+static const u8 sText_Dex[]                                 = _("DEX");
 static const u8 sText_Switch[]                              = _("SWITCH");
 static const u8 sText_PkmnInfo[]                            = _("POKéMON INFO");
 static const u8 sText_PkmnSkills[]                          = _("POKéMON SKILLS");
@@ -424,6 +426,8 @@ static const u8 sButtons_Gfx[][4 * TILE_SIZE_4BPP] = {
     INCBIN_U8("graphics/summary_screen/bw/b_button.4bpp"),
 };
 
+static const u8 sStartButton_Gfx[] = INCBIN_U8("graphics/summary_screen/bw/start_button.4bpp");
+
 #if BW_SUMMARY_BW_TYPE_ICONS == TRUE
 static const u32 sMoveTypes_Gfx_BW[]                        = INCBIN_U32("graphics/types_bw/move_types_bw.4bpp.lz");
 static const u32 sMoveTypes_Pal_BW[]                        = INCBIN_U32("graphics/types_bw/move_types_bw.gbapal.lz");
@@ -433,6 +437,8 @@ static const u32 sSummaryMoveSelect_Gfx_BW[]                = INCBIN_U32("graphi
 static const u32 sSummaryMoveSelect_Pal_BW[]                = INCBIN_U32("graphics/summary_screen/bw/move_select.gbapal.lz");
 static const u16 sMarkings_Pal_BW[]                         = INCBIN_U16("graphics/summary_screen/bw/markings.gbapal");
 static const u32 sShinyIcon_Gfx_BW[]                        = INCBIN_U32("graphics/summary_screen/bw/shiny_icon.4bpp.lz");
+static const u32 sStartButton_Gfx_BW[]                      = INCBIN_U32("graphics/summary_screen/bw/start_button.4bpp.lz");
+static const u16 sStartButton_Pal_BW[]                      = INCBIN_U16("graphics/summary_screen/bw/start_button.gbapal");
 static const u32 sPokerusCuredIcon_Gfx_BW[]                 = INCBIN_U32("graphics/summary_screen/bw/pokerus_cured_icon.4bpp.lz");
 static const u16 sCategoryIcons_Pal[]                       = INCBIN_U16("graphics/summary_screen/bw/category_icons.gbapal");
 static const u32 sCategoryIcons_Gfx[]                       = INCBIN_U32("graphics/summary_screen/bw/category_icons.4bpp.lz");
@@ -609,6 +615,15 @@ static const struct WindowTemplate sSummaryTemplate[] =
         .height = 2,
         .paletteNum = 6,
         .baseBlock = 315,
+    },
+    [PSS_LABEL_WINDOW_PROMPT_DEX] = {
+        .bg = 0,
+        .tilemapLeft = 14,
+        .tilemapTop = 0,
+        .width = 8,
+        .height = 2,
+        .paletteNum = 6,
+        .baseBlock = 650,
     },
     [PSS_LABEL_WINDOW_END] = DUMMY_WIN_TEMPLATE
 };
@@ -2699,6 +2714,7 @@ static void SwitchToMoveSelection(u8 taskId)
     if (!sMonSummaryScreen->lockMovesFlag)
     {
         ClearWindowTilemap(PSS_LABEL_WINDOW_PROMPT_INFO);
+        ClearWindowTilemap(PSS_LABEL_WINDOW_PROMPT_DEX);
         PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_SWITCH);
     }
 
@@ -2808,6 +2824,10 @@ static void CloseMoveSelectMode(u8 taskId)
     DestroyMoveSelectorSprites(SPRITE_ARR_ID_MOVE_SELECTOR1);
     ClearWindowTilemap(PSS_LABEL_WINDOW_PROMPT_SWITCH);
     PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_INFO);
+    if (!gMain.inBattle)
+    {
+        PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_DEX);
+    }
     PrintMoveDetails(MOVE_NONE);
     sMonSummaryScreen->mode = BW_SUMMARY_MODE_NORMAL;
 
@@ -3581,25 +3601,40 @@ static void PrintAOrBButtonIcon(u8 windowId, bool8 bButton, u32 x)
     BlitBitmapToWindow(windowId, button, x, 0, 16, 16);
 }
 
+static void PrintStartButtonIcon(u8 windowId, u32 x, u32 y)
+{
+    const u8 *button = sStartButton_Gfx;
+    BlitBitmapToWindow(windowId, button, x, y, 32, 16);
+}
+
 static void PrintPageNamesAndStats(void)
 {
     int stringXPos;
     int iconXPos;
-    int skillsLabelWidth = 78;
+    int skillsLabelWidth = 62;
 
-    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_INFO_TITLE, sText_PkmnInfo, 2, 1, 0, 1);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_POKEMON_SKILLS_TITLE, sText_PkmnSkills, 2, 1, 0, 1);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_BATTLE_MOVES_TITLE, sText_BattleMoves, 2, 1, 0, 1);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_CONTEST_MOVES_TITLE, sText_ContestMoves, 2, 1, 0, 1);
+    PrintTextOnWindowWithFont(PSS_LABEL_WINDOW_POKEMON_INFO_TITLE, sText_PkmnInfo, 2, 1, 0, 1, FONT_NARROWER);
+    PrintTextOnWindowWithFont(PSS_LABEL_WINDOW_POKEMON_SKILLS_TITLE, sText_PkmnSkills, 2, 1, 0, 1, FONT_NARROWER);
+    PrintTextOnWindowWithFont(PSS_LABEL_WINDOW_BATTLE_MOVES_TITLE, sText_BattleMoves, 2, 1, 0, 1, FONT_NARROWER);
+    PrintTextOnWindowWithFont(PSS_LABEL_WINDOW_CONTEST_MOVES_TITLE, sText_ContestMoves, 2, 1, 0, 1, FONT_NARROWER);
 
-    stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, sText_Cancel, 62);
+    stringXPos = GetStringRightAlignXOffset(FONT_SHORT_NARROW, sText_Cancel, 62);
     iconXPos = stringXPos - 16;
     if (iconXPos < 0)
         iconXPos = 0;
     PrintAOrBButtonIcon(PSS_LABEL_WINDOW_PROMPT_CANCEL, FALSE, iconXPos);
-    PrintTextOnWindow(PSS_LABEL_WINDOW_PROMPT_CANCEL, sText_Cancel, stringXPos, 1, 0, 1);
+    PrintTextOnWindowWithFont(PSS_LABEL_WINDOW_PROMPT_CANCEL, sText_Cancel, stringXPos, 1, 0, 1, FONT_SHORT_NARROW);
 
-    stringXPos = GetStringRightAlignXOffset(FONT_NORMAL, sText_Info, 62);
+
+    LoadPalette(sStartButton_Pal_BW, BG_PLTT_ID(9), PLTT_SIZE_4BPP);
+    SetWindowAttribute(PSS_LABEL_WINDOW_PROMPT_DEX, WINDOW_PALETTE_NUM, 9);
+
+    stringXPos = GetStringRightAlignXOffset(FONT_SHORT_NARROW, sText_Dex, 62);
+    iconXPos = stringXPos - 32;
+    PrintStartButtonIcon(PSS_LABEL_WINDOW_PROMPT_DEX, iconXPos, 0);
+    PrintTextOnWindowWithFont(PSS_LABEL_WINDOW_PROMPT_DEX, sText_Dex, stringXPos, 1, 0, 1, FONT_SHORT_NARROW); 
+
+    stringXPos = GetStringRightAlignXOffset(FONT_SHORT_NARROW, sText_Info, 62);
     iconXPos = stringXPos - 16;
     if (iconXPos < 0)
         iconXPos = 0;
@@ -3673,10 +3708,18 @@ static void PutPageWindowTilemaps(u8 page)
     case PSS_PAGE_INFO:
         PutWindowTilemap(PSS_LABEL_WINDOW_POKEMON_INFO_TITLE);
         PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_CANCEL);
+        if(!gMain.inBattle)
+        {
+            PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_DEX);
+        }
         break;
     case PSS_PAGE_SKILLS:
         PutWindowTilemap(PSS_LABEL_WINDOW_POKEMON_SKILLS_TITLE);
         PutWindowTilemap(PSS_LABEL_WINDOW_POKEMON_SKILLS_EXP);
+        if(!gMain.inBattle)
+        {
+            PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_DEX);
+        }
         if (BW_SUMMARY_IV_EV_DISPLAY == BW_IV_EV_PRECISE)
             PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_IVS);
         else if (BW_SUMMARY_IV_EV_DISPLAY == BW_IV_EV_GRADED)
@@ -3684,6 +3727,10 @@ static void PutPageWindowTilemaps(u8 page)
         break;
     case PSS_PAGE_BATTLE_MOVES:
         PutWindowTilemap(PSS_LABEL_WINDOW_BATTLE_MOVES_TITLE);
+        if(!gMain.inBattle)
+        {
+            PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_DEX);
+        }
         if (sMonSummaryScreen->mode == BW_SUMMARY_MODE_SELECT_MOVE)
         {
             if (sMonSummaryScreen->newMove != MOVE_NONE || sMonSummaryScreen->firstMoveIndex != MAX_MON_MOVES)
@@ -3696,6 +3743,10 @@ static void PutPageWindowTilemaps(u8 page)
         break;
     case PSS_PAGE_CONTEST_MOVES:
         PutWindowTilemap(PSS_LABEL_WINDOW_CONTEST_MOVES_TITLE);
+        if(!gMain.inBattle)
+        {
+            PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_DEX);
+        }
         if (sMonSummaryScreen->mode != BW_SUMMARY_MODE_SELECT_MOVE)
             PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_INFO);
         break;
@@ -3734,6 +3785,7 @@ static void ClearPageWindowTilemaps(u8 page)
         else
         {
             ClearWindowTilemap(PSS_LABEL_WINDOW_PROMPT_INFO);
+            ClearWindowTilemap(PSS_LABEL_WINDOW_PROMPT_DEX);
         }
         break;
     case PSS_PAGE_CONTEST_MOVES:
