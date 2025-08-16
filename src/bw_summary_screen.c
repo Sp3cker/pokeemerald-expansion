@@ -98,8 +98,9 @@ enum BWSkillsPageState
 #define PSS_LABEL_WINDOW_PROMPT_IVS 11
 #define PSS_LABEL_WINDOW_PROMPT_EVS 12
 #define PSS_LABEL_WINDOW_PROMPT_STATS 13
+#define PSS_LABEL_WINDOW_PROMPT_DEX 14
 
-#define PSS_LABEL_WINDOW_END 14
+#define PSS_LABEL_WINDOW_END 15
 
 // Dynamic fields for the Pokémon Info page
 #define PSS_DATA_WINDOW_INFO_OT_OTID_ITEM 0
