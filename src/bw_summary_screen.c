@@ -2330,6 +2330,23 @@ static void Task_HandleInput(u8 taskId)
             PlaySE(SE_SELECT);
             CloseSummaryScreen(taskId);
         }
+    else if (JOY_NEW(START_BUTTON) && !gMain.inBattle)
+    {
+        u16 species = sMonSummaryScreen->summary.species;
+        
+        sSummaryState.mode = sMonSummaryScreen->mode;
+        sSummaryState.monIndex = sMonSummaryScreen->curMonIndex;
+        sSummaryState.maxIndex = sMonSummaryScreen->maxMonIndex;
+        sSummaryState.mons = sMonSummaryScreen->monList.mons;
+        sSummaryState.callback = sMonSummaryScreen->callback;
+        
+        gDirectToInfoScreenPokemon = species;
+        sMonSummaryScreen->callback = CB2_OpenPokedexPlusHGSSToInfo;
+        
+        StopPokemonAnimations();
+        PlaySE(SE_SELECT);
+        BeginCloseSummaryScreen(taskId);
+    }
     }
 }
 
