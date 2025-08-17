@@ -2329,6 +2329,19 @@ static void Task_ClosePokedex(u8 taskId)
     }
 }
 
+static void Task_ClosePokedexToSummaryScreen(u8 taskId)
+{
+    if (!gPaletteFade.active)
+    {
+        ClearMonSprites();
+        FreeWindowAndBgBuffers();
+        DestroyTask(taskId);
+        SetMainCallback2(CB2_ReturnToSummaryFromPokedex);
+        m4aMPlayVolumeControl(&gMPlayInfo_BGM, TRACKS_ALL, 0x100);
+        Free(sPokedexView);
+    }
+}
+
 static void LoadPokedexBgPalette(bool8 isSearchResults)
 {
     if (!HGSS_DARK_MODE)
