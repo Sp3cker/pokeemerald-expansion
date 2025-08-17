@@ -3928,6 +3928,28 @@ static void Task_HandleInfoScreenInput(u8 taskId)
     }
 }
 
+static void Task_WaitForExitInfoScreenBackToSummary(u8 taskId)
+{
+    if (!gTasks[gTasks[taskId].tLoadScreenTaskId].isActive)
+    {
+
+        Free(sPokedexView);
+
+        FreeInfoScreenWindowAndBgBuffers();
+        Free(GetBgTilemapBuffer(3));
+        Free(GetBgTilemapBuffer(2));
+        Free(GetBgTilemapBuffer(1));
+        Free(GetBgTilemapBuffer(0));
+
+        SetBgTilemapBuffer(3, NULL);
+        SetBgTilemapBuffer(2, NULL);
+        SetBgTilemapBuffer(1, NULL);
+        SetBgTilemapBuffer(0, NULL);
+
+        gTasks[taskId].func = Task_ClosePokedexToSummaryScreen;
+    }
+}
+
 static void Task_SwitchScreensFromInfoScreen(u8 taskId)
 {
     if (!gPaletteFade.active)
