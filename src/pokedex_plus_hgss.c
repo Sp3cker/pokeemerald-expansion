@@ -2017,6 +2017,13 @@ void CB2_OpenPokedexPlusHGSSToMon()
         sPokedexView->pokedexList[0].dexNum = dexNum;
         sPokedexView->pokedexList[0].seen = GetSetPokedexFlag(dexNum, FLAG_GET_SEEN);
         sPokedexView->pokedexList[0].owned = GetSetPokedexFlag(dexNum, FLAG_GET_CAUGHT);
+        sPokedexView->dexMode = gSaveBlock2Ptr->pokedex.mode;
+        if (!IsNationalPokedexEnabled())
+            sPokedexView->dexMode = DEX_MODE_HOENN;
+        if (GetSpeciesFormTable(gSpeciesToLoad) != NULL)
+            sPokedexView->formSpecies = gSpeciesToLoad;
+        else
+            sPokedexView->formSpecies = 0;
         sPokedexView->pokemonListCount = 1;
         sPokedexView->selectedPokemon = 0;
         sPokedexView->currentPage = STATS_SCREEN;
