@@ -2017,6 +2017,7 @@ void CB2_OpenPokedexPlusHGSSToInfo()
     case 2:
         u16 species = gDirectToInfoScreenPokemon;
         sPokedexView = AllocZeroed(sizeof(struct PokedexView));
+        ResetPokedexView(sPokedexView);
         u16 dexNum = SpeciesToNationalPokedexNum(species);
         sPokedexView->pokedexList[0].dexNum = dexNum;
         sPokedexView->pokedexList[0].seen = GetSetPokedexFlag(dexNum, FLAG_GET_SEEN);
