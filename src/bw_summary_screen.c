@@ -2364,7 +2364,7 @@ static void Task_HandleInput(u8 taskId)
             PlaySE(SE_SELECT);
             CloseSummaryScreen(taskId);
         }
-    else if (JOY_NEW(START_BUTTON) && !gMain.inBattle)
+    else if (JOY_NEW(START_BUTTON) && !gMain.inBattle && !sMonSummaryScreen->summary.isEgg)
     {
         u16 species = sMonSummaryScreen->summary.species;
         
