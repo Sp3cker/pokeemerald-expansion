@@ -2374,8 +2374,8 @@ static void Task_HandleInput(u8 taskId)
         sSummaryState.mons = sMonSummaryScreen->monList.mons;
         sSummaryState.callback = sMonSummaryScreen->callback;
         
-        gDirectToInfoScreenPokemon = species;
-        sMonSummaryScreen->callback = CB2_OpenPokedexPlusHGSSToInfo;
+        gSpeciesToLoad = species;
+        sMonSummaryScreen->callback = CB2_OpenPokedexPlusHGSSToMon;
         
         StopPokemonAnimations();
         PlaySE(SE_SELECT);
