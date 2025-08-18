@@ -3233,13 +3233,25 @@ static void AI_CompareDamagingMoves(u32 battlerAtk, u32 battlerDef)
             */
         }
 
+        // Higher priority at the bottom; note that these are used in the formula MAX_MON_MOVES ^ AiCompareMovesPriority, which must fit within a u32.
+        // In expansion where MAX_MON_MOVES is 4, this means that AiCompareMovesPriority can range from 0 - 15 inclusive.
+        // enum AiCompareMovesPriority
+        // {
+        //     PRIORITY_EFFECT,
+        //     PRIORITY_ACCURACY,
+        //     PRIORITY_SIGNIFICANTLY_MORE_DAMAGE,
+        //     PRIORITY_GUARANTEE,
+        //     PRIORITY_NOT_CHARGING,
+        //     PRIORITY_SPEED,
+        //     PRIORITY_RESIST_BERRY,
+        // };
         // Priority list:
         // 1. Less no of hits to ko
             // only if 2 moves that OHKO
-            // 2. Priority if outsped and a OHKO
-        // 3. Not charging
+            // 2. Move not affected by a resist berry
+            // 3. Priority if outsped and a OHKO
+        // 4. Not charging
             // only if 2 moves that OHKO
-            // 4. Move not affected by a resist berry
             // 5. Guaranteed KO
         // 6. Significantly more damage than another move (minimum roll of one move higher than highest roll of another)
         // 7. More accuracy
