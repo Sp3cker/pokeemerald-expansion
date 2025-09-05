@@ -103,6 +103,7 @@ void FieldInitRegionMap(MainCallback callback)
     sFieldRegionMapHandler = Alloc(sizeof(*sFieldRegionMapHandler));
     sFieldRegionMapHandler->state = 0;
     sFieldRegionMapHandler->callback = callback;
+    SetOverworldDialogueFlag(FALSE);
     SetMainCallback2(MCB2_InitRegionMapRegisters);
 }
 

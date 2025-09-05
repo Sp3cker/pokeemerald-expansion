@@ -7223,6 +7223,45 @@ bool32 SpeciesHasGenderDifferences(u16 species)
     return FALSE;
 }
 
+bool32 IsRegionalForm(u16 speciesId)
+{
+    if (!P_REGIONAL_FORMS)
+        return FALSE;
+
+    const struct SpeciesInfo *species = &gSpeciesInfo[speciesId];
+    
+    if (species->isAlolanForm ||
+        species->isGalarianForm ||
+        species->isHisuianForm ||
+        species->isPaldeanForm)
+    {
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+bool32 HasRegionalForm(u16 speciesId)
+{
+    if (!P_REGIONAL_FORMS)
+        return FALSE;
+    
+    const struct SpeciesInfo *species = &gSpeciesInfo[speciesId];
+
+    if (!species->formSpeciesIdTable)
+        return FALSE;
+    
+    u32 i = 0;
+    while (species->formSpeciesIdTable[i] != FORM_SPECIES_END)
+    {
+        if (IsRegionalForm(species->formSpeciesIdTable[i]))
+            return TRUE;
+        i++;
+    }
+    
+    return FALSE;
+}
+
 bool32 TryFormChange(u32 monId, u32 side, u16 method)
 {
     struct Pokemon *party = (side == B_SIDE_PLAYER) ? gPlayerParty : gEnemyParty;

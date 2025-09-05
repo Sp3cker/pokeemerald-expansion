@@ -524,7 +524,8 @@ static void InitItemStorageMenu(u8 taskId, u8 var)
 
 static void ItemStorageMenuPrint(const u8 *textPtr)
 {
-    DrawNonOverworldDialogueFrame(0, FALSE);
+    DrawDialogueFrame(0, FALSE);
+    SetOverworldDialogueFlag(FALSE);
     AddTextPrinterParameterized(0, FONT_NORMAL, textPtr, 0, 1, 0, 0);
 }
 
@@ -578,7 +579,8 @@ void CB2_PlayerPCExitBagMenu(void)
 static void ItemStorage_ReshowAfterBagMenu(void)
 {
     LoadMessageBoxAndBorderGfx();
-    DrawNonOverworldDialogueFrame(0, TRUE);
+    DrawDialogueFrame(0, TRUE);
+    SetOverworldDialogueFlag(FALSE);
     InitItemStorageMenu(CreateTask(ItemStorage_HandleReturnToProcessInput, 0), 1);
     FadeInFromBlack();
 }
@@ -1247,7 +1249,8 @@ static void ItemStorage_ReturnToMenuSelect(u8 taskId)
     s16 *data = gTasks[taskId].data;
     if (!IsDma3ManagerBusyWithBgCopy())
     {
-        DrawNonOverworldDialogueFrame(0, FALSE);
+        DrawDialogueFrame(0, FALSE);
+        SetOverworldDialogueFlag(FALSE);
 
         // Select Withdraw/Toss by default depending on which was just exited
         if (!tInTossMenu)

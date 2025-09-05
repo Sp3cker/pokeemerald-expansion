@@ -145,7 +145,7 @@
 #define VAR_ROUTE130_STATE                               0x407D // Unused Var
 #define VAR_ROUTE131_STATE                               0x407E // Unused Var
 #define VAR_ROUTE132_STATE                               0x407F // Unused Var
-#define VAR_ROUTE133_STATE                               0x4080 // Unused Var
+#define VAR_NATURE_ORDER                                 0x4080
 #define VAR_HP_BAR_SPEED                                 0x4081
 #define VAR_LITTLEROOT_HOUSES_STATE_MAY                  0x4082
 #define VAR_BLOCK_TRAINER_HILL                           0x4083 // BLOCK TRAINER HILL

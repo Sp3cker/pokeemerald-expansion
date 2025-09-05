@@ -1567,7 +1567,8 @@ static void Task_PCMainMenu(u8 taskId)
     case STATE_LOAD:
         CreateMainMenu(task->tSelectedOption, &task->tWindowId);
         LoadMessageBoxAndBorderGfx();
-        DrawNonOverworldDialogueFrame(0, FALSE);
+        DrawDialogueFrame(0, FALSE);
+        SetOverworldDialogueFlag(FALSE);
         FillWindowPixelBuffer(0, PIXEL_FILL(1));
         AddTextPrinterParameterized2(0, FONT_NORMAL, sMainMenuTexts[task->tSelectedOption].desc, TEXT_SKIP_DRAW, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
         CopyWindowToVram(0, COPYWIN_FULL);

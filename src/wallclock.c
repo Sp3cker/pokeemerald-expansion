@@ -721,7 +721,7 @@ void CB2_StartWallClock(void)
     gSprites[spriteId].data[1] = 90;
 
     WallClockInit();
-    gMain.activeOverworldDialog = FALSE;
+    SetOverworldDialogueFlag(FALSE);
 
     AddTextPrinterParameterized(WIN_BUTTON_LABEL, FONT_NORMAL, gText_Confirm3, 0, 1, 0, NULL);
     PutWindowTilemap(WIN_BUTTON_LABEL);

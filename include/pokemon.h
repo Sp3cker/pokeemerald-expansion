@@ -941,5 +941,7 @@ const u8 *GetMoveAnimationScript(u16 moveId);
 void UpdateDaysPassedSinceFormChange(u16 days);
 void TrySetDayLimitToFormChange(struct Pokemon *mon);
 u32 CheckDynamicMoveType(struct Pokemon *mon, u32 move, u32 battler);
+bool32 IsRegionalForm(u16 speciesId);
+bool32 HasRegionalForm(u16 speciesId);
 
 #endif // GUARD_POKEMON_H

@@ -605,90 +605,92 @@ Route119_WeatherInstitute_2F_Text_ThanksPleaseDontTakePokemon:
 # 303 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
 	.string "token of our appreciation, but I think\l"
 # 304 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "in this case, you'll be better of\l"
+	.string "in this case, you'll be better off\l"
 # 305 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "Don't worry, though, Castform can now\n"
+	.string "without it.\p"
 # 306 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "be found out in the wild!$"
+	.string "Don't worry, though, Castform can now\n"
 # 307 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-
+	.string "be found out in the wild!$"
 # 308 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-@ Unused
+
 # 309 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-Route119_WeatherInstitute_2F_Text_NoRoomForPokemon:
+@ Unused
 # 310 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "Hm? You don't seem to have any room\n"
+Route119_WeatherInstitute_2F_Text_NoRoomForPokemon:
 # 311 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "for this Pokémon.$"
+	.string "Hm? You don't seem to have any room\n"
 # 312 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-
+	.string "for this Pokémon.$"
 # 313 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-Route119_WeatherInstitute_2F_Text_PlayerReceivedCastform:
+
 # 314 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "{PLAYER} received Castform!$"
+Route119_WeatherInstitute_2F_Text_PlayerReceivedCastform:
 # 315 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-
+	.string "{PLAYER} received Castform!$"
 # 316 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-Route119_WeatherInstitute_2F_Text_PokemonChangesWithWeather:
+
 # 317 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "That Pokémon changes shape according\n"
+Route119_WeatherInstitute_2F_Text_PokemonChangesWithWeather:
 # 318 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "to the weather conditions.\p"
+	.string "That Pokémon changes shape according\n"
 # 319 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "There're plenty of them in the\n"
+	.string "to the weather conditions.\p"
 # 320 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "Institute--go ahead and take it.$"
+	.string "There're plenty of them in the\n"
 # 321 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-
+	.string "Institute--go ahead and take it.$"
 # 322 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-Route119_WeatherInstitute_2F_Text_ChangingWeatherRidiculous:
+
 # 323 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "I've been researching rain for many\n"
+Route119_WeatherInstitute_2F_Text_ChangingWeatherRidiculous:
 # 324 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "years, but it's ridiculous to think that\l"
+	.string "I've been researching rain for many\n"
 # 325 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "humans can freely change the weather.$"
+	.string "years, but it's ridiculous to think that\l"
 # 326 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-
+	.string "humans can freely change the weather.$"
 # 327 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-Route119_WeatherInstitute_2F_Text_GroudonWeather:
+
 # 328 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "I track weather patterns over\n"
+Route119_WeatherInstitute_2F_Text_GroudonWeather:
 # 329 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "the Hoenn region.\p"
-# 330 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "Presently, a drought has been recorded\n"
-# 331 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "in {STR_VAR_1}.\p"
-# 332 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "Could that mean, somewhere near\n"
-# 333 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "{STR_VAR_1}…$"
-# 334 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-
-# 335 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-Route119_WeatherInstitute_2F_Text_KyogreWeather:
-# 336 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
 	.string "I track weather patterns over\n"
-# 337 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
+# 330 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
 	.string "the Hoenn region.\p"
-# 338 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "Presently, heavy rainfall has been\n"
-# 339 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "recorded over {STR_VAR_1}.\p"
-# 340 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
+# 331 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
+	.string "Presently, a drought has been recorded\n"
+# 332 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
+	.string "in {STR_VAR_1}.\p"
+# 333 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
 	.string "Could that mean, somewhere near\n"
-# 341 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
+# 334 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
 	.string "{STR_VAR_1}…$"
-# 342 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
+# 335 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
 
+# 336 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
+Route119_WeatherInstitute_2F_Text_KyogreWeather:
+# 337 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
+	.string "I track weather patterns over\n"
+# 338 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
+	.string "the Hoenn region.\p"
+# 339 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
+	.string "Presently, heavy rainfall has been\n"
+# 340 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
+	.string "recorded over {STR_VAR_1}.\p"
+# 341 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
+	.string "Could that mean, somewhere near\n"
+# 342 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
+	.string "{STR_VAR_1}…$"
 # 343 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-Route119_WeatherInstitute_2F_Text_NoAbnormalWeather:
+
 # 344 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "Abnormal weather conditions are\n"
+Route119_WeatherInstitute_2F_Text_NoAbnormalWeather:
 # 345 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "no longer being reported.\p"
+	.string "Abnormal weather conditions are\n"
 # 346 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
-	.string "The occasional rainfall is a blessing,\n"
+	.string "no longer being reported.\p"
 # 347 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
+	.string "The occasional rainfall is a blessing,\n"
+# 348 "data/maps/Route119_WeatherInstitute_2F/scripts.pory"
 	.string "really.$"

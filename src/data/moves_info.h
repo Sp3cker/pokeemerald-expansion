@@ -13277,7 +13277,7 @@ const struct MoveInfo gMovesInfo[MOVES_COUNT_DYNAMAX] =
         .name = COMPOUND_STRING("Razor Shell"),
         .description = COMPOUND_STRING(
             "Tears at the foe with sharp\n"
-            "shells. May lower Defense."),
+            "shells."),
         .effect = EFFECT_HIT,
         .power = 75,
         .criticalHitStage = 1,

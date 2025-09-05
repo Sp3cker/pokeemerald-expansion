@@ -8312,7 +8312,7 @@ static void Task_RetryHexorbAfterFailedMon(u8 taskId)
     gTasks[taskId].func = Task_HandleChooseMonInput;
 }
 
-void InitPartyMenuForHexorbFromField(u8 taskId)
+void InitPartyMenuForItemUseFromField(u8 taskId)
 {
     InitPartyMenu(PARTY_MENU_TYPE_FIELD, PARTY_LAYOUT_SINGLE, PARTY_ACTION_USE_ITEM, TRUE, PARTY_MSG_USE_ON_WHICH_MON, Task_HandleChooseMonInput, CB2_ReturnToField);
 }

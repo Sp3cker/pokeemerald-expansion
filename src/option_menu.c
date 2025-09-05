@@ -29,6 +29,8 @@
 #define tBattleSpeed data[7]
 #define tHPBarSpeed data[8]
 #define tRToRun data[9]
+#define tNatureOrder data[10]
+
 
 // Page 1
 enum
@@ -50,6 +52,7 @@ enum
     MENUITEM_BATTLESPEED,
     MENUITEM_HP_BARS,
     MENUITEM_R_TO_RUN,
+    MENUITEM_NATURE_ORDER,
     MENUITEM_CANCEL_PG2,
     MENUITEM_COUNT_PG2,
 };
@@ -72,6 +75,7 @@ enum
 #define YPOS_BATTLESPEED      (MENUITEM_BATTLESPEED * 16)
 #define YPOS_HPBARSPEED       (MENUITEM_HP_BARS * 16)
 #define YPOS_RTORUN           (MENUITEM_R_TO_RUN * 16)
+#define YPOS_NATURE_ORDER     (MENUITEM_NATURE_ORDER * 16)
 
 #define PAGE_COUNT 2
 
@@ -100,6 +104,8 @@ static u8   HPBarSpeed_ProcessInput(u8 selection);
 static void HPBarSpeed_DrawChoices(u8 selection);
 static u8   RToRun_ProcessInput(u8 selection);
 static void RToRun_DrawChoices(u8 selection);
+static u8   NatureOrder_ProcessInput(u8 selection);
+static void NatureOrder_DrawChoices(u8 selection);
 static void DrawHeaderText(void);
 static void DrawOptionMenuTexts(void);
 static void DrawBgWindowFrames(void);
@@ -127,6 +133,7 @@ static const u8 *const sOptionMenuItemsNames_Pg2[MENUITEM_COUNT_PG2] =
     [MENUITEM_BATTLESPEED]     = gText_BattleSpeed,
     [MENUITEM_HP_BARS]         = gText_HPBars,
     [MENUITEM_R_TO_RUN]        = gText_RToRun,
+    [MENUITEM_NATURE_ORDER]    = gText_NatureOrder,
     [MENUITEM_CANCEL_PG2]      = gText_OptionMenuCancel,
 };
 
@@ -204,6 +211,7 @@ static void ReadAllCurrentSettings(u8 taskId)
     gTasks[taskId].tBattleSpeed = VarGet(VAR_BATTLE_SPEED);
     gTasks[taskId].tHPBarSpeed = VarGet(VAR_HP_BAR_SPEED);
     gTasks[taskId].tRToRun = FlagGet(FLAG_DISABLE_R_TO_RUN);
+    gTasks[taskId].tNatureOrder = VarGet(VAR_NATURE_ORDER);
 }
 
 static void DrawOptionsPg1(u8 taskId)
@@ -225,6 +233,7 @@ static void DrawOptionsPg2(u8 taskId)
     BattleSpeed_DrawChoices(gTasks[taskId].tBattleSpeed);
     HPBarSpeed_DrawChoices(gTasks[taskId].tHPBarSpeed);
     RToRun_DrawChoices(gTasks[taskId].tRToRun);
+    NatureOrder_DrawChoices(gTasks[taskId].tNatureOrder);
     HighlightOptionMenuItem(gTasks[taskId].tMenuSelection);
     CopyWindowToVram(WIN_OPTIONS, COPYWIN_FULL);
 }
@@ -531,6 +540,13 @@ static void Task_OptionMenuProcessInput_Pg2(u8 taskId)
             if (previousOption != gTasks[taskId].tRToRun)
                 RToRun_DrawChoices(gTasks[taskId].tRToRun);
             break;
+        case MENUITEM_NATURE_ORDER:
+            previousOption = gTasks[taskId].tNatureOrder;
+            gTasks[taskId].tNatureOrder = NatureOrder_ProcessInput(gTasks[taskId].tNatureOrder);
+
+            if (previousOption != gTasks[taskId].tNatureOrder)
+                NatureOrder_DrawChoices(gTasks[taskId].tNatureOrder);
+            break;
         default:
             return;
         }
@@ -552,6 +568,7 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsWindowFrameType = gTasks[taskId].tWindowFrameType;
     VarSet(VAR_BATTLE_SPEED, gTasks[taskId].tBattleSpeed);
     VarSet(VAR_HP_BAR_SPEED, gTasks[taskId].tHPBarSpeed);
+    VarSet(VAR_NATURE_ORDER, gTasks[taskId].tNatureOrder);
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
     gTasks[taskId].func = Task_OptionMenuFadeOut;
 }
@@ -633,6 +650,32 @@ static u8 RToRun_ProcessInput(u8 selection)
     return selection;
 }
 
+static u8 NatureOrder_ProcessInput(u8 selection)
+{
+    if (JOY_NEW(DPAD_RIGHT))
+    {
+        if (selection < 2)
+            selection++;
+        else
+            selection = 0;
+        sArrowPressed = TRUE;
+        // Update the Nature Order variable
+        VarSet(VAR_NATURE_ORDER, selection);
+    }
+    if (JOY_NEW(DPAD_LEFT))
+    {
+        if (selection > 0)
+            selection--;
+        else
+            selection = 2;
+        sArrowPressed = TRUE;
+        // Update the Nature Order variable
+        VarSet(VAR_NATURE_ORDER, selection);
+    }
+    return selection;
+}
+
+
 static void BattleSpeed_DrawChoices(u8 selection)
 {
     u8 styles[4];
@@ -673,6 +716,28 @@ static void RToRun_DrawChoices(u8 selection)
 
     DrawOptionMenuChoice(gText_BattleSceneOn, 104, YPOS_RTORUN, styles[0]);
     DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(FONT_NORMAL, gText_BattleSceneOff, 198), YPOS_RTORUN, styles[1]);
+}
+
+static void NatureOrder_DrawChoices(u8 selection)
+{
+    u8 styles[3];
+    s32 widthAlpha, widthStat, widthFreq, xStat, gap;
+
+    styles[0] = 0;
+    styles[1] = 0;
+    styles[2] = 0;
+    styles[selection] = 1;
+
+    DrawOptionMenuChoice(gText_NatureOrderAlphabetical, 104, YPOS_NATURE_ORDER, styles[0]);
+
+    widthAlpha = GetStringWidth(FONT_NORMAL, gText_NatureOrderAlphabetical, 0);
+    widthStat = GetStringWidth(FONT_NORMAL, gText_NatureOrderStat, 0);
+    widthFreq = GetStringWidth(FONT_NORMAL, gText_NatureOrderFreq, 0);
+
+    gap = ((198 - 104 - widthAlpha - widthStat - widthFreq) / 2) + 1;
+    xStat = 104 + widthAlpha + gap;
+    DrawOptionMenuChoice(gText_NatureOrderStat, xStat, YPOS_NATURE_ORDER, styles[1]);
+    DrawOptionMenuChoice(gText_NatureOrderFreq, GetStringRightAlignXOffset(FONT_NORMAL, gText_NatureOrderFreq, 198), YPOS_NATURE_ORDER, styles[2]);
 }
 
 

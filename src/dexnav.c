@@ -1880,19 +1880,29 @@ static bool8 SpeciesInArray(u16 species, u8 section)
 {
     u32 i;
     u16 dexNum = SpeciesToNationalPokedexNum(species);
+    bool32 isRegionalForm = IsRegionalForm(species) || HasRegionalForm(species);
     
     switch (section)
     {
     case 0: //land
         for (i = 0; i < LAND_WILD_COUNT; i++)
         {
-            if (SpeciesToNationalPokedexNum(sDexNavUiDataPtr->landSpecies[i]) == dexNum)
+            if (isRegionalForm)
+            {
+                return sDexNavUiDataPtr->landSpecies[i] == species;
+            }
+
+            else if (SpeciesToNationalPokedexNum(sDexNavUiDataPtr->landSpecies[i]) == dexNum)
                 return TRUE;
         }
         break;
     case 1: //water
         for (i = 0; i < WATER_WILD_COUNT; i++)
         {
+            if (isRegionalForm)
+            {
+                return sDexNavUiDataPtr->waterSpecies[i] == species;
+            }
             if (SpeciesToNationalPokedexNum(sDexNavUiDataPtr->waterSpecies[i]) == dexNum)
                 return TRUE;
         }
@@ -1900,6 +1910,11 @@ static bool8 SpeciesInArray(u16 species, u8 section)
     case 2: //hidden
         for (i = 0; i < HIDDEN_WILD_COUNT; i++)
         {
+            if (isRegionalForm)
+            {
+                return sDexNavUiDataPtr->hiddenSpecies[i] == species;
+            }
+
             if (SpeciesToNationalPokedexNum(sDexNavUiDataPtr->hiddenSpecies[i]) == dexNum)
                 return TRUE;
         }

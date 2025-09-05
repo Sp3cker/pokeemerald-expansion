@@ -217,7 +217,8 @@ static bool32 ShouldSwitchIfHasBadOdds(u32 battler)
         playerMove = gBattleMons[opposingBattler].moves[i];
         if (playerMove != MOVE_NONE 
             && gMovesInfo[playerMove].category != DAMAGE_CATEGORY_STATUS 
-            && gMovesInfo[playerMove].effect != EFFECT_FOCUS_PUNCH)
+            && gMovesInfo[playerMove].effect != EFFECT_FOCUS_PUNCH
+            && gBattleMons[opposingBattler].pp[i] > 0)
         {
             damageTaken = AI_GetDamage(opposingBattler, battler, i, AI_DEFENDING_NORMAL, AI_DATA);
             if (damageTaken > maxDamageTaken && !AI_DoesChoiceEffectBlockMove(opposingBattler, playerMove))
@@ -240,7 +241,7 @@ static bool32 ShouldSwitchIfHasBadOdds(u32 battler)
     {
         aiMove = gBattleMons[battler].moves[i];
         aiMoveEffect = gMovesInfo[aiMove].effect;
-        if (aiMove != MOVE_NONE)
+        if (aiMove != MOVE_NONE && gBattleMons[battler].pp[i] > 0)
         {
             // Check if mon has an "important" status move
             if (aiMoveEffect == EFFECT_REFLECT || aiMoveEffect == EFFECT_LIGHT_SCREEN
@@ -1882,7 +1883,8 @@ static s32 GetMaxDamagePlayerCouldDealToSwitchin(u32 battler, u32 opposingBattle
         playerMove = gBattleMons[opposingBattler].moves[i];
         if (playerMove != MOVE_NONE 
             && gMovesInfo[playerMove].category != DAMAGE_CATEGORY_STATUS 
-            && gMovesInfo[playerMove].effect != EFFECT_FOCUS_PUNCH)
+            && gMovesInfo[playerMove].effect 
+            && gBattleMons[opposingBattler].pp[i] > 0)
         {
             damageTaken = AI_CalcPartyMonDamage(playerMove, opposingBattler, battler, battleMon, AI_DEFENDING_NORMAL);
             if (playerMove == gBattleStruct->choicedMove[opposingBattler]) // If player is choiced, only care about the choice locked move
@@ -1909,7 +1911,8 @@ static s32 GetMaxPriorityDamagePlayerCouldDealToSwitchin(u32 battler, u32 opposi
         if (playerMove != MOVE_NONE
             && GetMovePriority(opposingBattler, playerMove) > 0
             && gMovesInfo[playerMove].category != DAMAGE_CATEGORY_STATUS 
-            && gMovesInfo[playerMove].effect != EFFECT_FOCUS_PUNCH)
+            && gMovesInfo[playerMove].effect != EFFECT_FOCUS_PUNCH
+            && gBattleMons[opposingBattler].pp[i] > 0)
         {
             damageTaken = AI_CalcPartyMonDamage(playerMove, opposingBattler, battler, battleMon, AI_DEFENDING_NORMAL);
             if (playerMove == gBattleStruct->choicedMove[opposingBattler]) // If player is choiced, only care about the choice locked move
@@ -2046,6 +2049,10 @@ static u32 GetBestMonIntegrated(struct Pokemon *party, int firstId, int lastId, 
         // Check through current mon's moves
         for (j = 0; j < MAX_MON_MOVES; j++)
         {
+            // Check that move has PP remaining before running calcs
+            if (AI_DATA->switchinCandidate.battleMon.pp[j] < 1)
+                continue;
+            
             aiMove = AI_DATA->switchinCandidate.battleMon.moves[j];
             damageDealt = AI_CalcPartyMonDamage(aiMove, battler, opposingBattler, AI_DATA->switchinCandidate.battleMon, AI_ATTACKING_IN_SWITCHIN_CALC);
             hitsToKOPlayer = GetNoOfHitsToKOBattlerDmg(damageDealt, opposingBattler);

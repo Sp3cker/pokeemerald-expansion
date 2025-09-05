@@ -96,6 +96,7 @@ enum {
     ACTION_SELECT_BUTTON,
     ACTION_BY_NAME,
     ACTION_BY_AMOUNT,
+    ACTION_BY_TYPE,
     ACTION_DUMMY,
 };
 
@@ -219,6 +220,7 @@ static void ConfirmSell(u8);
 static void CancelSell(u8);
 static void Task_FadeAndCloseBagMenuIfMulch(u8 taskId);
 
+
 //tx_registered_items_menu
 //static void ItemMenu_RegisterSelect(u8 taskId);
 static void ItemMenu_RegisterList(u8 taskId);
@@ -228,13 +230,16 @@ static void ItemMenu_Deselect(u8 taskId);
 static void Task_LoadBagSortOptions(u8 taskId);
 static void ItemMenu_SortByName(u8 taskId);
 static void ItemMenu_SortByAmount(u8 taskId);
+static void ItemMenu_SortByType(u8 taskId);
 static void SortBagItems(u8 taskId);
 static void Task_SortFinish(u8 taskId);
 static void SortItemsInBag(u8 pocket, u8 type);
 static void MergeSort(struct ItemSlot* array, u32 low, u32 high, s8 (*comparator)(struct ItemSlot*, struct ItemSlot*));
 static void Merge(struct ItemSlot* array, u32 low, u32 mid, u32 high, s8 (*comparator)(struct ItemSlot*, struct ItemSlot*));
 static s8 CompareItemsAlphabetically(struct ItemSlot* itemSlot1, struct ItemSlot* itemSlot2);
+static s8 CompareTMsHMsAlphabetically(struct ItemSlot* itemSlot1, struct ItemSlot* itemSlot2);
 static s8 CompareItemsByMost(struct ItemSlot* itemSlot1, struct ItemSlot* itemSlot2);
+static s8 CompareItemsById(struct ItemSlot*, struct ItemSlot*);
 
 static const struct BgTemplate sBgTemplates_ItemMenu[] =
 {
@@ -292,6 +297,7 @@ static const struct ListMenuTemplate sItemListMenu =
 static const u8 sMenuText_Select[] = _("SELECT");
 static const u8 sMenuText_ByName[] = _("Name");
 static const u8 sMenuText_ByAmount[] = _("Amount");
+static const u8 sMenuText_ByType[] = _("Type");
 static const u8 sMenuText_ByNumber[] = _("Number");
 static const u8 sText_NothingToSort[] = _("There's nothing to sort!");
 
@@ -312,6 +318,7 @@ static const struct MenuAction sItemMenuActions[] = {
     [ACTION_CONFIRM_QUIZ_LADY] = {gMenuText_Confirm,  {ItemMenu_ConfirmQuizLady}},
     [ACTION_BY_NAME]           = {sMenuText_ByName,   {ItemMenu_SortByName}},
     [ACTION_BY_AMOUNT]         = {sMenuText_ByAmount, {ItemMenu_SortByAmount}},
+    [ACTION_BY_TYPE]           = {sMenuText_ByType,   {ItemMenu_SortByType}},
     [ACTION_DUMMY]             = {gText_EmptyString2, {NULL}}
 };
 
@@ -1167,7 +1174,6 @@ void UpdatePocketItemList(u8 pocketId)
     struct BagPocket *pocket = &gBagPockets[pocketId];
     switch (pocketId)
     {
-    case TMHM_POCKET:
     case BERRIES_POCKET:
         SortBerriesOrTMHMs(pocket);
         break;
@@ -2814,23 +2820,26 @@ enum BagSortOptions
 {
     SORT_ALPHABETICALLY,
     SORT_BY_AMOUNT, //greatest->least
+    SORT_BY_TYPE,
 };
 
 static const u8 sText_SortItemsHow[] = _("Sort items how?");
 static const u8 sText_Name[] = _("name");
 static const u8 sText_Amount[] = _("amount");
+static const u8 sText_ItemType[] = _("type");
 static const u8 sText_ItemsSorted[] = _("Items sorted by {STR_VAR_1}!");
 static const u8 *const sSortTypeStrings[] = 
 {
     [SORT_ALPHABETICALLY] = sText_Name,
     [SORT_BY_AMOUNT] = sText_Amount,
+    [SORT_BY_TYPE] = sText_ItemType,
 };
 
 static const u8 sBagMenuSortItems[] =
 {
     ACTION_BY_NAME,
     ACTION_BY_AMOUNT,
-    ACTION_DUMMY,
+    ACTION_BY_TYPE,
     ACTION_CANCEL,
 };
 
@@ -2892,6 +2901,13 @@ static void ItemMenu_SortByAmount(u8 taskId)
     gTasks[taskId].func = SortBagItems;
 }
 
+static void ItemMenu_SortByType(u8 taskId)
+{
+    gTasks[taskId].tSortType = SORT_BY_TYPE; //greatest->least
+    StringCopy(gStringVar1, sSortTypeStrings[SORT_BY_TYPE]);
+    gTasks[taskId].func = SortBagItems;
+}
+
 static void SortBagItems(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
@@ -2925,6 +2941,7 @@ static void SortItemsInBag(u8 pocket, u8 type)
 {
     struct ItemSlot* itemMem;
     u16 itemAmount;
+    bool32 isTMsHMsPocket = FALSE;
 
     switch (pocket)
     {
@@ -2947,6 +2964,7 @@ static void SortItemsInBag(u8 pocket, u8 type)
     case TMHM_POCKET:
         itemMem = gSaveBlock1Ptr->bagPocket_TMHM;
         itemAmount = BAG_TMHM_COUNT;
+        isTMsHMsPocket = TRUE;
         break;
     case MEGA_STONES_POCKET:
         itemMem = gSaveBlock1Ptr->bagPocket_MegaStones;
@@ -2958,11 +2976,17 @@ static void SortItemsInBag(u8 pocket, u8 type)
 
     switch (type)
     {
+    case SORT_BY_TYPE:
+        MergeSort(itemMem, 0, itemAmount -1, CompareItemsById);
+        break;
     case SORT_BY_AMOUNT:
         MergeSort(itemMem, 0, itemAmount - 1, CompareItemsByMost);
         break;
     default:
-        MergeSort(itemMem, 0, itemAmount - 1, CompareItemsAlphabetically);
+        if(isTMsHMsPocket)
+            MergeSort(itemMem, 0, itemAmount - 1, CompareTMsHMsAlphabetically);
+        else
+            MergeSort(itemMem, 0, itemAmount - 1, CompareItemsAlphabetically);
         break;
     }
 }
@@ -3037,6 +3061,59 @@ static s8 CompareItemsAlphabetically(struct ItemSlot* itemSlot1, struct ItemSlot
     return 0; //Will never be reached
 }
 
+static s8 CompareTMsHMsAlphabetically(struct ItemSlot* itemSlot1, struct ItemSlot* itemSlot2)
+{
+
+    u16 item1 = itemSlot1->itemId;
+    u16 item2 = itemSlot2->itemId;
+
+    bool16 isHM1 = (item1 >= ENUM_HM_START_);
+    bool16 isHM2 = (item2 >= ENUM_HM_START_);
+
+    if (item1 == ITEM_NONE)
+        return 1;
+    else if (item2 == ITEM_NONE)
+        return -1;
+
+    // Place all TMs before all HMs
+    if (!isHM1 && isHM2)
+        return -1;
+    if (isHM1 && !isHM2)
+        return 1;
+
+    u16 move1 = ItemIdToBattleMoveId(item1);
+    u16 move2 = ItemIdToBattleMoveId(item2);
+
+    int i;
+    const u8 *name1;
+    const u8 *name2;
+
+    if (move1 == MOVE_NONE)
+        return 1;
+    else if (move2 == MOVE_NONE)
+        return -1;
+
+    name1 = GetMoveName(move1);
+    name2 = GetMoveName(move2);
+
+    for (i = 0; ; ++i)
+    {
+        if (name1[i] == EOS && name2[i] != EOS)
+            return -1;
+        else if (name1[i] != EOS && name2[i] == EOS)
+            return 1;
+        else if (name1[i] == EOS && name2[i] == EOS)
+            return 0;
+
+        if (name1[i] < name2[i])
+            return -1;
+        else if (name1[i] > name2[i])
+            return 1;
+    }
+
+    return 0; //Will never be reached
+}
+
 static s8 CompareItemsByMost(struct ItemSlot* itemSlot1, struct ItemSlot* itemSlot2)
 {
     u16 quantity1 = GetBagItemQuantity(&itemSlot1->quantity);
@@ -3053,4 +3130,21 @@ static s8 CompareItemsByMost(struct ItemSlot* itemSlot1, struct ItemSlot* itemSl
         return -1;
 
     return CompareItemsAlphabetically(itemSlot1, itemSlot2); //Items have same quantity so sort alphabetically
+}
+
+static s8 CompareItemsById(struct ItemSlot* itemSlot1, struct ItemSlot* itemSlot2)
+{
+    u16 item1 = itemSlot1->itemId;
+    u16 item2 = itemSlot2->itemId;
+
+    if (item1 == ITEM_NONE)
+        return 1;
+    else if (item2 == ITEM_NONE)
+        return -1;
+
+    if (item1 < item2)
+        return -1;
+    else if (item1 > item2)
+        return 1;
+    return 0; //Will never be reached since Ids are unique
 }

@@ -301,7 +301,8 @@ Route119_WeatherInstitute_2F_Text_ThanksPleaseDontTakePokemon:
 	.string "Thanks to you, we're safe!\n"
 	.string "Normally, I would give you a Pokémon as\l"
 	.string "token of our appreciation, but I think\l"
-	.string "in this case, you'll be better of\l"
+	.string "in this case, you'll be better off\l"
+	.string "without it.\p"
 	.string "Don't worry, though, Castform can now\n"
 	.string "be found out in the wild!$"
 

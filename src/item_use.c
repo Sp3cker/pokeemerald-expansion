@@ -81,7 +81,7 @@ static void ItemUseOnFieldCB_Honey(u8 taskId);
 static bool32 IsValidLocationForVsSeeker(void);
 // Start hexorb Branch
 void ItemUseOutOfBattle_Hexorb(u8 taskId);
-//void Task_OpenRegisteredHexorb(u8 taskId);
+void Task_OpenRegisteredHexorb(u8 taskId);
 // End hexorb Branch
 
 // EWRAM variables
@@ -1653,35 +1653,35 @@ void ItemUseOutOfBattle_PokeBall(u8 taskId)
 // Start hexorb Branch
 void ItemUseOutOfBattle_Hexorb(u8 taskId)
 {
-    //gItemUseCB = ItemUseCB_UseHexorb;
+    gItemUseCB = ItemUseCB_UseHexorb;
 
     if (gTasks[taskId].tUsingRegisteredKeyItem != TRUE)
     {
-        gItemUseCB = ItemUseCB_UseHexorb;
+
         SetUpItemUseCallback(taskId);
-    }
-    else
-    {
-        // TODO: handle key items with callbacks to menus allow to be used by registering them.
-        DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
     }
     // else
     // {
-    //     gFieldCallback = FieldCB_ReturnToFieldNoScript;
-    //     FadeScreen(FADE_TO_BLACK, 0);
-    //     gTasks[taskId].func = Task_OpenRegisteredHexorb;
+    //     // TODO: handle key items with callbacks to menus allow to be used by registering them.
+    //     DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
     // }
+    else
+    {
+        gFieldCallback = FieldCB_ReturnToFieldNoScript;
+        FadeScreen(FADE_TO_BLACK, 0);
+        gTasks[taskId].func = Task_OpenRegisteredHexorb;
+    }
 }
 
-// void Task_OpenRegisteredHexorb(u8 taskId)
-// {
-//     if (!gPaletteFade.active)
-//     {
-//         CleanupOverworldWindowsAndTilemaps();
-//         InitPartyMenuForHexorbFromField(taskId);
-//         DestroyTask(taskId);
-//     }
-// }
+void Task_OpenRegisteredHexorb(u8 taskId)
+{
+    if (!gPaletteFade.active)
+    {
+        CleanupOverworldWindowsAndTilemaps();
+        InitPartyMenuForItemUseFromField(taskId);
+        DestroyTask(taskId);
+    }
+}
 // End hexorb Branch
 
 #undef tUsingRegisteredKeyItem

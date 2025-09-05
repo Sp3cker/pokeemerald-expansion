@@ -218,6 +218,74 @@ script OldDaleTown_PokemonCenter_EventScript_SecondNurse_ChangeNature{
 	}
 	special(BufferMonNickname)
 	msgbox("Which new Nature suits {STR_VAR_1}\nbest?")
+	if (var(VAR_NATURE_ORDER) == 1) {
+	// Attack boosting natures (+Atk -Atk, +Atk -Def, +Atk -Speed, +Atk -SpAtk, +Atk -SpDef)
+	dynmultipush("Lonely         {COLOR RED}{SHADOW LIGHT_RED}+Atk{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Def     ", NATURE_LONELY)
+	dynmultipush("Brave           {COLOR RED}{SHADOW LIGHT_RED}+Atk{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Speed     ", NATURE_BRAVE)
+	dynmultipush("Adamant       {COLOR RED}{SHADOW LIGHT_RED}+Atk{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-SpAtk", NATURE_ADAMANT)
+	dynmultipush("Naughty      {COLOR RED}{SHADOW LIGHT_RED}+Atk{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-SpDef   ", NATURE_NAUGHTY)
+
+	// Defense boosting natures (+Def -Atk, +Def -Def, +Def -Speed, +Def -SpAtk, +Def -SpDef)
+	dynmultipush("Bold             {COLOR RED}{SHADOW LIGHT_RED}+Def{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Atk       ", NATURE_BOLD)
+	dynmultipush("Relaxed       {COLOR RED}{SHADOW LIGHT_RED}+Def{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Speed   ", NATURE_RELAXED)
+	dynmultipush("Impish         {COLOR RED}{SHADOW LIGHT_RED}+Def{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-SpAtk   ", NATURE_IMPISH)
+	dynmultipush("Lax              {COLOR RED}{SHADOW LIGHT_RED}+Def{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-SpDef   ", NATURE_LAX)
+
+	// Speed boosting natures (+Speed -Atk, +Speed -Def, +Speed -Speed, +Speed -SpAtk, +Speed -SpDef)
+	dynmultipush("Timid           {COLOR RED}{SHADOW LIGHT_RED}+Speed{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Atk   ", NATURE_TIMID)
+	dynmultipush("Hasty          {COLOR RED}{SHADOW LIGHT_RED}+Speed{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Def     ", NATURE_HASTY)
+	dynmultipush("Jolly           {COLOR RED}{SHADOW LIGHT_RED}+Speed{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-SpAtk   ", NATURE_JOLLY)
+	dynmultipush("Naive          {COLOR RED}{SHADOW LIGHT_RED}+Speed{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-SpDef ", NATURE_NAIVE)
+
+	// Special Attack boosting natures (+SpAtk -Atk, +SpAtk -Def, +SpAtk -Speed, +SpAtk -SpAtk, +SpAtk -SpDef)
+	dynmultipush("Modest        {COLOR RED}{SHADOW LIGHT_RED}+SpAtk{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Atk   ", NATURE_MODEST)
+	dynmultipush("Mild             {COLOR RED}{SHADOW LIGHT_RED}+SpAtk{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Def   ", NATURE_MILD)
+	dynmultipush("Quiet          {COLOR RED}{SHADOW LIGHT_RED}+SpAtk{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Speed ", NATURE_QUIET)
+	dynmultipush("Rash            {COLOR RED}{SHADOW LIGHT_RED}+SpAtk{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-SpDef ", NATURE_RASH)
+
+	// Special Defense boosting natures (+SpDef -Atk, +SpDef -Def, +SpDef -Speed, +SpDef -SpAtk, +SpDef -SpDef)
+	dynmultipush("Calm             {COLOR RED}{SHADOW LIGHT_RED}+SpDef{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Atk     ", NATURE_CALM)
+	dynmultipush("Gentle         {COLOR RED}{SHADOW LIGHT_RED}+SpDef{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Def     ", NATURE_GENTLE)
+	dynmultipush("Sassy          {COLOR RED}{SHADOW LIGHT_RED}+SpDef{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Speed ", NATURE_SASSY)
+	dynmultipush("Careful       {COLOR RED}{SHADOW LIGHT_RED}+SpDef{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-SpAtk   ", NATURE_CAREFUL)
+
+	// Neutral natures
+	dynmultipush("Bashful        Neutral         ", NATURE_BASHFUL)
+	dynmultipush("Docile          Neutral         ", NATURE_DOCILE)
+	dynmultipush("Hardy           Neutral         ", NATURE_HARDY)
+	dynmultipush("Quirky          Neutral         ", NATURE_QUIRKY)
+	dynmultipush("Serious       Neutral         ", NATURE_SERIOUS)	
+
+	} 
+	elif(var(VAR_NATURE_ORDER) == 2)
+	{
+    dynmultipush("Adamant       {COLOR RED}{SHADOW LIGHT_RED}+Atk{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-SpAtk", NATURE_ADAMANT)
+    dynmultipush("Modest        {COLOR RED}{SHADOW LIGHT_RED}+SpAtk{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Atk   ", NATURE_MODEST)
+    dynmultipush("Timid           {COLOR RED}{SHADOW LIGHT_RED}+Speed{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Atk   ", NATURE_TIMID)
+    dynmultipush("Jolly           {COLOR RED}{SHADOW LIGHT_RED}+Speed{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-SpAtk   ", NATURE_JOLLY)
+    dynmultipush("Hasty          {COLOR RED}{SHADOW LIGHT_RED}+Speed{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Def     ", NATURE_HASTY)
+    dynmultipush("Naive          {COLOR RED}{SHADOW LIGHT_RED}+Speed{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-SpDef ", NATURE_NAIVE)
+    dynmultipush("Mild             {COLOR RED}{SHADOW LIGHT_RED}+SpAtk{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Def   ", NATURE_MILD)
+    dynmultipush("Naughty      {COLOR RED}{SHADOW LIGHT_RED}+Atk{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-SpDef   ", NATURE_NAUGHTY)
+    dynmultipush("Rash            {COLOR RED}{SHADOW LIGHT_RED}+SpAtk{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-SpDef ", NATURE_RASH)
+    dynmultipush("Lonely         {COLOR RED}{SHADOW LIGHT_RED}+Atk{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Def     ", NATURE_LONELY)
+    dynmultipush("Brave           {COLOR RED}{SHADOW LIGHT_RED}+Atk{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Speed     ", NATURE_BRAVE)
+    dynmultipush("Quiet          {COLOR RED}{SHADOW LIGHT_RED}+SpAtk{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Speed ", NATURE_QUIET)
+    dynmultipush("Calm             {COLOR RED}{SHADOW LIGHT_RED}+SpDef{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Atk     ", NATURE_CALM)
+    dynmultipush("Impish         {COLOR RED}{SHADOW LIGHT_RED}+Def{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-SpAtk   ", NATURE_IMPISH)
+    dynmultipush("Sassy          {COLOR RED}{SHADOW LIGHT_RED}+SpDef{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Speed ", NATURE_SASSY)
+    dynmultipush("Careful       {COLOR RED}{SHADOW LIGHT_RED}+SpDef{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-SpAtk   ", NATURE_CAREFUL)
+    dynmultipush("Relaxed       {COLOR RED}{SHADOW LIGHT_RED}+Def{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Speed   ", NATURE_RELAXED)
+    dynmultipush("Bold             {COLOR RED}{SHADOW LIGHT_RED}+Def{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Atk       ", NATURE_BOLD)
+    dynmultipush("Bashful        Neutral         ", NATURE_BASHFUL)
+    dynmultipush("Lax              {COLOR RED}{SHADOW LIGHT_RED}+Def{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-SpDef   ", NATURE_LAX)
+    dynmultipush("Gentle         {COLOR RED}{SHADOW LIGHT_RED}+SpDef{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Def     ", NATURE_GENTLE)
+    dynmultipush("Docile          Neutral         ", NATURE_DOCILE)
+    dynmultipush("Hardy           Neutral         ", NATURE_HARDY)
+    dynmultipush("Quirky          Neutral         ", NATURE_QUIRKY)
+    dynmultipush("Serious       Neutral         ", NATURE_SERIOUS)
+	} else {
+
 	dynmultipush("Adamant       {COLOR RED}{SHADOW LIGHT_RED}+Atk{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-SpAtk", NATURE_ADAMANT)
 	dynmultipush("Bashful        Neutral         ", NATURE_BASHFUL)
 	dynmultipush("Bold             {COLOR RED}{SHADOW LIGHT_RED}+Def{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Atk       ", NATURE_BOLD)
@@ -243,9 +311,10 @@ script OldDaleTown_PokemonCenter_EventScript_SecondNurse_ChangeNature{
 	dynmultipush("Sassy          {COLOR RED}{SHADOW LIGHT_RED}+SpDef{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Speed ", NATURE_SASSY)
 	dynmultipush("Serious       Neutral         ", NATURE_SERIOUS)
 	dynmultipush("Timid           {COLOR RED}{SHADOW LIGHT_RED}+Speed{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}/{COLOR BLUE}{SHADOW LIGHT_BLUE}-Atk   ", NATURE_TIMID)
+	}
 	dynmultipush("Cancel", MULTI_B_PRESSED)
 	// // setting initial selected to a non-existant ID will always have it point to the first option
-	dynmultistack(0, 0, FALSE, 6, FALSE, 3, DYN_MULTICHOICE_CB_NONE)
+	dynmultistack(0, 0, FALSE, 6, FALSE, 25, DYN_MULTICHOICE_CB_NONE)
 
 	if (var(VAR_RESULT) == MULTI_B_PRESSED) 
 	{
@@ -571,7 +640,7 @@ text FeatureAvailableAfterMoveTutor
 
 text VersionNumber
 {
-	"Version: 1.3"
+	"Version: 1.3.1"
 }
 
 text EasyMode
